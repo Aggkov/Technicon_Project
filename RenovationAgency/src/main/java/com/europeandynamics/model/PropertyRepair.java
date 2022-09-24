@@ -6,6 +6,8 @@ import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -24,8 +26,10 @@ public class PropertyRepair extends BaseEntity {
 
 	private String shortDescription;
 
+	@Enumerated(EnumType.STRING)
 	private RepairType repairType;
 
+	@Enumerated(EnumType.STRING)
 	private RepairStatus repairStatus;
 
 	private double costOfRepair;
@@ -63,6 +67,14 @@ public class PropertyRepair extends BaseEntity {
 
 	public void setDateTimeOfRepair(LocalDateTime dateTimeOfRepair) {
 		this.dateTimeOfRepair = dateTimeOfRepair;
+	}
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
 	}
 
 	public String getShortDescription() {

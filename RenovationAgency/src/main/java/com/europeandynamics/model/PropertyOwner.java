@@ -8,9 +8,13 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.europeandynamics.model.enums.Role;
 
 @Entity
 @Table(name = "property_owner")
@@ -31,6 +35,9 @@ public class PropertyOwner extends BaseEntity {
 	private String username;
 	private String password;
 
+	@Enumerated(value = EnumType.STRING)
+	private Role role;
+
 	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Property> properties = new LinkedHashSet<>();
 
@@ -41,7 +48,7 @@ public class PropertyOwner extends BaseEntity {
 	}
 
 	public PropertyOwner(String Id, String name, String surname, String address, String phoneNumber, String email,
-			String username, String password) {
+			String username, String password, Role role) {
 		super(Id);
 		this.name = name;
 		this.surname = surname;
@@ -50,6 +57,7 @@ public class PropertyOwner extends BaseEntity {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.role = role;
 		this.properties = new LinkedHashSet<>();
 	}
 
@@ -69,6 +77,22 @@ public class PropertyOwner extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Set<PropertyRepair> getPropertyRepairs() {
+		return propertyRepairs;
+	}
+
+	public void setPropertyRepairs(Set<PropertyRepair> propertyRepairs) {
+		this.propertyRepairs = propertyRepairs;
 	}
 
 	public String getSurname() {

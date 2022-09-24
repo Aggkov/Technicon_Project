@@ -64,6 +64,14 @@ public class Property extends BaseEntity {
 		this.address = address;
 	}
 
+	public Set<PropertyRepair> getPropertyRepairs() {
+		return propertyRepairs;
+	}
+
+	public void setPropertyRepairs(Set<PropertyRepair> propertyRepairs) {
+		this.propertyRepairs = propertyRepairs;
+	}
+
 	public LocalDate getYearOfConstruction() {
 		return yearOfConstruction;
 	}

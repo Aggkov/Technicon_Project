@@ -34,6 +34,9 @@ public class PropertyOwner extends BaseEntity {
 	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Property> properties = new LinkedHashSet<>();
 
+	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
+
 	public PropertyOwner() {
 	}
 
@@ -53,6 +56,11 @@ public class PropertyOwner extends BaseEntity {
 	public void addProperty(Property property) {
 		this.properties.add(property);
 		property.setPropertyOwner(this);
+	}
+
+	public void addPropertyRepair(PropertyRepair propertyRepair) {
+		this.propertyRepairs.add(propertyRepair);
+		propertyRepair.setPropertyOwner(this);
 	}
 
 	public String getName() {

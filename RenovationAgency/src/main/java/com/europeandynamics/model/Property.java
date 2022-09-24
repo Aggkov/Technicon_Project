@@ -1,7 +1,9 @@
 package com.europeandynamics.model;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
@@ -9,9 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.europeandynamics.model.enums.Type;
@@ -32,9 +34,12 @@ public class Property extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
+
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
 
 	public Property() {
 	}
@@ -44,6 +49,11 @@ public class Property extends BaseEntity {
 		this.address = address;
 		this.yearOfConstruction = yearOfConstruction;
 		this.type = type;
+	}
+
+	public void addPropertyRepair(PropertyRepair propertyRepair) {
+		this.propertyRepairs.add(propertyRepair);
+		propertyRepair.setProperty(this);
 	}
 
 	public String getAddress() {

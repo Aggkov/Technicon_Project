@@ -1,6 +1,7 @@
 package com.europeandynamics.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,10 +17,9 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 //	protected Class<T> classType;
 
 	@Override
-	public T get(String id, Class<T> classType) {
-		em.getTransaction().begin();
+	public Optional<T> findById(String id, Class<T> classType) {
 
-		return em.find(classType, id);
+		return Optional.of(em.find(classType, id));
 	}
 
 	@Override

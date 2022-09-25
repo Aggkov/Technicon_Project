@@ -1,18 +1,27 @@
 package com.europeandynamics;
 
-import javax.persistence.EntityManagerFactory;
-
-import com.europeandynamics.utils.EntityManagerFactoryUtils;
+import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.Role;
+import com.europeandynamics.repository.PropertyOwnerRepository;
+import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 
 public class App {
 
 	public static void main(String[] args) {
 
-		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
+		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
+		System.out.println(prop.findAll(PropertyOwner.class));
+
+		prop.create(new PropertyOwner("111111116", "John", "Johnson", "Athens", "6999999996", "john@email.com",
+				"username6", "pass6", Role.PROPERTY_OWNER));
+
+		prop = new PropertyOwnerRepositoryImpl();
+		System.out.println(prop.findAll(PropertyOwner.class));
+
+//		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
 //		EntityManager em = emf.createEntityManager();
 
 //		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
-//		System.out.println(prop.findAll(PropertyOwner.class));
 
 //		System.out.println(PropertyOwner.class.getSimpleName());
 

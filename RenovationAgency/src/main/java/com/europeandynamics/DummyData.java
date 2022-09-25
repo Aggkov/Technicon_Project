@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
@@ -13,20 +14,13 @@ import com.europeandynamics.model.enums.RepairStatus;
 import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.model.enums.Role;
 import com.europeandynamics.model.enums.Type;
-import com.europeandynamics.utils.EntityManagerFactoryUtils;
 
 public class DummyData {
 
 	public static void main(String[] args) {
-		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
 		EntityManager em = emf.createEntityManager();
-
-		/*
-		 * PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
-		 * System.out.println(prop.findAll(PropertyOwner.class));
-		 */
-
-//		System.out.println(PropertyOwner.class.getSimpleName());
 
 		// CREATE
 		em.getTransaction().begin();

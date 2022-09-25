@@ -1,5 +1,7 @@
 package com.europeandynamics.service;
 
-public class PropertyOwnerService {
+import com.europeandynamics.model.PropertyOwner;
+
+public interface PropertyOwnerService extends BaseService<PropertyOwner> {
 
 }

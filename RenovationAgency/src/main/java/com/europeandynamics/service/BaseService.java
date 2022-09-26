@@ -1,9 +1,9 @@
-package com.europeandynamics.repository;
+package com.europeandynamics.service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseRepository<T> {
+public interface BaseService<T> {
 
 	List<?> findAll(Class<T> classType);
 
@@ -16,7 +16,5 @@ public interface BaseRepository<T> {
 	void deleteById(String id, Class<T> classType);
 
 	void delete(T entity);
-
-	boolean exists(T entity);
 
 }

@@ -6,6 +6,8 @@ import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -24,11 +26,16 @@ public class PropertyRepair extends BaseEntity {
 
 	private String shortDescription;
 
+	@Enumerated(EnumType.STRING)
 	private RepairType repairType;
 
+	@Enumerated(EnumType.STRING)
 	private RepairStatus repairStatus;
 
 	private double costOfRepair;
+
+	@Lob
+	private String longDescription;
 
 	@ManyToOne(
 //			cascade = CascadeType.ALL, 
@@ -36,30 +43,22 @@ public class PropertyRepair extends BaseEntity {
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 
-	@ManyToOne(
-//			cascade = CascadeType.ALL, 
-			fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "property_id")
 	private Property property;
-
-	@Lob
-	private String description;
 
 	public PropertyRepair() {
 	}
 
-	public PropertyRepair(String Id, LocalDateTime dateTimeOfRepair, String shortDescription, RepairType repairType,
-			RepairStatus repairStatus, double costOfRepair, PropertyOwner propertyOwner, Property property,
-			String description) {
+	public PropertyRepair(String Id, LocalDateTime dateTimeOfRepair, String shortDescription, String longDescription,
+			RepairType repairType, RepairStatus repairStatus, double costOfRepair) {
 		super(Id);
 		this.dateTimeOfRepair = dateTimeOfRepair;
 		this.shortDescription = shortDescription;
+		this.longDescription = longDescription;
 		this.repairType = repairType;
 		this.repairStatus = repairStatus;
 		this.costOfRepair = costOfRepair;
-		this.propertyOwner = propertyOwner;
-		this.property = property;
-		this.description = description;
 	}
 
 	public LocalDateTime getDateTimeOfRepair() {
@@ -68,6 +67,14 @@ public class PropertyRepair extends BaseEntity {
 
 	public void setDateTimeOfRepair(LocalDateTime dateTimeOfRepair) {
 		this.dateTimeOfRepair = dateTimeOfRepair;
+	}
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
 	}
 
 	public String getShortDescription() {
@@ -119,16 +126,16 @@ public class PropertyRepair extends BaseEntity {
 	}
 
 	public String getDescription() {
-		return description;
+		return longDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescription(String LongDescription) {
+		this.longDescription = LongDescription;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(costOfRepair, dateTimeOfRepair, description, property, propertyOwner, repairStatus,
+		return Objects.hash(costOfRepair, dateTimeOfRepair, longDescription, property, propertyOwner, repairStatus,
 				repairType, shortDescription);
 	}
 
@@ -143,7 +150,7 @@ public class PropertyRepair extends BaseEntity {
 		PropertyRepair other = (PropertyRepair) obj;
 		return Double.doubleToLongBits(costOfRepair) == Double.doubleToLongBits(other.costOfRepair)
 				&& Objects.equals(dateTimeOfRepair, other.dateTimeOfRepair)
-				&& Objects.equals(description, other.description) && Objects.equals(property, other.property)
+				&& Objects.equals(longDescription, other.longDescription) && Objects.equals(property, other.property)
 				&& Objects.equals(propertyOwner, other.propertyOwner) && repairStatus == other.repairStatus
 				&& repairType == other.repairType && Objects.equals(shortDescription, other.shortDescription);
 	}
@@ -166,7 +173,7 @@ public class PropertyRepair extends BaseEntity {
 		builder.append(", property=");
 		builder.append(property);
 		builder.append(", description=");
-		builder.append(description);
+		builder.append(longDescription);
 		builder.append("]");
 		return builder.toString();
 	}

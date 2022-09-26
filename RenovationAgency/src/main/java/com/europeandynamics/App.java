@@ -7,7 +7,11 @@ import javax.persistence.EntityManagerFactory;
 
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
+<<<<<<< HEAD
 import com.europeandynamics.model.enums.Type;
+=======
+import com.europeandynamics.model.enums.Role;
+>>>>>>> 48c7f6c56b36d93a5476ef1b23a05d4fbfd7c260
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.utils.EntityManagerFactoryUtils;
@@ -16,6 +20,7 @@ public class App {
 
 	public static void main(String[] args) {
 
+<<<<<<< HEAD
 		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
 		EntityManager em = emf.createEntityManager();
 
@@ -72,6 +77,36 @@ public class App {
 		em.persist(propertyOwner4);
 		em.getTransaction().commit();
 		em.close();
+=======
+		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
+		System.out.println(prop.findAll(PropertyOwner.class));
+
+		prop.create(new PropertyOwner("111111116", "John", "Johnson", "Athens", "6999999996", "john@email.com",
+				"username6", "pass6", Role.PROPERTY_OWNER));
+
+		prop = new PropertyOwnerRepositoryImpl();
+		System.out.println(prop.findAll(PropertyOwner.class));
+
+//		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
+//		EntityManager em = emf.createEntityManager();
+
+//		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
+
+//		System.out.println(PropertyOwner.class.getSimpleName());
+
+		// CREATE
+//		em.getTransaction().begin();
+//		Property property = new Property("23456790", "address2", LocalDate.of(2022, 9, 22), Type.APARTMENT);
+////
+//		PropertyOwner propertyOwner = new PropertyOwner("121", "John3", "Johnson3", "address125", "phone3", "email3",
+//				"username3", "pass3");
+////
+//		propertyOwner.addProperty(property);
+//
+//		em.persist(propertyOwner);
+//		em.getTransaction().commit();
+//		em.close();
+>>>>>>> 48c7f6c56b36d93a5476ef1b23a05d4fbfd7c260
 
 		// READ
 //		em.getTransaction().begin();

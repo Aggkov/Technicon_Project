@@ -1,5 +1,6 @@
 package com.europeandynamics.service.Impl;
 
+import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.repository.PropertyOwnerRepository;
@@ -27,19 +28,40 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	public Optional<PropertyOwner> findById(String id, Class<PropertyOwner> classType) {
 
 		return Optional.ofNullable(propertyOwnerRepository.findById(id, classType)
-				.orElseThrow(() -> new ResourceNotFoundException(this.getClass() + " with this id " +  id + " was not found")));
+				.orElseThrow(() -> new ResourceNotFoundException("Property Owner " + " with this id " + id + " was not found")));
 	}
+
+	@Override
+	public PropertyOwner findByEmail(String email) {
+		try {
+			PropertyOwner propertyOwner = propertyOwnerRepository.findByEmail(email);
+			if(propertyOwner != null) {
+				return propertyOwner;
+			}
+		} catch (RuntimeException ex) {
+			ex.printStackTrace();
+		}
+		throw new ResourceNotFoundException(("Property Owner " + " with this email " + email + " was not found"));
+	}
+
 
 	@Override
 	public PropertyOwner create(PropertyOwner entity) {
 
-		// after validation is done
+		if(findById(entity.getId(), PropertyOwner.class).isPresent() || findByEmail(entity.getEmail()) != null) {
+			System.out.println(entity);
+			throw new BadRequestException("This Property Owner already exists ");
+		}
+
 		return propertyOwnerRepository.create(entity);
 	}
 
 	@Override
 	public void update(PropertyOwner entity) {
 
+//		if(findById(entity.getId(), PropertyOwner.class).isPresent()) {
+//
+//		}
 	}
 
 	@Override
@@ -51,5 +73,6 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	public void delete(PropertyOwner entity) {
 
 	}
-
 }
+
+

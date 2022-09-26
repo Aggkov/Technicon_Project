@@ -7,4 +7,6 @@ import com.europeandynamics.repository.PropertyRepairRepository;
 public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRepair>
 		implements PropertyRepairRepository {
 
+
+
 }

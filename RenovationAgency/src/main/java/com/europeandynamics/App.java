@@ -1,28 +1,40 @@
 package com.europeandynamics;
 
-import java.time.LocalDate;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import com.europeandynamics.model.Property;
+import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
-
-import com.europeandynamics.model.enums.Type;
-
 import com.europeandynamics.model.enums.Role;
-
-import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
-import com.europeandynamics.utils.EntityManagerFactoryUtils;
+import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
+import com.europeandynamics.service.PropertyOwnerService;
 
 public class App {
 
 	public static void main(String[] args) {
 
+//
+//		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
+//		EntityManager em = emf.createEntityManager();
 
-		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
-		EntityManager em = emf.createEntityManager();
+		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+//		try {
+//			System.out.println(propertyOwnerService.findById("2313124", PropertyOwner.class));
+//
+//		} catch (RuntimeException ex) {
+//			System.out.println(ex.getMessage());
+//		}
+		try {
+			System.out.println(propertyOwnerService.findByEmail("2113123123"));
+		}
+		catch (ResourceNotFoundException ex) {
+			System.out.println(ex.getMessage());
+		}
+		try {
+			propertyOwnerService.create(new PropertyOwner("111111111", "Kostas", "Chatzifotiadis", "Thessaloniki",
+					"6999999991", "email1@email.com", "username1", "pass1", Role.ADMIN));
+		}catch (BadRequestException ex) {
+			System.out.println(ex.getMessage());
+		}
 
 		/*
 		 * PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
@@ -31,39 +43,13 @@ public class App {
 
 //		System.out.println(PropertyOwner.class.getSimpleName());
 
-		 //CREATE
-		em.getTransaction().begin();
-		
-		  Property property = new Property("E91111", "Melinas Merkouri 31", LocalDate.of(2022,
-				  9, 22), Type.APARTMENT);
-				 
-				  Property property1 = new Property("E91112", "Kolokotroni 52", LocalDate.of(2022,
-						  9, 26), Type.MAISONETTE);
-				  
-				  Property property2 = new Property("E91113", "Karakatsani 59", LocalDate.of(2022,
-						  10, 31), Type.DETACHED);
-				
-				  Property property3 = new Property("E91114", "Veikou 22", LocalDate.of(2022,
-						  1, 20 ), Type.MAISONETTE);
-				  
-				  Property property4 = new Property("E91115", "Mpoumpoulina 21", LocalDate.of(2022,
-						  9, 12), Type.APARTMENT);
-		 
-		
-		
-		
 
-
-		
-		em.getTransaction().commit();
-		em.close();
-
-		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
-		System.out.println(prop.findAll(PropertyOwner.class));
-
-	
-		prop = new PropertyOwnerRepositoryImpl();
-		System.out.println(prop.findAll(PropertyOwner.class));
+//		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
+//		System.out.println(prop.findAll(PropertyOwner.class));
+//
+//
+//		prop = new PropertyOwnerRepositoryImpl();
+//		System.out.println(prop.findAll(PropertyOwner.class));
 
 //		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
 //		EntityManager em = emf.createEntityManager();

@@ -4,6 +4,7 @@ import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.enums.Role;
+import com.europeandynamics.payload.PropertyOwnerRequest;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
 import com.europeandynamics.service.PropertyOwnerService;
@@ -17,22 +18,32 @@ public class App {
 //		EntityManager em = emf.createEntityManager();
 
 		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
-//		try {
-//			System.out.println(propertyOwnerService.findById("2313124", PropertyOwner.class));
-//
-//		} catch (RuntimeException ex) {
-//			System.out.println(ex.getMessage());
-//		}
+		// FINDBYID
+		try {
+			System.out.println(propertyOwnerService.findById("2313124", PropertyOwner.class));
+
+		} catch (RuntimeException ex) {
+			System.out.println(ex.getMessage());
+		}
 		try {
 			System.out.println(propertyOwnerService.findByEmail("2113123123"));
 		}
 		catch (ResourceNotFoundException ex) {
 			System.out.println(ex.getMessage());
 		}
+
+		// CREATE
 		try {
 			propertyOwnerService.create(new PropertyOwner("111111111", "Kostas", "Chatzifotiadis", "Thessaloniki",
 					"6999999991", "email1@email.com", "username1", "pass1", Role.ADMIN));
 		}catch (BadRequestException ex) {
+			System.out.println(ex.getMessage());
+		}
+		// UPDATE
+		try {
+			propertyOwnerService.update("111111115", new PropertyOwnerRequest("updated address",
+					"updated email", "updated password"));
+		} catch (ResourceNotFoundException ex) {
 			System.out.println(ex.getMessage());
 		}
 

@@ -1,11 +1,12 @@
 package com.europeandynamics.service.Impl;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
+
+import java.util.List;
+import java.util.Optional;
 
 public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
@@ -25,7 +26,8 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	@Override
 	public Optional<PropertyOwner> findById(String id, Class<PropertyOwner> classType) {
 
-		return propertyOwnerRepository.findById(id, classType);
+		return Optional.ofNullable(propertyOwnerRepository.findById(id, classType)
+				.orElseThrow(() -> new ResourceNotFoundException(this.getClass() + " with this id " +  id + " was not found")));
 	}
 
 	@Override

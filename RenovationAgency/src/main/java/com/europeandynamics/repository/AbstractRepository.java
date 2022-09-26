@@ -1,20 +1,17 @@
 package com.europeandynamics.repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.europeandynamics.model.BaseEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import com.europeandynamics.model.BaseEntity;
+import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
 	protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
 	protected EntityManager em = emf.createEntityManager();
-
-//	protected Class<T> classType;
 
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {

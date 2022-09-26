@@ -38,10 +38,10 @@ public class PropertyOwner extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
 
-	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Set<Property> properties = new LinkedHashSet<>();
 
-	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
 
 	public PropertyOwner() {

@@ -23,10 +23,6 @@ import com.europeandynamics.model.enums.Type;
 @AttributeOverride(name = "Id", column = @Column(name = "property_id"))
 public class Property extends BaseEntity {
 
-//	@Id
-////	@GeneratedValue(strategy = GenerationType.AUTO)
-//	private String propertyId;
-
 	private String address;
 
 	private LocalDate yearOfConstruction;
@@ -38,7 +34,7 @@ public class Property extends BaseEntity {
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 
-	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "property", cascade = CascadeType.PERSIST)
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
 
 	public Property() {

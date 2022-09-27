@@ -1,5 +1,7 @@
 package com.europeandynamics;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
@@ -31,11 +33,11 @@ public class App {
 
 //
 		try {
-			propertyOwnerService.create(new PropertyOwner("111111111", "Kostas", "Chatzifotiadis", "Thessaloniki",
-					"6999999991", "email@email.com", "username1", "pass1", Role.ADMIN));
+			propertyOwnerService.create(new PropertyOwner("111111117", "Jack", "Jackson", "Athens", "6999999997",
+					"email@email.com", "username7", "pass7", Role.USER));
 			logger.info("owner created successfully");
 
-		} catch (BadRequestException | InvalidEmailException ex) {
+		} catch (BadRequestException | InvalidEmailException | NoResultException ex) {
 			logger.warn(ex.getMessage());
 		}
 

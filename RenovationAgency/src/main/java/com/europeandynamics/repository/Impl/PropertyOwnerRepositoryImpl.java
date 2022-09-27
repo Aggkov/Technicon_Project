@@ -14,8 +14,8 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 
 		Optional<PropertyOwner> propertyOwner = Optional.ofNullable((PropertyOwner) em
 				.createQuery(
-						"SELECT propertyOwner from PropertyOwner propertyOwner where " + "propertyOwner.email = email")
-				.getSingleResult());
+						"SELECT propertyOwner from PropertyOwner propertyOwner where " + "propertyOwner.email = ?1")
+				.setParameter(1, email).getSingleResult());
 //		em.getTransaction().commit();
 //		em.close();
 

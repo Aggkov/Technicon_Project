@@ -54,12 +54,12 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		InputValidator.checkEmail(entity.getEmail());
 
-		if (propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()
+		if (!propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()
 				|| propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
-			throw new BadRequestException("This Property Owner already exists ");
+			return propertyOwnerRepository.create(entity);
 		}
+		throw new BadRequestException("This Property Owner already exists ");
 
-		return propertyOwnerRepository.create(entity);
 	}
 
 	@Override
@@ -67,16 +67,16 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
 
-		if (propertyOwner.isEmpty()) {
-			throw new ResourceNotFoundException("Property Owner  +  with this id  " + id + " was not found");
+		if (!propertyOwner.isEmpty()) {
+			PropertyOwner foundOwner = propertyOwner.get();
+			foundOwner.setAddress(propertyOwnerRequest.getAddress());
+			foundOwner.setEmail(propertyOwnerRequest.getEmail());
+			foundOwner.setPassword(propertyOwnerRequest.getPassword());
+
+			propertyOwnerRepository.update(foundOwner);
 		}
 
-		PropertyOwner foundOwner = propertyOwner.get();
-		foundOwner.setAddress(propertyOwnerRequest.getAddress());
-		foundOwner.setEmail(propertyOwnerRequest.getEmail());
-		foundOwner.setPassword(propertyOwnerRequest.getPassword());
-
-		propertyOwnerRepository.update(foundOwner);
+		throw new ResourceNotFoundException("Property Owner  +  with this id  " + id + " was not found");
 
 	}
 

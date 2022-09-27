@@ -10,9 +10,15 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 
 	@Override
 	public Optional<PropertyOwner> findByEmail(String email) {
-		return Optional.ofNullable((PropertyOwner) em
+//		em.getTransaction().begin();
+
+		Optional<PropertyOwner> propertyOwner = Optional.ofNullable((PropertyOwner) em
 				.createQuery(
 						"SELECT propertyOwner from PropertyOwner propertyOwner where " + "propertyOwner.email = email")
 				.getSingleResult());
+//		em.getTransaction().commit();
+//		em.close();
+
+		return propertyOwner;
 	}
 }

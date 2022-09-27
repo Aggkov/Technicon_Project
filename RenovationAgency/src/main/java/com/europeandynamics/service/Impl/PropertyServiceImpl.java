@@ -1,11 +1,12 @@
 package com.europeandynamics.service.Impl;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyService;
+
+import java.util.List;
+import java.util.Optional;
 
 public class PropertyServiceImpl implements PropertyService {
 
@@ -22,21 +23,18 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public Optional<Property> findById(String id, Class<Property> classType) {
-		
-		return propertyRepository.findById(id, classType);
+	public Property findById(String id, Class<Property> classType) {
+
+		Optional<Property> property = Optional.ofNullable(propertyRepository.findById(id, classType).orElseThrow(
+				() -> new ResourceNotFoundException(classType.getSimpleName() + " with this id: " + id + " was not found")));
+
+		return property.get();
 	}
 
 	@Override
 	public Property create(Property entity) {
 		
 		return propertyRepository.create(entity);
-	}
-
-	@Override
-	public void update(Property entity) {
-		
-		
 	}
 
 	@Override

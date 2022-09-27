@@ -16,8 +16,12 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
+//		em.getTransaction().begin();
+		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
+//		em.getTransaction().commit();
 
-		return Optional.ofNullable(em.find(classType, id));
+//		em.close();
+		return entity;
 	}
 
 	@Override
@@ -46,26 +50,24 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 	@Override
 	public void update(T entity) {
 		em.getTransaction().begin();
-
 		em.merge(entity);
 		em.getTransaction().commit();
 
 		em.close();
 	}
 
-	@Override
-	public void deleteById(String id, Class<T> classType) {
-
-		em.getTransaction().begin();
-
-		T entity = em.find(classType, id);
-
-		em.remove(entity);
-		em.getTransaction().commit();
-
-		em.close();
-
-	}
+//	@Override
+//	public void deleteById(String id, Class<T> classType) {
+//
+//		T entity = em.find(classType, id);
+//		em.getTransaction().begin();
+//
+//		em.remove(entity);
+//		em.getTransaction().commit();
+//
+//		em.close();
+//
+//	}
 
 	@Override
 	public void delete(T entity) {

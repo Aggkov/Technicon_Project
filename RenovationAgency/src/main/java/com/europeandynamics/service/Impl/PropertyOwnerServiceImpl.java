@@ -27,18 +27,25 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	}
 
 	@Override
-	public Optional<PropertyOwner> findById(String id, Class<PropertyOwner> classType) {
+	public PropertyOwner findById(String id, Class<PropertyOwner> classType) {
 
-		return Optional.ofNullable(propertyOwnerRepository.findById(id, classType).orElseThrow(
-				() -> new ResourceNotFoundException("Property Owner " + " with this id " + id + " was not found")));
+		Optional<PropertyOwner> propertyOwner = Optional.ofNullable(
+				propertyOwnerRepository.findById(id, classType).orElseThrow(() -> new ResourceNotFoundException(
+						classType.getSimpleName() + " with this id " + id + " was not found")));
+
+		return propertyOwner.get();
 	}
 
 	@Override
-	public Optional<PropertyOwner> findByEmail(String email) {
+	public PropertyOwner findByEmail(String email) {
 
-		return Optional
+		InputValidator.checkEmail(email);
+
+		Optional<PropertyOwner> propertyOwner = Optional
 				.ofNullable(propertyOwnerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(
 						"Property Owner " + " with this email " + email + " was not found")));
+
+		return propertyOwner.get();
 
 	}
 
@@ -47,7 +54,8 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		InputValidator.checkEmail(entity.getEmail());
 
-		if (findById(entity.getId(), PropertyOwner.class).isPresent() || findByEmail(entity.getEmail()).isPresent()) {
+		if (propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()
+				|| propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
 			throw new BadRequestException("This Property Owner already exists ");
 		}
 
@@ -57,10 +65,10 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	@Override
 	public void update(String id, PropertyOwnerRequest propertyOwnerRequest) {
 
-		Optional<PropertyOwner> propertyOwner = findById(id, PropertyOwner.class);
+		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
 
 		if (propertyOwner.isEmpty()) {
-			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
+			throw new ResourceNotFoundException("Property Owner  +  with this id  " + id + " was not found");
 		}
 
 		PropertyOwner foundOwner = propertyOwner.get();
@@ -74,7 +82,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	@Override
 	public void deleteById(String id, Class<PropertyOwner> classType) {
-		Optional<PropertyOwner> propertyOwner = findById(id, PropertyOwner.class);
+		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
 
 		if (propertyOwner.isEmpty()) {
 			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");

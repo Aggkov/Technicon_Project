@@ -1,11 +1,10 @@
 package com.europeandynamics.service.Impl;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.service.PropertyRepairService;
+
+import java.util.List;
 
 public class PropertyRepairServiceImpl implements PropertyRepairService {
 
@@ -23,21 +22,15 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	@Override
-	public Optional<PropertyRepair> findById(String id, Class<PropertyRepair> classType) {
-		
-		return propertyRepairRepository.findById(id, classType);
+	public PropertyRepair findById(String id, Class<PropertyRepair> classType) {
+
+		return null;
 	}
 
 	@Override
 	public PropertyRepair create(PropertyRepair entity) {
 		
 		return propertyRepairRepository.create(entity);
-	}
-
-	@Override
-	public void update(PropertyRepair entity) {
-		
-		
 	}
 
 	@Override

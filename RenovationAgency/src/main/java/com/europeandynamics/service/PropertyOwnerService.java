@@ -1,10 +1,11 @@
 package com.europeandynamics.service;
 
-import java.util.Optional;
-
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.payload.PropertyOwnerRequest;
 
 public interface PropertyOwnerService extends BaseService<PropertyOwner> {
 
-	Optional<PropertyOwner> findByEmail(String email);
+	PropertyOwner findByEmail(String email);
+
+	void update(String id, PropertyOwnerRequest propertyOwnerRequest);
 }

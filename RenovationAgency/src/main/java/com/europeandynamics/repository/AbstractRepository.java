@@ -1,12 +1,13 @@
 package com.europeandynamics.repository;
 
-import com.europeandynamics.model.BaseEntity;
+import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
-import java.util.Optional;
+
+import com.europeandynamics.model.BaseEntity;
 
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
@@ -16,7 +17,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
 
-		return Optional.of(em.find(classType, id));
+		return Optional.ofNullable(em.find(classType, id));
 	}
 
 	@Override

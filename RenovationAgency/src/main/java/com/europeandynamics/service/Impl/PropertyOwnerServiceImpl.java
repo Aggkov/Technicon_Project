@@ -1,89 +1,90 @@
 package com.europeandynamics.service.Impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.payload.PropertyOwnerRequest;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
-
-import java.util.List;
-import java.util.Optional;
+import com.europeandynamics.validator.InputValidator;
 
 public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
-    private final PropertyOwnerRepository propertyOwnerRepository;
+	private final PropertyOwnerRepository propertyOwnerRepository;
 
-    public PropertyOwnerServiceImpl(PropertyOwnerRepository propertyOwnerRepository) {
-        this.propertyOwnerRepository = propertyOwnerRepository;
-    }
+	public PropertyOwnerServiceImpl(PropertyOwnerRepository propertyOwnerRepository) {
+		this.propertyOwnerRepository = propertyOwnerRepository;
+	}
 
-    @Override
-    public List<?> findAll(Class<PropertyOwner> classType) {
+	@Override
+	public List<?> findAll(Class<PropertyOwner> classType) {
 
-        return propertyOwnerRepository.findAll(classType);
+		return propertyOwnerRepository.findAll(classType);
 
-    }
+	}
 
-    @Override
-    public Optional<PropertyOwner> findById(String id, Class<PropertyOwner> classType) {
+	@Override
+	public Optional<PropertyOwner> findById(String id, Class<PropertyOwner> classType) {
 
-        return Optional.ofNullable(propertyOwnerRepository.findById(id, classType)
-                .orElseThrow(() -> new ResourceNotFoundException("Property Owner " + " with this id " + id + " was not found")));
-    }
+		return Optional.ofNullable(propertyOwnerRepository.findById(id, classType).orElseThrow(
+				() -> new ResourceNotFoundException("Property Owner " + " with this id " + id + " was not found")));
+	}
 
-    @Override
-    public PropertyOwner findByEmail(String email) {
-        try {
-            PropertyOwner propertyOwner = propertyOwnerRepository.findByEmail(email);
-            if (propertyOwner != null) {
-                return propertyOwner;
-            }
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-        }
-        throw new ResourceNotFoundException(("Property Owner " + " with this email " + email + " was not found"));
-    }
+	@Override
+	public Optional<PropertyOwner> findByEmail(String email) {
 
+		return Optional
+				.ofNullable(propertyOwnerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(
+						"Property Owner " + " with this email " + email + " was not found")));
 
-    @Override
-    public PropertyOwner create(PropertyOwner entity) {
+	}
 
-        if (findById(entity.getId(), PropertyOwner.class).isPresent() || findByEmail(entity.getEmail()) != null) {
-            System.out.println(entity);
-            throw new BadRequestException("This Property Owner already exists ");
-        }
+	@Override
+	public PropertyOwner create(PropertyOwner entity) {
 
-        return propertyOwnerRepository.create(entity);
-    }
+		InputValidator.checkEmail(entity.getEmail());
 
-    @Override
-    public void update(String id, PropertyOwnerRequest propertyOwnerRequest) {
+		if (findById(entity.getId(), PropertyOwner.class).isPresent() || findByEmail(entity.getEmail()).isPresent()) {
+			throw new BadRequestException("This Property Owner already exists ");
+		}
 
-        Optional<PropertyOwner> propertyOwner = findById(id, PropertyOwner.class);
+		return propertyOwnerRepository.create(entity);
+	}
 
-        if (!propertyOwner.isPresent()) {
-            throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
-        }
+	@Override
+	public void update(String id, PropertyOwnerRequest propertyOwnerRequest) {
 
-        PropertyOwner foundOwner = propertyOwner.get();
-        foundOwner.setAddress(propertyOwnerRequest.getAddress());
-        foundOwner.setEmail(propertyOwnerRequest.getEmail());
-        foundOwner.setPassword(propertyOwnerRequest.getPassword());
+		Optional<PropertyOwner> propertyOwner = findById(id, PropertyOwner.class);
 
-        propertyOwnerRepository.update(foundOwner);
+		if (propertyOwner.isEmpty()) {
+			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
+		}
 
-    }
+		PropertyOwner foundOwner = propertyOwner.get();
+		foundOwner.setAddress(propertyOwnerRequest.getAddress());
+		foundOwner.setEmail(propertyOwnerRequest.getEmail());
+		foundOwner.setPassword(propertyOwnerRequest.getPassword());
 
-    @Override
-    public void deleteById(String id, Class<PropertyOwner> classType) {
+		propertyOwnerRepository.update(foundOwner);
 
-    }
+	}
 
-    @Override
-    public void delete(PropertyOwner entity) {
+	@Override
+	public void deleteById(String id, Class<PropertyOwner> classType) {
+		Optional<PropertyOwner> propertyOwner = findById(id, PropertyOwner.class);
 
-    }
+		if (propertyOwner.isEmpty()) {
+			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
+		}
+
+		propertyOwnerRepository.delete(propertyOwner.get());
+	}
+
+	@Override
+	public void delete(PropertyOwner entity) {
+
+	}
 }
-
-

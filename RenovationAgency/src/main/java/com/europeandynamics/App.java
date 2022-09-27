@@ -1,7 +1,14 @@
 package com.europeandynamics;
 
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
+
+import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.exceptions.InvalidEmailException;
+import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.enums.Role;
+import com.europeandynamics.payload.PropertyOwnerRequest;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
@@ -10,30 +17,49 @@ public class App {
 
 	public static void main(String[] args) {
 
-		/*
-		 * PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
-		 * System.out.println(prop.findAll(PropertyOwner.class));
-		 */
+		Logger logger = LoggerFactory.logger(App.class);
 
-//		System.out.println(PropertyOwner.class.getSimpleName());
-
+		// TESTING PropertyOwner Service
 		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+		try {
+			PropertyOwner propertyOwner = propertyOwnerService.findById("111111111", PropertyOwner.class);
+			logger.info("property owner found: " + propertyOwner);
+		} catch (ResourceNotFoundException ex) {
 
-		propertyOwnerService.create(new PropertyOwner("111111111", "Kostas", "Chatzifotiadis", "Thessaloniki",
-				"6999999991", "email1email.com", "username1", "pass1", Role.ADMIN));
+			logger.warn(ex.getMessage());
+		}
 
-//		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
-//		System.out.println(prop.findAll(PropertyOwner.class));
 //
-//		prop = new PropertyOwnerRepositoryImpl();
-//		System.out.println(prop.findAll(PropertyOwner.class));
+		try {
+			propertyOwnerService.create(new PropertyOwner("111111111", "Kostas", "Chatzifotiadis", "Thessaloniki",
+					"6999999991", "email@email.com", "username1", "pass1", Role.ADMIN));
+			logger.info("owner created successfully");
 
-//		EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
-//		EntityManager em = emf.createEntityManager();
+		} catch (BadRequestException | InvalidEmailException ex) {
+			logger.warn(ex.getMessage());
+		}
 
-//		PropertyOwnerRepository prop = new PropertyOwnerRepositoryImpl();
+		try {
+			PropertyOwner propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email1email.com");
+			logger.info(" found owner with email " + propertyOwnerFoundEmail);
+		} catch (ResourceNotFoundException | InvalidEmailException ex) {
+			logger.warn(ex.getMessage());
+		}
 
-//		System.out.println(PropertyOwner.class.getSimpleName());
+		try {
+			propertyOwnerService.update("111111115",
+					new PropertyOwnerRequest("new address", "new email", "new password"));
+			logger.info("owner updated successfully");
+		} catch (ResourceNotFoundException ex) {
+			logger.warn(ex.getMessage());
+		}
+//
+		try {
+			propertyOwnerService.deleteById("111111116", PropertyOwner.class);
+			logger.info("owner with id 111111116 was deleted");
+		} catch (ResourceNotFoundException ex) {
+			logger.warn(ex.getMessage());
+		}
 
 		// CREATE
 //		em.getTransaction().begin();

@@ -14,12 +14,10 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 	protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
 	protected EntityManager em = emf.createEntityManager();
 
-//	protected Class<T> classType;
-
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
 
-		return Optional.of(em.find(classType, id));
+		return Optional.ofNullable(em.find(classType, id));
 	}
 
 	@Override

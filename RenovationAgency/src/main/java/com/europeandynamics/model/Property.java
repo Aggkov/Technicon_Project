@@ -1,22 +1,12 @@
 package com.europeandynamics.model;
 
+import com.europeandynamics.model.enums.Type;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.europeandynamics.model.enums.Type;
 
 @Entity
 @Table(name = "property")
@@ -37,8 +27,7 @@ public class Property extends BaseEntity {
 	@OneToMany(mappedBy = "property", cascade = CascadeType.PERSIST)
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
 
-	public Property() {
-	}
+	public Property() {}
 
 	public Property(String Id, String address, LocalDate yearOfConstruction, Type type) {
 		super(Id);

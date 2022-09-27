@@ -65,9 +65,11 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	@Override
 	public void update(String id, PropertyOwnerRequest propertyOwnerRequest) {
 
-		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
+		Optional<PropertyOwner> propertyOwner = Optional.ofNullable(propertyOwnerRepository
+				.findById(id, PropertyOwner.class).orElseThrow(() -> new ResourceNotFoundException(
+						"Owner scheduled for update with this id " + id + " was not found")));
 
-		if (!propertyOwner.isEmpty()) {
+		if (propertyOwner.isPresent()) {
 			PropertyOwner foundOwner = propertyOwner.get();
 			foundOwner.setAddress(propertyOwnerRequest.getAddress());
 			foundOwner.setEmail(propertyOwnerRequest.getEmail());
@@ -75,8 +77,6 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 			propertyOwnerRepository.update(foundOwner);
 		}
-
-		throw new ResourceNotFoundException("Property Owner  +  with this id  " + id + " was not found");
 
 	}
 

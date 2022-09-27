@@ -1,6 +1,9 @@
 package com.europeandynamics;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
@@ -23,6 +26,10 @@ public class App {
 
 		// TESTING PropertyOwner Service
 		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
+		EntityManager em = emf.createEntityManager();
+
 		try {
 			PropertyOwner propertyOwner = propertyOwnerService.findById("111111111", PropertyOwner.class);
 			logger.info("property owner found: " + propertyOwner);
@@ -33,8 +40,8 @@ public class App {
 
 //
 		try {
-			propertyOwnerService.create(new PropertyOwner("111111117", "Jack", "Jackson", "Athens", "6999999997",
-					"email@email.com", "username7", "pass7", Role.USER));
+			propertyOwnerService.create(new PropertyOwner("111111118", "Mary", "Private", "Athens", "6999999998",
+					"email8@email.com", "username8", "pass8", Role.USER));
 			logger.info("owner created successfully");
 
 		} catch (BadRequestException | InvalidEmailException | NoResultException ex) {
@@ -42,26 +49,28 @@ public class App {
 		}
 
 		try {
-			PropertyOwner propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email1email.com");
+			PropertyOwner propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email@email.com");
 			logger.info(" found owner with email " + propertyOwnerFoundEmail);
-		} catch (ResourceNotFoundException | InvalidEmailException ex) {
+		} catch (ResourceNotFoundException | InvalidEmailException | NoResultException ex) {
 			logger.warn(ex.getMessage());
 		}
 
 		try {
-			propertyOwnerService.update("111111115",
-					new PropertyOwnerRequest("new address", "new email", "new password"));
+			propertyOwnerService.update("111111114",
+					new PropertyOwnerRequest("UPDATED address", "updated@email.com", "987654"));
 			logger.info("owner updated successfully");
 		} catch (ResourceNotFoundException ex) {
 			logger.warn(ex.getMessage());
 		}
 //
-		try {
-			propertyOwnerService.deleteById("111111116", PropertyOwner.class);
-			logger.info("owner with id 111111116 was deleted");
-		} catch (ResourceNotFoundException ex) {
-			logger.warn(ex.getMessage());
-		}
+//		try {
+//			propertyOwnerService.deleteById("111111116", PropertyOwner.class);
+//			logger.info("owner with id 111111117 was deleted");
+//		} catch (ResourceNotFoundException ex) {
+//			logger.warn(ex.getMessage());
+//		}
+
+		em.close();
 
 		// CREATE
 //		em.getTransaction().begin();

@@ -9,16 +9,26 @@ import javax.persistence.Persistence;
 
 import com.europeandynamics.model.BaseEntity;
 
+//@DataSourceDefinition
+//(name = "java:app/RenovationAgency/MyDS", 
+//className = "com.mysql.cj.jdbc.Driver", 
+//url = "jdbc:mysql://localhost:3306/renovation_agency", 
+//user = "springstudent", 
+//password = "springstudent")
+
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
 	protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
 	protected EntityManager em = emf.createEntityManager();
 
+//	@PersistenceContext
+//	EntityManager em;
+
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
-//		em.getTransaction().begin();
+		em.getTransaction().begin();
 		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
-//		em.getTransaction().commit();
+		em.getTransaction().commit();
 
 //		em.close();
 		return entity;
@@ -43,7 +53,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.persist(entity);
 		em.getTransaction().commit();
 
-		em.close();
+//		em.close();
 		return entity;
 	}
 
@@ -53,7 +63,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.merge(entity);
 		em.getTransaction().commit();
 
-		em.close();
+//		em.close();
 	}
 
 //	@Override
@@ -76,7 +86,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.remove(entity);
 		em.getTransaction().commit();
 
-		em.close();
+//		em.close();
 	}
 
 	@Override

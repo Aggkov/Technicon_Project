@@ -5,14 +5,13 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import com.europeandynamics.model.BaseEntity;
+import com.europeandynamics.utils.EntityManagerFactoryUtils;
 
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
-	protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
-//	protected EntityManager em = emf.createEntityManager();
+	protected EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
 
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
@@ -30,6 +29,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		EntityManager em = emf.createEntityManager();
 
 		String className = classType.getSimpleName();
+		em.getTransaction().begin();
 
 		List<?> entities = em
 				.createQuery("SELECT " + className.toLowerCase() + " from " + className + " " + className.toLowerCase())

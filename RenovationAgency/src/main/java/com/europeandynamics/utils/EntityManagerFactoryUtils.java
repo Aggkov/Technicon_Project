@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 public class EntityManagerFactoryUtils {
 
-	private static final String PERSISTENCE_UNIT_NAME = "NewPersistenceUnit";
+	private static final String PERSISTENCE_UNIT_NAME = "Persistence";
 	private static EntityManagerFactory emf;
 
 	public static EntityManagerFactory getEntityManagerFactory() {

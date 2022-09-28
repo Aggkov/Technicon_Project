@@ -13,7 +13,6 @@ import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.enums.Role;
-import com.europeandynamics.payload.PropertyOwnerRequest;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
@@ -48,20 +47,20 @@ public class App {
 			logger.warn(ex.getMessage());
 		}
 
-		try {
-			PropertyOwner propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email@email.com");
-			logger.info(" found owner with email " + propertyOwnerFoundEmail);
-		} catch (ResourceNotFoundException | InvalidEmailException | NoResultException ex) {
-			logger.warn(ex.getMessage());
-		}
-
-		try {
-			propertyOwnerService.update("111111114",
-					new PropertyOwnerRequest("UPDATED address", "updated@email.com", "987654"));
-			logger.info("owner updated successfully");
-		} catch (ResourceNotFoundException ex) {
-			logger.warn(ex.getMessage());
-		}
+//		try {
+//			PropertyOwner propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email@email.com");
+//			logger.info(" found owner with email " + propertyOwnerFoundEmail);
+//		} catch (ResourceNotFoundException | InvalidEmailException | NoResultException ex) {
+//			logger.warn(ex.getMessage());
+//		}
+//
+//		try {
+//			propertyOwnerService.update("111111114",
+//					new PropertyOwnerRequest("UPDATED address", "updated@email.com", "987654"));
+//			logger.info("owner updated successfully");
+//		} catch (ResourceNotFoundException ex) {
+//			logger.warn(ex.getMessage());
+//		}
 //
 //		try {
 //			propertyOwnerService.deleteById("111111116", PropertyOwner.class);

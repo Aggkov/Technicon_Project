@@ -3,6 +3,8 @@ package com.europeandynamics.service.Impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
@@ -41,11 +43,13 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		InputValidator.checkEmail(email);
 
-		Optional<PropertyOwner> propertyOwner = Optional
-				.ofNullable(propertyOwnerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(
-						"Property Owner " + " with this email " + email + " was not found")));
+		try {
+			Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findByEmail(email);
+			return propertyOwner.get();
 
-		return propertyOwner.get();
+		} catch (NoResultException ex) {
+			throw new ResourceNotFoundException("Property Owner " + " with this email " + email + " was not found");
+		}
 
 	}
 
@@ -55,7 +59,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		InputValidator.checkEmail(entity.getEmail());
 
 		if (!propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()
-				|| propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
+				&& propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
 			return propertyOwnerRepository.create(entity);
 		}
 		throw new BadRequestException("This Property Owner already exists ");

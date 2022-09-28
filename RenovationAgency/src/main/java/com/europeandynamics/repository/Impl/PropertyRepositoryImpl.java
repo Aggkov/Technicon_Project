@@ -10,21 +10,22 @@ import com.europeandynamics.repository.PropertyRepository;
 
 public class PropertyRepositoryImpl extends AbstractRepository<Property> implements PropertyRepository {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Property> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
 
-		List<?> propertiesByVatNum = em
-				.createQuery("SELECT propertyOwner,property FROM PropertyOwner propertyOwner"
-						+ " JOIN propertyOwner.properties property WHERE propertyOwner.Id = ?1")
+		List<Property> query = em
+				.createQuery("SELECT property FROM PropertyOwner propertyOwner"
+						+ " JOIN propertyOwner.properties property WHERE propertyOwner.Id = ?1", classType)
 				.setParameter(1, id).getResultList();
 
 //		List<Property> propertyList = propertiesByVatNum.stream().map(e -> )
 //				.collect(Collectors.toCollection(() -> new ArrayList<Property>()));
 
-		return null;
+		return query;
 
 	}
 //				.stream()

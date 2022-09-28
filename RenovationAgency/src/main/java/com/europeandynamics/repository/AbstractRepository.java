@@ -9,38 +9,35 @@ import javax.persistence.Persistence;
 
 import com.europeandynamics.model.BaseEntity;
 
-//@DataSourceDefinition
-//(name = "java:app/RenovationAgency/MyDS", 
-//className = "com.mysql.cj.jdbc.Driver", 
-//url = "jdbc:mysql://localhost:3306/renovation_agency", 
-//user = "springstudent", 
-//password = "springstudent")
-
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
 	protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
-	protected EntityManager em = emf.createEntityManager();
-
-//	@PersistenceContext
-//	EntityManager em;
+//	protected EntityManager em = emf.createEntityManager();
 
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
+		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
 		em.getTransaction().commit();
 
-//		em.close();
+		em.close();
 		return entity;
 	}
 
 	@Override
 	public List<?> findAll(Class<T> classType) {
+		EntityManager em = emf.createEntityManager();
+
 		String className = classType.getSimpleName();
 
 		List<?> entities = em
 				.createQuery("SELECT " + className.toLowerCase() + " from " + className + " " + className.toLowerCase())
 				.getResultList();
+
+		em.getTransaction().commit();
+
+		em.close();
 
 		return entities;
 
@@ -48,22 +45,35 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 
 	@Override
 	public T create(T entity) {
+		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 
 		em.persist(entity);
 		em.getTransaction().commit();
 
-//		em.close();
+		em.close();
 		return entity;
 	}
 
 	@Override
 	public void update(T entity) {
+		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(entity);
 		em.getTransaction().commit();
 
-//		em.close();
+		em.close();
+	}
+
+	@Override
+	public void delete(T entity) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+
+		em.remove(entity);
+		em.getTransaction().commit();
+
+		em.close();
 	}
 
 //	@Override
@@ -78,16 +88,6 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 //		em.close();
 //
 //	}
-
-	@Override
-	public void delete(T entity) {
-		em.getTransaction().begin();
-
-		em.remove(entity);
-		em.getTransaction().commit();
-
-//		em.close();
-	}
 
 	@Override
 	public boolean exists(T entity) {

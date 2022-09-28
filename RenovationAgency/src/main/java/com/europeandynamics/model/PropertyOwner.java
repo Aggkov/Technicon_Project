@@ -1,31 +1,19 @@
 package com.europeandynamics.model;
 
+import com.europeandynamics.model.enums.Role;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.europeandynamics.model.enums.Role;
-
 @Entity
 @Table(name = "property_owner")
 @AttributeOverride(name = "Id", column = @Column(name = "vat_number"))
-//@Data
+@Data
 public class PropertyOwner extends BaseEntity {
 
-//	@Id
-////	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@Column(name = "vat_number")
-//	private String VatNumber;
 
 	private String name;
 	private String surname;
@@ -69,86 +57,6 @@ public class PropertyOwner extends BaseEntity {
 	public void addPropertyRepair(PropertyRepair propertyRepair) {
 		this.propertyRepairs.add(propertyRepair);
 		propertyRepair.setPropertyOwner(this);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	public Set<PropertyRepair> getPropertyRepairs() {
-		return propertyRepairs;
-	}
-
-	public void setPropertyRepairs(Set<PropertyRepair> propertyRepairs) {
-		this.propertyRepairs = propertyRepairs;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Set<Property> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Set<Property> properties) {
-		this.properties = properties;
 	}
 
 	@Override

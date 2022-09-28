@@ -1,6 +1,7 @@
 package com.europeandynamics.model;
 
 import com.europeandynamics.model.enums.Type;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "property")
 @AttributeOverride(name = "Id", column = @Column(name = "property_id"))
+@Data
 public class Property extends BaseEntity {
 
 	private String address;
@@ -39,46 +41,6 @@ public class Property extends BaseEntity {
 	public void addPropertyRepair(PropertyRepair propertyRepair) {
 		this.propertyRepairs.add(propertyRepair);
 		propertyRepair.setProperty(this);
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public Set<PropertyRepair> getPropertyRepairs() {
-		return propertyRepairs;
-	}
-
-	public void setPropertyRepairs(Set<PropertyRepair> propertyRepairs) {
-		this.propertyRepairs = propertyRepairs;
-	}
-
-	public LocalDate getYearOfConstruction() {
-		return yearOfConstruction;
-	}
-
-	public void setYearOfConstruction(LocalDate yearOfConstruction) {
-		this.yearOfConstruction = yearOfConstruction;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	public PropertyOwner getPropertyOwner() {
-		return propertyOwner;
-	}
-
-	public void setPropertyOwner(PropertyOwner propertyOwner) {
-		this.propertyOwner = propertyOwner;
 	}
 
 	@Override

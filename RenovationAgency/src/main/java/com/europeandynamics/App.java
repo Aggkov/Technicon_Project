@@ -1,15 +1,13 @@
 package com.europeandynamics;
 
-import com.europeandynamics.model.Property;
-import com.europeandynamics.payload.PropertyResponse;
-import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
-import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
-import com.europeandynamics.repository.PropertyRepository;
-import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
-import com.europeandynamics.service.PropertyOwnerService;
+import com.europeandynamics.model.PropertyRepair;
+import com.europeandynamics.payload.PropertyRepairResponse;
+import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
+import com.europeandynamics.repository.PropertyRepairRepository;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class App {
@@ -18,17 +16,27 @@ public class App {
 
         Logger logger = LoggerFactory.logger(App.class);
 
+        // TESTING PROPERTY REPAIR
+        PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
+
+        List<PropertyRepairResponse> allRepairsByDate = propertyRepairRepository.findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
+                2022, 9, 22, 11,30, 20), PropertyRepair.class);
+        logger.info("repairs by date: ");
+        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
+             logger.info(propertyRepairResponse + " \n");
+        }
+
         // TESTING PROPERTY REPO
-		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
+//		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
 //		@SuppressWarnings("unchecked")
 //		List<Property> properties = (List<Property>) propertyRepository.findAll(Property.class);
 //		logger.info("All properties: " + properties);
 
-		List<PropertyResponse> propertiesByVat = propertyRepository.findPropertiesByOwnerVatNumber("111111111", Property.class);
-		logger.info("properties by vat: " + propertiesByVat);
+//		List<PropertyResponse> propertiesByVat = propertyRepository.findPropertiesByOwnerVatNumber("111111111", Property.class);
+//		logger.info("properties by vat: " + propertiesByVat);
 
 //		 TESTING PropertyOwner Service
-        PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+//        PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
 
 //        try {
 //            PropertyOwner propertyOwner = propertyOwnerService.findById("111111111", PropertyOwner.class);

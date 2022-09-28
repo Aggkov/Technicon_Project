@@ -6,6 +6,7 @@ import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyRepository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 
 		em.getTransaction().begin();
 
-		List<PropertyResponse> query = em
+		List<PropertyResponse> propertiesByOwnerVatNum = em
 				.createQuery("SELECT property FROM PropertyOwner propertyOwner"
 						+ " JOIN propertyOwner.properties property WHERE propertyOwner.Id = ?1", classType)
 				.setParameter(1, id).getResultList()
@@ -29,9 +30,9 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 						.type(e.getType())
 						.build())
 
-				.collect(Collectors.toList());
+				.collect(Collectors.toCollection(ArrayList::new));
 
-		return query;
+		return propertiesByOwnerVatNum;
 
 	}
 //				.stream()

@@ -2,6 +2,7 @@ package com.europeandynamics.service.Impl;
 
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
+import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyService;
 
@@ -39,9 +40,17 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public void deleteById(String id, Class<Property> classType) {
+		Optional<Property> property = propertyRepository.findById(id, Property.class);
 		
-		
+
+		if (property.isEmpty()) {
+			throw new ResourceNotFoundException("Property   with this id"  + id + "was not found");
+		}
+
+		propertyRepository.delete(property.get());
 	}
+		
+	
 
 	@Override
 	public void delete(Property entity) {

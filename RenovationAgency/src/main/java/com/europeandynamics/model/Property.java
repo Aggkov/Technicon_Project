@@ -61,21 +61,5 @@ public class Property extends BaseEntity {
 				&& Objects.equals(yearOfConstruction, other.yearOfConstruction);
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Property [propertyId=");
-		builder.append(this.Id);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", yearOfConstruction=");
-		builder.append(yearOfConstruction);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append(", propertyOwner=");
-		builder.append(propertyOwner);
-		builder.append("]");
-		return builder.toString();
-	}
 
 }

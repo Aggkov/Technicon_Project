@@ -75,27 +75,5 @@ public class PropertyRepair extends BaseEntity {
 				&& repairType == other.repairType && Objects.equals(shortDescription, other.shortDescription);
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("PropertyRepair [dateTimeOfRepair=");
-		builder.append(dateTimeOfRepair);
-		builder.append(", shortDescription=");
-		builder.append(shortDescription);
-		builder.append(", repairType=");
-		builder.append(repairType);
-		builder.append(", repairStatus=");
-		builder.append(repairStatus);
-		builder.append(", costOfRepair=");
-		builder.append(costOfRepair);
-		builder.append(", propertyOwner=");
-		builder.append(propertyOwner);
-		builder.append(", property=");
-		builder.append(property);
-		builder.append(", description=");
-		builder.append(longDescription);
-		builder.append("]");
-		return builder.toString();
-	}
 
 }

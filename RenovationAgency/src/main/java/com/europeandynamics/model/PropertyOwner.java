@@ -79,27 +79,5 @@ public class PropertyOwner extends BaseEntity {
 				&& Objects.equals(surname, other.surname) && Objects.equals(username, other.username);
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("PropertyOwner [VAT=");
-		builder.append(this.Id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", surname=");
-		builder.append(surname);
-		builder.append(", Address=");
-		builder.append(address);
-		builder.append(", phoneNumber=");
-		builder.append(phoneNumber);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", username=");
-		builder.append(username);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append("\n");
-		return builder.toString();
-	}
 
 }

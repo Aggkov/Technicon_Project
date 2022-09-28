@@ -1,29 +1,35 @@
 package com.europeandynamics.repository.Impl;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
 import com.europeandynamics.model.Property;
+import com.europeandynamics.payload.PropertyResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyRepository;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PropertyRepositoryImpl extends AbstractRepository<Property> implements PropertyRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Property> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
+	public List<PropertyResponse> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
 
-		List<Property> query = em
+		List<PropertyResponse> query = em
 				.createQuery("SELECT property FROM PropertyOwner propertyOwner"
 						+ " JOIN propertyOwner.properties property WHERE propertyOwner.Id = ?1", classType)
-				.setParameter(1, id).getResultList();
+				.setParameter(1, id).getResultList()
+				.stream()
+				.map(e -> PropertyResponse.builder()
+						.address(e.getAddress())
+						.yearOfConstruction(e.getYearOfConstruction())
+						.type(e.getType())
+						.build())
 
-//		List<Property> propertyList = propertiesByVatNum.stream().map(e -> )
-//				.collect(Collectors.toCollection(() -> new ArrayList<Property>()));
+				.collect(Collectors.toList());
 
 		return query;
 

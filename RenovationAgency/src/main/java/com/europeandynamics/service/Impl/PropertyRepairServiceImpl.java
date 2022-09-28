@@ -1,10 +1,14 @@
 package com.europeandynamics.service.Impl;
 
+import com.europeandynamics.exceptions.ResourceNotFoundException;
+import com.europeandynamics.model.Property;
+import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.service.PropertyRepairService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PropertyRepairServiceImpl implements PropertyRepairService {
 
@@ -23,8 +27,10 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	@Override
 	public PropertyRepair findById(String id, Class<PropertyRepair> classType) {
+		Optional<PropertyRepair> propertyRepair = Optional.ofNullable(propertyRepairRepository.findById(id, classType).orElseThrow(
+				() -> new ResourceNotFoundException(classType.getSimpleName() + " with this id: " + id + " was not found")));
 
-		return null;
+		return propertyRepair.get();
 	}
 
 	@Override
@@ -35,7 +41,13 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	@Override
 	public void deleteById(String id, Class<PropertyRepair> classType) {
-		
+		Optional<PropertyRepair> propertyRepair = propertyRepairRepository.findById(id, PropertyRepair.class);
+
+		if (propertyRepair.isEmpty()) {
+			throw new ResourceNotFoundException("Property Repair  +  with this id  + id +  was not found");
+		}
+
+		propertyRepairRepository.delete(propertyRepair.get());
 		
 	}
 

@@ -19,11 +19,11 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	
 	}
 
-	@Override
-	public List<?> findAll(Class<PropertyRepair> classType) {
-		
-		return  propertyRepairRepository.findAll(classType);
-	}
+//	@Override
+//	public List<?> findAll(Class<PropertyRepair> classType) {
+//		
+//		return  propertyRepairRepository.findAll(classType);
+//	}
 
 	@Override
 	public PropertyRepair findById(String id, Class<PropertyRepair> classType) {

@@ -1,18 +1,32 @@
 package com.europeandynamics.model;
 
-import com.europeandynamics.model.enums.Type;
-import lombok.Data;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.europeandynamics.model.enums.Type;
+
+import lombok.Data;
+
 @Entity
 @Table(name = "property")
 @AttributeOverride(name = "Id", column = @Column(name = "property_id"))
 @Data
+@NamedQuery(name = "Property.findAll",
+query = "SELECT p FROM Property p")
 public class Property extends BaseEntity {
 
 	private String address;
@@ -22,7 +36,9 @@ public class Property extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL
+//			, fetch = FetchType.EAGER
+			)
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 
@@ -42,6 +58,7 @@ public class Property extends BaseEntity {
 		this.propertyRepairs.add(propertyRepair);
 		propertyRepair.setProperty(this);
 	}
+	
 
 	@Override
 	public int hashCode() {

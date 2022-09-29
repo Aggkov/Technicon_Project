@@ -1,16 +1,18 @@
 package com.europeandynamics.repository.Impl;
 
-import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.payload.PropertyRepairResponse;
-import com.europeandynamics.repository.AbstractRepository;
-import com.europeandynamics.repository.PropertyRepairRepository;
-
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+
+import com.europeandynamics.model.PropertyRepair;
+import com.europeandynamics.model.enums.RepairStatus;
+import com.europeandynamics.model.enums.RepairType;
+import com.europeandynamics.payload.PropertyRepairResponse;
+import com.europeandynamics.repository.AbstractRepository;
+import com.europeandynamics.repository.PropertyRepairRepository;
 
 public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRepair>
 		implements PropertyRepairRepository {
@@ -34,8 +36,16 @@ public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRep
 						.repairStatus(e.getRepairStatus())
 						.costOfRepair(e.getCostOfRepair())
 						.longDescription(e.getLongDescription()).build())
+						
+						
 				.collect(Collectors.toCollection(ArrayList::new));
 
 		return repairsOnDateRange;
 	}
+
+//	@Override
+//	public List<?> findAll(Class<PropertyRepair> classType) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

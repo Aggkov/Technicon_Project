@@ -52,6 +52,10 @@ public class PropertyRepair extends BaseEntity {
 		this.repairStatus = repairStatus;
 		this.costOfRepair = costOfRepair;
 	}
+	
+	
+
+	
 
 	@Override
 	public int hashCode() {

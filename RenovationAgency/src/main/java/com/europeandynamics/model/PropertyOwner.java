@@ -12,6 +12,8 @@ import java.util.Set;
 @Table(name = "property_owner")
 @AttributeOverride(name = "Id", column = @Column(name = "vat_number"))
 @Data
+@NamedQuery(name = "PropertyOwner.findAll",
+query = "SELECT po FROM PropertyOwner po")
 public class PropertyOwner extends BaseEntity {
 
 
@@ -26,10 +28,10 @@ public class PropertyOwner extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
 
-	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Set<Property> properties = new LinkedHashSet<>();
 
-	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "propertyOwner", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
 
 	public PropertyOwner() {
@@ -58,7 +60,8 @@ public class PropertyOwner extends BaseEntity {
 		this.propertyRepairs.add(propertyRepair);
 		propertyRepair.setPropertyOwner(this);
 	}
-
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.Id, address, email, name, password, phoneNumber, surname, username);

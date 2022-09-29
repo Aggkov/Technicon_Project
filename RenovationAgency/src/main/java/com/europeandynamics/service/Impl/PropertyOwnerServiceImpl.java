@@ -9,6 +9,7 @@ import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.payload.PropertyOwnerRequest;
+import com.europeandynamics.payload.PropertyOwnerResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.validator.InputValidator;
@@ -22,9 +23,9 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	}
 
 	@Override
-	public List<?> findAll(Class<PropertyOwner> classType) {
+	public List<PropertyOwnerResponse> findAll(Class<PropertyOwner> classType) {
 
-		return propertyOwnerRepository.findAll(classType);
+		return propertyOwnerRepository.findAllOwners(classType);
 
 	}
 
@@ -59,10 +60,10 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		InputValidator.checkEmail(entity.getEmail());
 
 		if (!propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()
-				&& propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
+				&& !propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
 			return propertyOwnerRepository.create(entity);
 		}
-		throw new BadRequestException("This Property Owner already exists ");
+		throw new BadRequestException(entity.getClass().getSimpleName() + " already exists ");
 
 	}
 

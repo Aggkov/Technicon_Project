@@ -1,10 +1,13 @@
 package com.europeandynamics.service.Impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
+import com.europeandynamics.payload.PropertyResponse;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyService;
 
@@ -16,12 +19,12 @@ public class PropertyServiceImpl implements PropertyService {
 		this.propertyRepository = propertyRepository;
 	}
 
-	@Override
-	public List<?> findAll(Class<Property> classType) {
+	public List<PropertyResponse> findAll(Class<Property> classType) {
 
-		return propertyRepository.findAll(classType);
+		 return propertyRepository.findAllProperties(classType);
+	
 	}
-
+	
 	@Override
 	public Property findById(String id, Class<Property> classType) {
 
@@ -33,39 +36,55 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public List<Property> findPropertiesByOwnerVatNumber(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PropertyResponse> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
+		
+		List<PropertyResponse> propertiesByOwner = propertyRepository.findPropertiesByOwnerVatNumber(id, Property.class);
+		if(propertiesByOwner.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return propertiesByOwner;
 	}
 
 	@Override
 	public Property create(Property entity) {
-
-		return propertyRepository.create(entity);
+		
+		if(propertyRepository.findById(entity.getId(), Property.class).isEmpty()) {
+			
+			return propertyRepository.create(entity);
+		}
+		throw new BadRequestException("Property with id: " + entity.getId() + " already exists");
 	}
 
 	@Override
 	public void deleteById(String id, Class<Property> classType) {
 
-		Optional<Property> property = propertyRepository.findById(id, Property.class);
+		Property property = findById(id, Property.class);
 
-		if (property.isEmpty()) {
+		if (property == null) {
 			throw new ResourceNotFoundException("Property   with this id" + id + "was not found");
 		}
 
-		propertyRepository.delete(property.get());
+		propertyRepository.delete(property);
 
 	}
+	
+	@Override
+	public void update(String id
+//			PropertyRequest propertyRequest
+			) {
+		
+		Property property = findById(id, Property.class);
+
+		if (property == null) {
+			throw new ResourceNotFoundException("Property   with this id" + id + "was not found");
+		}
+	}
+
 
 	@Override
 	public void delete(Property entity) {
 
 	}
 
-	@Override
-	public void update(String id) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 }

@@ -1,50 +1,81 @@
 package com.europeandynamics;
 
-import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.payload.PropertyRepairResponse;
-import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
-import com.europeandynamics.repository.PropertyRepairRepository;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
-import java.time.LocalDateTime;
+import com.europeandynamics.model.Property;
+import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.Type;
+import com.europeandynamics.payload.PropertyOwnerResponse;
+import com.europeandynamics.payload.PropertyResponse;
+import com.europeandynamics.repository.PropertyRepository;
+import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
+import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
+import com.europeandynamics.service.PropertyOwnerService;
+import com.europeandynamics.service.PropertyService;
+import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
+import com.europeandynamics.service.Impl.PropertyServiceImpl;
+import com.europeandynamics.utils.EntityManagerFactoryUtils;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.BadRequestException;
 
 public class App {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        Logger logger = LoggerFactory.logger(App.class);
+		Logger logger = LoggerFactory.logger(App.class);
 
-        // TESTING PROPERTY REPAIR
-        PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
-
-        List<PropertyRepairResponse> allRepairsByDate = propertyRepairRepository.findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
-                2022, 9, 22, 11,30, 20), PropertyRepair.class);
-        logger.info("repairs by date: ");
-        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
-             logger.info(propertyRepairResponse + " \n");
-        }
-
-        // TESTING PROPERTY REPO
-//		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
-//		@SuppressWarnings("unchecked")
-//		List<Property> properties = (List<Property>) propertyRepository.findAll(Property.class);
-//		logger.info("All properties: " + properties);
-
-//		List<PropertyResponse> propertiesByVat = propertyRepository.findPropertiesByOwnerVatNumber("111111111", Property.class);
-//		logger.info("properties by vat: " + propertiesByVat);
-
-//		 TESTING PropertyOwner Service
-//        PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
-
-//        try {
-//            PropertyOwner propertyOwner = propertyOwnerService.findById("111111111", PropertyOwner.class);
-//            logger.info("property owner found: " + propertyOwner);
-//        } catch (ResourceNotFoundException ex) {
+		// TESTING PROPERTY REPAIR
+//        PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
 //
-//            logger.warn(ex.getMessage());
+//        List<PropertyRepairResponse> allRepairsByDate = propertyRepairRepository.findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
+//                2022, 9, 22, 11,30, 20), PropertyRepair.class);
+//        logger.info("repairs by date: ");
+//        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
+//             logger.info(propertyRepairResponse + " \n");
 //        }
+
+		// TESTING PROPERTY REPO
+
+		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl());
+//		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
+		
+//		List<PropertyResponse> properties = propertyService.findAll(Property.class);
+//		logger.info("All properties: " + properties);
+//		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",//				Property.class);//		logger.info("properties by vat: " + propertiesByVat);
+//		
+//		try {
+//			Property property = propertyService.create(new Property("E91121", "New address", LocalDate.of(2017, 9, 22), Type.APARTMENT));
+//			logger.info("property created: " + property);
+//		} catch (BadRequestException ex) {
+//			logger.warn(ex.getMessage());
+//		}
+
+////		 TESTING PropertyOwner Service
+		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+
+		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
+		logger.info("All owners " + findAll);
+		 
+        					;
+//        resultList.stream().forEach(System.out::println);		
+		
+//		try {
+//			PropertyOwner propertyOwner = propertyOwnerService.findById("11111111123", PropertyOwner.class);
+//			logger.info("property owner found: " + propertyOwner);
+//		} catch (ResourceNotFoundException ex) {
+//
+//			logger.warn(ex.getMessage());
+//		}
+//		
+
 //
 //        try {
 //            propertyOwnerService.create(new PropertyOwner("111111118", "Mary", "Private", "Athens", "6999999998",
@@ -79,7 +110,7 @@ public class App {
 //            logger.warn(ex.getMessage());
 //        }
 
-        // CREATE
+		// CREATE
 //		em.getTransaction().begin();
 //		Property property = new Property("23456790", "address2", LocalDate.of(2022, 9, 22), Type.APARTMENT);
 ////
@@ -92,13 +123,13 @@ public class App {
 //		em.getTransaction().commit();
 //		em.close();
 
-        // READ
+		// READ
 //		em.getTransaction().begin();
 
 //		Property foundProperty = em.find(Property.class, "23456790");
 //		System.out.println(foundProperty);
 
-        // UPDATE
+		// UPDATE
 //		em.getTransaction().begin();
 //		Property foundProperty2 = em.find(Property.class, "23456790");
 //		foundProperty2.setType(Type.DETACHED);
@@ -107,14 +138,13 @@ public class App {
 //		em.getTransaction().commit();
 //		em.close();
 
-        // READ ALL
+		// READ ALL
 //		List<Property> properties = em.createQuery("SELECT property from Property property").getResultList();
 //
 //		System.out.println(properties);
 
 //			      .setParameter(1, "English")
 
-    }
+	}
 
 }
-

@@ -12,6 +12,8 @@ import com.europeandynamics.utils.EntityManagerFactoryUtils;
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
 	protected EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
+	
+//	private Class<T> persistentClass;
 
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {

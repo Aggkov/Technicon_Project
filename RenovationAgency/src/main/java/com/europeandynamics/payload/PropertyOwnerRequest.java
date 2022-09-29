@@ -1,5 +1,8 @@
 package com.europeandynamics.payload;
 
+import lombok.Data;
+
+@Data
 public class PropertyOwnerRequest {
 
     private String address;

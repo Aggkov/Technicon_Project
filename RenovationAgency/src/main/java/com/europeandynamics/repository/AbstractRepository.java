@@ -22,7 +22,6 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
 		em.getTransaction().commit();
 
-		em.close();
 		return entity;
 	}
 
@@ -39,7 +38,6 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 
 		em.getTransaction().commit();
 
-		em.close();
 
 		return entities;
 
@@ -53,7 +51,6 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.persist(entity);
 		em.getTransaction().commit();
 
-		em.close();
 		return entity;
 	}
 
@@ -64,29 +61,33 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.merge(entity);
 		em.getTransaction().commit();
 
-		em.close();
 	}
 
 	@Override
 	public void delete(T entity) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-
-		em.remove(em.contains(entity) ? entity : em.merge(entity));
-
+		if(em.contains(entity)) {
+			em.remove(entity); 
+		}
+		T managedEntity = em.merge(entity);
+		em.remove(managedEntity); 
+		
 		em.getTransaction().commit();
 
-		em.close();
+		
 	}
 
 //	@Override
-//	public void deleteById(String id, Class<T> classType) {
+//	public boolean deleteById(String id, Class<T> classType) {		
+//		
 //		EntityManager em = emf.createEntityManager();
-//
-//		T entity = em.find(classType, id);
 //		em.getTransaction().begin();
+//		T foundEntity = em.find(classType, id);
 //
-//		em.remove(em.contains(entity) ? entity : em.merge(entity));
+//		em.contains(foundEntity) ? em.remove(foundEntity) : em.merge(foundEntity));
+//			
+//			
 //		em.getTransaction().commit();
 //
 //		em.close();

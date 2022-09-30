@@ -21,7 +21,7 @@ public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRep
 	public List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime dateFrom, LocalDateTime dateTo, Class<PropertyRepair> classType) {
 
 		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 
 		List<PropertyRepairResponse> repairsOnDateRange = em.createQuery("SELECT pr FROM PropertyRepair pr " +
 				"WHERE pr.dateTimeOfRepair BETWEEN ?1 AND ?2", classType)

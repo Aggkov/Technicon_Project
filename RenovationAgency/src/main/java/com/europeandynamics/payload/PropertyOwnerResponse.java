@@ -15,8 +15,10 @@ import com.europeandynamics.model.enums.Role;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString(exclude = {"properties", "propertyRepairs"})
 @Builder
 public class PropertyOwnerResponse {
 	

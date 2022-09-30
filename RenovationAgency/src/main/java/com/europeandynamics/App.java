@@ -1,5 +1,6 @@
 package com.europeandynamics;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -10,10 +11,13 @@ import org.jboss.logging.Logger;
 import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
-import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.payload.PropertyOwnerResponse;
+import com.europeandynamics.payload.PropertyRepairResponse;
+import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
+import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
 import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.service.PropertyService;
@@ -23,11 +27,15 @@ import com.europeandynamics.service.Impl.PropertyServiceImpl;
 public class App {
 
 	public static void main(String[] args) {
+		
 
 		Logger logger = LoggerFactory.logger(App.class);
+		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl());
+
 
 		// TESTING PROPERTY REPAIR
-//        PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
+        PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
 //
 //        List<PropertyRepairResponse> allRepairsByDate = propertyRepairRepository.findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
 //                2022, 9, 22, 11,30, 20), PropertyRepair.class);
@@ -38,7 +46,6 @@ public class App {
 
 		// TESTING PROPERTY REPO
 
-		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl());
 		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
 		
 //		List<PropertyResponse> properties = propertyService.findAll(Property.class);
@@ -53,13 +60,13 @@ public class App {
 //		}
 		
 		try {
-			propertyService.deleteById("E91121", Property.class);
+			propertyService.deleteById("E91118", Property.class);
+			logger.info("property deleted");
 		} catch(ResourceNotFoundException ex) {
 			logger.warn(ex.getMessage());
 		}
 
 ////		 TESTING PropertyOwner Service
-		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
 //
 //		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
 //		logger.info("All owners " + findAll);
@@ -86,14 +93,14 @@ public class App {
 //            logger.warn(ex.getMessage());
 //        }
 //
-        try {
-            PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email1@email.com");
-            logger.info(" found owner with email " + propertyOwnerFoundEmail);
-        } catch (ResourceNotFoundException | InvalidEmailException |
-
-                 NoResultException ex) {
-            logger.warn(ex.getMessage());
-        }
+//        try {
+//            PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("emailemail.com");
+//            logger.info(" found owner with email " + propertyOwnerFoundEmail);
+//        } catch (InvalidEmailException |
+//
+//                 NoResultException ex) {
+//            logger.warn(ex.getMessage());
+//        }
 //
 //        try {
 //            propertyOwnerService.update("111111114",

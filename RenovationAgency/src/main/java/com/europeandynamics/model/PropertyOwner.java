@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "property_owner")
 @AttributeOverride(name = "Id", column = @Column(name = "vat_number"))
 @Data
-@ToString(exclude = {"properties", "propertyRepairs"})
+//@ToString(exclude = {"properties", "propertyRepairs"})
 @NamedQuery(name = "PropertyOwner.findAll",
 query = "SELECT po FROM PropertyOwner po")
 public class PropertyOwner extends BaseEntity {

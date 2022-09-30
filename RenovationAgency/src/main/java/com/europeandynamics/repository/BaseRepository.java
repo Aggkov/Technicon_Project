@@ -13,7 +13,7 @@ public interface BaseRepository<T> {
 
 	void update(T entity);
 
-//	void deleteById(String id, Class<T> classType);
+//	boolean deleteById(String id, Class<T> classType);
 
 	void delete(T entity);
 

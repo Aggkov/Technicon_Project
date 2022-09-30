@@ -19,7 +19,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 	public List<PropertyResponse> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
 
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 
 		List<PropertyResponse> propertiesByOwnerVatNum = em
 				.createQuery("SELECT property FROM PropertyOwner propertyOwner"
@@ -31,7 +31,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 
 				.collect(Collectors.toCollection(ArrayList::new));
 		
-		em.close();
+//		em.close();
 
 		return propertiesByOwnerVatNum;
 
@@ -39,7 +39,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 	
 	public List<PropertyResponse> findAllProperties(Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 
 		 
 		List<PropertyResponse> resultList = em.createNamedQuery("Property.findAll", classType).getResultList()
@@ -52,7 +52,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));
-		em.close();
+//		em.close();
 
 		return resultList;
 	}

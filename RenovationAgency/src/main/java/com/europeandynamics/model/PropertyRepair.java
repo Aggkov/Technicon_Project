@@ -3,6 +3,7 @@ package com.europeandynamics.model;
 import com.europeandynamics.model.enums.RepairStatus;
 import com.europeandynamics.model.enums.RepairType;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Table(name = "property_repair")
 @AttributeOverride(name = "Id", column = @Column(name = "property_repair_id"))
 @Data
+@ToString(exclude = {"propertyOwner", "property"})
 public class PropertyRepair extends BaseEntity {
 
 	private LocalDateTime dateTimeOfRepair;

@@ -40,14 +40,15 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	@Override
-	public void deleteById(String id, Class<PropertyRepair> classType) {
+	public boolean deleteById(String id, Class<PropertyRepair> classType) {
 		Optional<PropertyRepair> propertyRepair = propertyRepairRepository.findById(id, PropertyRepair.class);
 
 		if (propertyRepair.isEmpty()) {
 			throw new ResourceNotFoundException("Property Repair  +  with this id  + id +  was not found");
 		}
-
-		propertyRepairRepository.delete(propertyRepair.get());
+		propertyRepair.get().setPropertyOwner(null);
+		propertyRepair.get().setProperty(null);
+		return propertyRepairRepository.delete(propertyRepair.get());
 		
 	}
 

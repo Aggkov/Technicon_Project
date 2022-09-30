@@ -15,7 +15,7 @@ public interface BaseRepository<T> {
 
 //	boolean deleteById(String id, Class<T> classType);
 
-	void delete(T entity);
+	boolean delete(T entity);
 
 	boolean exists(T entity);
 

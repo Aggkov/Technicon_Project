@@ -86,14 +86,14 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	}
 
 	@Override
-	public void deleteById(String id, Class<PropertyOwner> classType) {
+	public boolean deleteById(String id, Class<PropertyOwner> classType) {
 		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
 
 		if (propertyOwner.isEmpty()) {
 			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
 		}
 
-		propertyOwnerRepository.delete(propertyOwner.get());
+		return propertyOwnerRepository.delete(propertyOwner.get());
 	}
 
 	@Override

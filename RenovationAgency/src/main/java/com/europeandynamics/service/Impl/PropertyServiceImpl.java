@@ -58,7 +58,7 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public void deleteById(String id, Class<Property> classType) {
+	public boolean deleteById(String id, Class<Property> classType) {
 
 		Optional<Property> property = propertyRepository.findById(id, Property.class);
 
@@ -66,7 +66,7 @@ public class PropertyServiceImpl implements PropertyService {
 			throw new ResourceNotFoundException("Property with this id  + id +  was not found");
 		}
 		property.get().setPropertyOwner(null);
-		propertyRepository.delete(property.get());
+		return propertyRepository.delete(property.get());
 
 	}
 	

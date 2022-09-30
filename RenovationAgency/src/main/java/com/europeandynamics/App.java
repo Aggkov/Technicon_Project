@@ -20,8 +20,10 @@ import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
 import com.europeandynamics.service.PropertyOwnerService;
+import com.europeandynamics.service.PropertyRepairService;
 import com.europeandynamics.service.PropertyService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
+import com.europeandynamics.service.Impl.PropertyRepairServiceImpl;
 import com.europeandynamics.service.Impl.PropertyServiceImpl;
 
 public class App {
@@ -32,7 +34,7 @@ public class App {
 		Logger logger = LoggerFactory.logger(App.class);
 		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
 		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl());
-
+		PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(new PropertyRepairRepositoryImpl());
 
 		// TESTING PROPERTY REPAIR
         PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
@@ -43,6 +45,13 @@ public class App {
 //        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
 //             logger.info(propertyRepairResponse + " \n");
 //        }
+        
+        try {
+            boolean result = propertyRepairService.deleteById("340", PropertyRepair.class);
+            logger.info("property repair deleted " + result);
+        } catch (ResourceNotFoundException ex) {
+        	ex.getMessage();
+		}
 
 		// TESTING PROPERTY REPO
 
@@ -50,7 +59,7 @@ public class App {
 		
 //		List<PropertyResponse> properties = propertyService.findAll(Property.class);
 //		logger.info("All properties: " + properties);
-		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",				Property.class);		logger.info("properties by vat: " + propertiesByVat);
+//		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",//				Property.class);//		logger.info("properties by vat: " + propertiesByVat);
 		
 //		try {
 //			Property property = propertyService.create(new Property("E91121", "New address", LocalDate.of(2017, 9, 22), Type.APARTMENT));
@@ -59,12 +68,11 @@ public class App {
 //			logger.warn(ex.getMessage());
 //		}
 		
-		try {
-			propertyService.deleteById("E91118", Property.class);
-			logger.info("property deleted");
-		} catch(ResourceNotFoundException ex) {
-			logger.warn(ex.getMessage());
-		}
+		/*
+		 * try { propertyService.deleteById("E91118", Property.class);
+		 * logger.info("property deleted"); } catch(ResourceNotFoundException ex) {
+		 * logger.warn(ex.getMessage()); }
+		 */
 
 ////		 TESTING PropertyOwner Service
 //

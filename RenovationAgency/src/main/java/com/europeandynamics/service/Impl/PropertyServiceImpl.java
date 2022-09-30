@@ -63,7 +63,7 @@ public class PropertyServiceImpl implements PropertyService {
 		Optional<Property> property = propertyRepository.findById(id, Property.class);
 
 		if (property.isEmpty()) {
-			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
+			throw new ResourceNotFoundException("Property with this id  + id +  was not found");
 		}
 		property.get().setPropertyOwner(null);
 		propertyRepository.delete(property.get());

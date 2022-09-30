@@ -9,10 +9,12 @@ import com.europeandynamics.payload.PropertyOwnerResponse;
 
 public interface PropertyOwnerService extends BaseService<PropertyOwner> {
 
-	PropertyOwner findByEmail(String email);
+	PropertyOwnerResponse findByEmail(String email);
 
 	void update(String id, PropertyOwnerRequest propertyOwnerRequest);
 	
 	List<PropertyOwnerResponse> findAll(Class<PropertyOwner> classType);
+	
+	
 	
 }

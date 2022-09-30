@@ -20,11 +20,13 @@ import javax.persistence.Table;
 import com.europeandynamics.model.enums.Type;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "property")
 @AttributeOverride(name = "Id", column = @Column(name = "property_id"))
 @Data
+@ToString(exclude = "propertyRepairs")
 @NamedQuery(name = "Property.findAll",
 query = "SELECT p FROM Property p")
 public class Property extends BaseEntity {

@@ -15,15 +15,24 @@ import com.europeandynamics.repository.PropertyOwnerRepository;
 public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwner> implements PropertyOwnerRepository {
 
 	@Override
-	public Optional<PropertyOwner> findByEmail(String email) {
+	public Optional<PropertyOwnerResponse> findByEmail(String email) {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
-		Optional<PropertyOwner> propertyOwner = Optional.ofNullable((PropertyOwner) em
+		Optional<PropertyOwnerResponse> propertyOwner = Optional.ofNullable(em
 				.createQuery(
-						"SELECT propertyOwner from PropertyOwner propertyOwner where " + "propertyOwner.email = ?1")
-				.setParameter(1, email).getSingleResult());
-		em.getTransaction().commit();
+						"SELECT propertyOwner from PropertyOwner propertyOwner where " + "propertyOwner.email = ?1", PropertyOwner.class)
+				.setParameter(1, email).getSingleResult())
+				
+				.map(e -> PropertyOwnerResponse.builder()
+						.name(e.getName())
+						.surname(e.getSurname())
+						.address(e.getAddress())
+						.phoneNumber(e.getPhoneNumber())
+						.email(e.getEmail())
+						.properties(e.getProperties())
+						.propertyRepairs(e.getPropertyRepairs())
+						.role(e.getRole()).build());
 
 		em.close();
 

@@ -8,7 +8,7 @@ import com.europeandynamics.payload.PropertyOwnerResponse;
 
 public interface PropertyOwnerRepository extends BaseRepository<PropertyOwner> {
 
-	Optional<PropertyOwner> findByEmail(String email);
+	Optional<PropertyOwnerResponse> findByEmail(String email);
 	
 	public List<PropertyOwnerResponse> findAllOwners(Class<PropertyOwner> classType);
 

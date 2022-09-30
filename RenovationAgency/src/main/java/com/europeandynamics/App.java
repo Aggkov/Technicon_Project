@@ -1,15 +1,17 @@
 package com.europeandynamics;
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
+
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
-import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
-import com.europeandynamics.model.enums.Type;
 import com.europeandynamics.payload.PropertyOwnerResponse;
-import com.europeandynamics.payload.PropertyResponse;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
@@ -17,15 +19,6 @@ import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.service.PropertyService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
 import com.europeandynamics.service.Impl.PropertyServiceImpl;
-import com.europeandynamics.utils.EntityManagerFactoryUtils;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 public class App {
 
@@ -66,7 +59,7 @@ public class App {
 		}
 
 ////		 TESTING PropertyOwner Service
-//		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
 //
 //		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
 //		logger.info("All owners " + findAll);
@@ -93,14 +86,14 @@ public class App {
 //            logger.warn(ex.getMessage());
 //        }
 //
-//        try {
-//            PropertyOwner propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email@email.com");
-//            logger.info(" found owner with email " + propertyOwnerFoundEmail);
-//        } catch (ResourceNotFoundException | InvalidEmailException |
-//
-//                 NoResultException ex) {
-//            logger.warn(ex.getMessage());
-//        }
+        try {
+            PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("email1@email.com");
+            logger.info(" found owner with email " + propertyOwnerFoundEmail);
+        } catch (ResourceNotFoundException | InvalidEmailException |
+
+                 NoResultException ex) {
+            logger.warn(ex.getMessage());
+        }
 //
 //        try {
 //            propertyOwnerService.update("111111114",

@@ -40,12 +40,12 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 	}
 
 	@Override
-	public PropertyOwner findByEmail(String email) {
+	public PropertyOwnerResponse findByEmail(String email) {
 
 		InputValidator.checkEmail(email);
 
 		try {
-			Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findByEmail(email);
+			Optional<PropertyOwnerResponse> propertyOwner = propertyOwnerRepository.findByEmail(email);
 			return propertyOwner.get();
 
 		} catch (NoResultException ex) {

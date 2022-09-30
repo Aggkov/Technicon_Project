@@ -24,7 +24,8 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 		List<PropertyResponse> propertiesByOwnerVatNum = em
 				.createQuery("SELECT property FROM PropertyOwner propertyOwner"
 						+ " JOIN propertyOwner.properties property WHERE propertyOwner.Id = ?1", classType)
-				.setParameter(1, id).getResultList().stream()
+				.setParameter(1, id).getResultList()
+				.stream()
 				.map(e -> PropertyResponse.builder().address(e.getAddress())
 						.yearOfConstruction(e.getYearOfConstruction()).type(e.getType()).build())
 

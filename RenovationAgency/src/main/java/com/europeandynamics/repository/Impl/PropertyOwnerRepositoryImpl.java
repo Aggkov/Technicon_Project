@@ -51,9 +51,10 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
         				.name(e.getName())
         				.email(e.getEmail())
         				.surname(e.getSurname())
-        				.password(e.getPassword())
         				.phoneNumber(e.getPhoneNumber())
         				.username(e.getUsername())
+        				.properties(e.getProperties())
+        				.propertyRepairs(e.getPropertyRepairs())
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));

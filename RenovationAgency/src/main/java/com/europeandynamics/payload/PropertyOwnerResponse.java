@@ -18,7 +18,6 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = {"properties", "propertyRepairs"})
 @Builder
 public class PropertyOwnerResponse {
 	
@@ -35,11 +34,13 @@ public class PropertyOwnerResponse {
 	private Set<Property> properties = new LinkedHashSet<>();
 
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
+	
+	public PropertyOwnerResponse() {
+	}
 
 	public PropertyOwnerResponse(String name, String surname, String address, String phoneNumber, String email,
 			String username, String password, Role role, Set<Property> properties,
 			Set<PropertyRepair> propertyRepairs) {
-		super();
 		this.name = name;
 		this.surname = surname;
 		this.address = address;
@@ -51,6 +52,10 @@ public class PropertyOwnerResponse {
 		this.properties = properties;
 		this.propertyRepairs = propertyRepairs;
 	}
+
+
+
+
 	
 
 	

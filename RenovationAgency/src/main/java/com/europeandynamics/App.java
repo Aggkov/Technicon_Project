@@ -11,6 +11,7 @@ import org.jboss.logging.Logger;
 import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
+import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.payload.PropertyOwnerResponse;
 import com.europeandynamics.payload.PropertyRepairResponse;
@@ -46,12 +47,12 @@ public class App {
 //             logger.info(propertyRepairResponse + " \n");
 //        }
         
-        try {
-            boolean result = propertyRepairService.deleteById("340", PropertyRepair.class);
-            logger.info("property repair deleted " + result);
-        } catch (ResourceNotFoundException ex) {
-        	ex.getMessage();
-		}
+//        try {
+//            boolean result = propertyRepairService.deleteById("340", PropertyRepair.class);
+//            logger.info("property repair deleted " + result);
+//        } catch (ResourceNotFoundException ex) {
+//        	ex.getMessage();
+//		}
 
 		// TESTING PROPERTY REPO
 
@@ -76,8 +77,8 @@ public class App {
 
 ////		 TESTING PropertyOwner Service
 //
-//		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
-//		logger.info("All owners " + findAll);
+		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
+		logger.info("All owners " + findAll);
 		 
         					;
 //        resultList.stream().forEach(System.out::println);		

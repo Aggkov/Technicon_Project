@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -44,7 +45,7 @@ public class Property extends BaseEntity {
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 
-	@OneToMany(mappedBy = "property", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "property", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
 
 	public Property() {}

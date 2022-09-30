@@ -3,6 +3,8 @@ package com.europeandynamics;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
+import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.enums.Type;
@@ -24,7 +26,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.ws.rs.BadRequestException;
 
 public class App {
 
@@ -45,24 +46,30 @@ public class App {
 		// TESTING PROPERTY REPO
 
 		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl());
-//		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
+		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
 		
 //		List<PropertyResponse> properties = propertyService.findAll(Property.class);
 //		logger.info("All properties: " + properties);
-//		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",//				Property.class);//		logger.info("properties by vat: " + propertiesByVat);
-//		
+		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",				Property.class);		logger.info("properties by vat: " + propertiesByVat);
+		
 //		try {
 //			Property property = propertyService.create(new Property("E91121", "New address", LocalDate.of(2017, 9, 22), Type.APARTMENT));
 //			logger.info("property created: " + property);
 //		} catch (BadRequestException ex) {
 //			logger.warn(ex.getMessage());
 //		}
+		
+		try {
+			propertyService.deleteById("E91121", Property.class);
+		} catch(ResourceNotFoundException ex) {
+			logger.warn(ex.getMessage());
+		}
 
 ////		 TESTING PropertyOwner Service
-		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
-
-		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
-		logger.info("All owners " + findAll);
+//		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+//
+//		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
+//		logger.info("All owners " + findAll);
 		 
         					;
 //        resultList.stream().forEach(System.out::println);		

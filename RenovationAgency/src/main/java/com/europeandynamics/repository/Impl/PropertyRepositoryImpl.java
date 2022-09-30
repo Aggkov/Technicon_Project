@@ -29,6 +29,8 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 						.yearOfConstruction(e.getYearOfConstruction()).type(e.getType()).build())
 
 				.collect(Collectors.toCollection(ArrayList::new));
+		
+		em.close();
 
 		return propertiesByOwnerVatNum;
 
@@ -36,6 +38,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 	
 	public List<PropertyResponse> findAllProperties(Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
 
 		 
 		List<PropertyResponse> resultList = em.createNamedQuery("Property.findAll", classType).getResultList()
@@ -48,7 +51,8 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));
-		
+		em.close();
+
 		return resultList;
 	}
 

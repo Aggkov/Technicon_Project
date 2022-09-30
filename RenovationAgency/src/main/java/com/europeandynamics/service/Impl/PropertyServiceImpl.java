@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
+import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.payload.PropertyResponse;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyService;
@@ -50,7 +51,8 @@ public class PropertyServiceImpl implements PropertyService {
 		
 		if(propertyRepository.findById(entity.getId(), Property.class).isEmpty()) {
 			
-			return propertyRepository.create(entity);
+			Property property = propertyRepository.create(entity);
+			return property;
 		}
 		throw new BadRequestException("Property with id: " + entity.getId() + " already exists");
 	}
@@ -58,13 +60,13 @@ public class PropertyServiceImpl implements PropertyService {
 	@Override
 	public void deleteById(String id, Class<Property> classType) {
 
-		Property property = findById(id, Property.class);
+		Optional<Property> property = propertyRepository.findById(id, Property.class);
 
-		if (property == null) {
-			throw new ResourceNotFoundException("Property   with this id" + id + "was not found");
+		if (property.isEmpty()) {
+			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
 		}
-
-		propertyRepository.delete(property);
+		property.get().setPropertyOwner(null);
+		propertyRepository.delete(property.get());
 
 	}
 	

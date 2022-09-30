@@ -72,7 +72,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 
-		em.remove(entity);
+		em.remove(em.contains(entity) ? entity : em.merge(entity));
+
 		em.getTransaction().commit();
 
 		em.close();
@@ -80,16 +81,17 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 
 //	@Override
 //	public void deleteById(String id, Class<T> classType) {
+//		EntityManager em = emf.createEntityManager();
 //
 //		T entity = em.find(classType, id);
 //		em.getTransaction().begin();
 //
-//		em.remove(entity);
+//		em.remove(em.contains(entity) ? entity : em.merge(entity));
 //		em.getTransaction().commit();
 //
 //		em.close();
-//
 //	}
+
 
 	@Override
 	public boolean exists(T entity) {

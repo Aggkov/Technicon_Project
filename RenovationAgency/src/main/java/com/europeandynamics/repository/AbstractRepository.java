@@ -21,7 +21,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.getTransaction().begin();
 		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
 		em.getTransaction().commit();
-
+		em.close();
 		return entity;
 	}
 
@@ -37,7 +37,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 				.getResultList();
 
 		em.getTransaction().commit();
-
+		em.close();
 
 		return entities;
 
@@ -50,7 +50,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 
 		em.persist(entity);
 		em.getTransaction().commit();
-
+		em.close();
 		return entity;
 	}
 
@@ -60,7 +60,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		em.getTransaction().begin();
 		em.merge(entity);
 		em.getTransaction().commit();
-
+		em.close();
 	}
 
 	@Override
@@ -70,6 +70,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		if(em.contains(entity)) {
 			em.remove(entity); 
 			em.getTransaction().commit();
+			em.close();
 			return true;
 		}
 		else {
@@ -77,6 +78,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 			em.remove(managedEntity); 
 			
 			em.getTransaction().commit();
+			em.close();
 			return true;
 
 		}

@@ -39,7 +39,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 	
 	public List<PropertyResponse> findAllProperties(Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
+		em.getTransaction().begin();
 
 		 
 		List<PropertyResponse> resultList = em.createNamedQuery("Property.findAll", classType).getResultList()
@@ -52,7 +52,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));
-//		em.close();
+		em.close();
 
 		return resultList;
 	}

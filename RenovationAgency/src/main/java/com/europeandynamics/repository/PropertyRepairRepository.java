@@ -10,4 +10,6 @@ public interface PropertyRepairRepository extends BaseRepository<PropertyRepair>
 
     List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime from, LocalDateTime to, Class<PropertyRepair> classType);
 
+    List<PropertyRepair> propertyRepairsByOwnerVatNumber(String vatNumber);
+
 }

@@ -1,10 +1,14 @@
 package com.europeandynamics;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.model.enums.Type;
+import com.europeandynamics.payload.PropertyRequest;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
@@ -34,11 +38,13 @@ public class App {
 
 		Logger logger = LoggerFactory.logger(App.class);
 		PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
-		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl());
+		PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl(), new PropertyOwnerRepositoryImpl());
 		PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(new PropertyRepairRepositoryImpl());
 
 		// TESTING PROPERTY REPAIR
         PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
+		List<PropertyRepair> propertyRepairs = propertyRepairRepository.propertyRepairsByOwnerVatNumber("111111113");
+		logger.info(propertyRepairs);
 //
 //        List<PropertyRepairResponse> allRepairsByDate = propertyRepairRepository.findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
 //                2022, 9, 22, 11,30, 20), PropertyRepair.class);
@@ -48,41 +54,41 @@ public class App {
 //        }
         
 //        try {
-//            boolean result = propertyRepairService.deleteById("340", PropertyRepair.class);
+//            boolean result = propertyRepairService.deleteById("339", PropertyRepair.class);
 //            logger.info("property repair deleted " + result);
 //        } catch (ResourceNotFoundException ex) {
-//        	ex.getMessage();
+//			logger.warn(ex.getMessage());
 //		}
 
 		// TESTING PROPERTY REPO
 
-		PropertyRepository propertyRepository = new PropertyRepositoryImpl();
-		
+
 //		List<PropertyResponse> properties = propertyService.findAll(Property.class);
 //		logger.info("All properties: " + properties);
-//		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",//				Property.class);//		logger.info("properties by vat: " + propertiesByVat);
+
+//		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",
+//				Property.class);
+//		logger.info("properties by vat: " + propertiesByVat);
 		
 //		try {
-//			Property property = propertyService.create(new Property("E91121", "New address", LocalDate.of(2017, 9, 22), Type.APARTMENT));
+//			Property property = propertyService.create(new PropertyRequest("E91118","New address",LocalDate.of(2017, 9, 22),Type.APARTMENT, "111111114"));
 //			logger.info("property created: " + property);
 //		} catch (BadRequestException ex) {
 //			logger.warn(ex.getMessage());
 //		}
 		
-		/*
-		 * try { propertyService.deleteById("E91118", Property.class);
-		 * logger.info("property deleted"); } catch(ResourceNotFoundException ex) {
-		 * logger.warn(ex.getMessage()); }
-		 */
+//		 try { propertyService.deleteById("E91118", Property.class);
+//			 logger.info("property deleted");
+//		 } catch(ResourceNotFoundException ex) {
+//		 logger.warn(ex.getMessage());
+//		 }
 
-////		 TESTING PropertyOwner Service
-//
-		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
-		logger.info("All owners " + findAll);
+//		 TESTING PropertyOwner Service
+
+//		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
+//		logger.info("All owners " + findAll);
 		 
-        					;
-//        resultList.stream().forEach(System.out::println);		
-		
+
 //		try {
 //			PropertyOwner propertyOwner = propertyOwnerService.findById("11111111123", PropertyOwner.class);
 //			logger.info("property owner found: " + propertyOwner);

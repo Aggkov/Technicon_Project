@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.model.enums.RepairStatus;
@@ -21,7 +22,7 @@ public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRep
 	public List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime dateFrom, LocalDateTime dateTo, Class<PropertyRepair> classType) {
 
 		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
+		em.getTransaction().begin();
 
 		List<PropertyRepairResponse> repairsOnDateRange = em.createQuery("SELECT pr FROM PropertyRepair pr " +
 				"WHERE pr.dateTimeOfRepair BETWEEN ?1 AND ?2", classType)
@@ -39,13 +40,19 @@ public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRep
 						
 						
 				.collect(Collectors.toCollection(ArrayList::new));
-
+		em.close();
 		return repairsOnDateRange;
 	}
 
-//	@Override
-//	public List<?> findAll(Class<PropertyRepair> classType) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<PropertyRepair> propertyRepairsByOwnerVatNumber(String vatNumber) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+
+		List<PropertyRepair> repairsByOwner = em.createQuery("SELECT pr FROM PropertyRepair pr JOIN pr.propertyOwner propertyOwner WHERE propertyOwner.Id = :Id",PropertyRepair.class)
+				.setParameter("Id", vatNumber)
+				.getResultList();
+
+		return repairsByOwner;
+	}
 }

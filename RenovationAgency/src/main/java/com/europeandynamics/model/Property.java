@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import com.europeandynamics.model.enums.Type;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -39,9 +40,7 @@ public class Property extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	@ManyToOne(cascade = CascadeType.ALL
-//			, fetch = FetchType.EAGER
-			)
+	@ManyToOne()
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 

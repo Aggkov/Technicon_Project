@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.model.enums.RepairStatus;
-import com.europeandynamics.model.enums.RepairType;
-import com.europeandynamics.payload.PropertyRepairResponse;
+import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyRepairRepository;
 

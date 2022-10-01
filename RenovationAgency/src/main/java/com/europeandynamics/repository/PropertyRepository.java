@@ -1,7 +1,7 @@
 package com.europeandynamics.repository;
 
 import com.europeandynamics.model.Property;
-import com.europeandynamics.payload.PropertyResponse;
+import com.europeandynamics.payload.response.PropertyResponse;
 
 import java.util.List;
 

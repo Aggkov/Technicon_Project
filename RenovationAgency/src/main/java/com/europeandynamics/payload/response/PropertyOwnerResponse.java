@@ -1,4 +1,4 @@
-package com.europeandynamics.payload;
+package com.europeandynamics.payload.response;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,7 +27,6 @@ public class PropertyOwnerResponse {
 	private String phoneNumber;
 	private String email;
 	private String username;
-	private String password;
 
 	private Role role;
 
@@ -39,7 +38,7 @@ public class PropertyOwnerResponse {
 	}
 
 	public PropertyOwnerResponse(String name, String surname, String address, String phoneNumber, String email,
-			String username, String password, Role role, Set<Property> properties,
+			String username, Role role, Set<Property> properties,
 			Set<PropertyRepair> propertyRepairs) {
 		this.name = name;
 		this.surname = surname;
@@ -47,16 +46,9 @@ public class PropertyOwnerResponse {
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.username = username;
-		this.password = password;
 		this.role = role;
 		this.properties = properties;
 		this.propertyRepairs = propertyRepairs;
 	}
 
-
-
-
-	
-
-	
 }

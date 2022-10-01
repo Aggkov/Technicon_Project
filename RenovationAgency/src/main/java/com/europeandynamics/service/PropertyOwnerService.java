@@ -3,8 +3,8 @@ package com.europeandynamics.service;
 import java.util.List;
 
 import com.europeandynamics.model.PropertyOwner;
-import com.europeandynamics.payload.PropertyOwnerRequest;
-import com.europeandynamics.payload.PropertyOwnerResponse;
+import com.europeandynamics.payload.request.PropertyOwnerRequest;
+import com.europeandynamics.payload.response.PropertyOwnerResponse;
 
 
 public interface PropertyOwnerService extends BaseService<PropertyOwner> {

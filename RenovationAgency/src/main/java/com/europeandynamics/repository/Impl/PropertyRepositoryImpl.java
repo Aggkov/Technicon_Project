@@ -7,9 +7,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 import com.europeandynamics.model.Property;
-import com.europeandynamics.model.PropertyOwner;
-import com.europeandynamics.payload.PropertyOwnerResponse;
-import com.europeandynamics.payload.PropertyResponse;
+import com.europeandynamics.payload.response.PropertyResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyRepository;
 

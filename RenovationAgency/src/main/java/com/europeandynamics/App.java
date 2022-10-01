@@ -1,25 +1,14 @@
 package com.europeandynamics;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-
-import com.europeandynamics.exceptions.BadRequestException;
-import com.europeandynamics.model.enums.Role;
-import com.europeandynamics.model.enums.Type;
-import com.europeandynamics.payload.*;
+import com.europeandynamics.payload.response.PropertyRepairResponse;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
-import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
-import com.europeandynamics.model.Property;
-import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.repository.PropertyRepairRepository;
-import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;

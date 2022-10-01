@@ -1,7 +1,7 @@
 package com.europeandynamics.repository;
 
 import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.payload.PropertyRepairResponse;
+import com.europeandynamics.payload.response.PropertyRepairResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;

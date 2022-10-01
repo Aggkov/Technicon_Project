@@ -1,4 +1,4 @@
-package com.europeandynamics.payload;
+package com.europeandynamics.payload.response;
 
 
 import com.europeandynamics.model.enums.RepairStatus;

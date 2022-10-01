@@ -1,4 +1,4 @@
-package com.europeandynamics.payload;
+package com.europeandynamics.payload.request;
 
 
 import java.time.LocalDate;

@@ -1,10 +1,8 @@
 package com.europeandynamics.service.Impl;
 
 import com.europeandynamics.exceptions.ResourceNotFoundException;
-import com.europeandynamics.model.Property;
-import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.payload.PropertyRepairResponse;
+import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.service.PropertyRepairService;
 

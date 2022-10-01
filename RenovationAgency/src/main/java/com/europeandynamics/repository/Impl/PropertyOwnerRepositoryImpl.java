@@ -34,7 +34,7 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 						.propertyRepairs(e.getPropertyRepairs())
 						.role(e.getRole())
 						.build());
-
+ 
 		em.close();
 
 		return propertyOwner;

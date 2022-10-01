@@ -14,6 +14,8 @@ public interface PropertyOwnerService extends BaseService<PropertyOwner> {
 	void update(String id, PropertyOwnerRequest propertyOwnerRequest);
 	
 	List<PropertyOwnerResponse> findAll(Class<PropertyOwner> classType);
+
+	PropertyOwner create(PropertyOwner propertyOwner);
 	
 	
 	

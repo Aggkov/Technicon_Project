@@ -77,22 +77,25 @@ public class PropertyServiceImpl implements PropertyService {
 	@Override
 	public void update(String id , PropertyRequest propertyRequest) {
 		
-		Optional<Property> property = Optional.ofNullable(propertyRepository.findById(id, Property.class).orElseThrow(() -> new ResourceNotFoundException
-				("Property   with this id" + id + "was not found")));
-		
+		Optional<Property> property = Optional.ofNullable(propertyRepository.findById(id, Property.class)
+                .orElseThrow(() -> new ResourceNotFoundException
+				(Property.class.getName() + " with this id" + id + "was not found")));
+
+        Optional<PropertyOwner> propertyOwner = Optional.ofNullable(propertyOwnerRepository.findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
+                .orElseThrow(() -> new ResourceNotFoundException
+                (PropertyOwner.class.getName() +  "with this id" + id + "was not found")));
 		
 		if (property.isPresent()) {
 			Property baseProperty = property.get();
 			baseProperty.setAddress(propertyRequest.getAddress());
 			baseProperty.setYearOfConstruction(propertyRequest.getYearOfConstruction());
 			baseProperty.setType(propertyRequest.getType());
+            baseProperty.setPropertyOwner(propertyOwner.get());
 			
 			propertyRepository.update(baseProperty);
 		}
 		
 	}
-
-   
 
     @Override
     public boolean deleteById(String id, Class<Property> classType) {

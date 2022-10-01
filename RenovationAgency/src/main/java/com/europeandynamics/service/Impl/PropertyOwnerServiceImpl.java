@@ -58,13 +58,19 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		InputValidator.checkEmail(entity.getEmail());
 
-		if (!propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()
-				&& !propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
+		try {
+			propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class);
+			propertyOwnerRepository.findByEmail(entity.getEmail());
+
+		} catch (NoResultException | ResourceNotFoundException ex) {
 			return propertyOwnerRepository.create(entity);
+
 		}
 		throw new BadRequestException(entity.getClass().getSimpleName() + " already exists ");
 
 	}
+
+	
 
 	@Override
 	public void update(String id, PropertyOwnerRequest propertyOwnerRequest) {

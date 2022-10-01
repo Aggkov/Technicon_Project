@@ -4,9 +4,11 @@ import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
+import com.europeandynamics.payload.PropertyRepairResponse;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.service.PropertyRepairService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +18,8 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	
 	public PropertyRepairServiceImpl(PropertyRepairRepository propertyRepairRepository) {
 		this.propertyRepairRepository = propertyRepairRepository;
-	
 	}
 
-//	@Override
-//	public List<?> findAll(Class<PropertyRepair> classType) {
-//		
-//		return  propertyRepairRepository.findAll(classType);
-//	}
 
 	@Override
 	public PropertyRepair findById(String id, Class<PropertyRepair> classType) {
@@ -31,6 +27,16 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 				() -> new ResourceNotFoundException(classType.getSimpleName() + " with this id: " + id + " was not found")));
 
 		return propertyRepair.get();
+	}
+
+	public List<PropertyRepair> propertyRepairsByOwnerVatNumber(String id) {
+
+		return propertyRepairRepository.propertyRepairsByOwnerVatNumber(id);
+	}
+
+	@Override
+	public List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime dateFrom, LocalDateTime dateTo, Class<PropertyRepair> classType) {
+		return propertyRepairRepository.findAllRepairsByDate(dateFrom,dateTo,classType);
 	}
 
 

@@ -41,35 +41,34 @@ public class App {
         PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(new PropertyRepairRepositoryImpl());
 
         // TESTING PROPERTY REPAIR
-//        PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl();
-//		List<PropertyRepair> propertyRepairs = propertyRepairRepository.propertyRepairsByOwnerVatNumber("111111113");
-//		logger.info(propertyRepairs);
-//
-//        List<PropertyRepairResponse> allRepairsByDate = propertyRepairRepository
-//        .findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
-//                2022, 9, 22, 11,30, 20), PropertyRepair.class);
-//        logger.info("repairs by date: ");
-//        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
-//             logger.info(propertyRepairResponse + " \n");
-//        }
+		List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
+		logger.info("property repairs by a certain user: " + propertyRepairs);
 
-//        try {
-//            boolean result = propertyRepairService.deleteById("339", PropertyRepair.class);
-//            logger.info("property repair deleted " + result);
-//        } catch (ResourceNotFoundException ex) {
-//			logger.warn(ex.getMessage());
-//		}
+        List<PropertyRepairResponse> allRepairsByDate = propertyRepairService
+        .findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
+                2022, 9, 22, 11,30, 20), PropertyRepair.class);
+        logger.info("repairs by date: ");
+        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
+             logger.info(propertyRepairResponse + " \n");
+        }
+
+       try {
+            boolean result = propertyRepairService.deleteById("338", PropertyRepair.class);
+            logger.info("property repair deleted " + result);
+        } catch (ResourceNotFoundException ex) {
+			logger.warn(ex.getMessage());
+		}
 
         // TESTING PROPERTY REPO
 
 
         // BRINGS BACK ALL FIELDS
-        List<PropertyResponse> properties = propertyService.findAll(Property.class);
-        logger.info("All properties: " + properties);
-
-        List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",
-                Property.class);
-        logger.info("properties by vat: " + propertiesByVat);
+//        List<PropertyResponse> properties = propertyService.findAll(Property.class);
+//        logger.info("All properties: " + properties);
+//
+//        List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",
+//                Property.class);
+//        logger.info("properties by vat: " + propertiesByVat);
 
 //		try {
 //			Property property = propertyService.create(new PropertyRequest("E91119","28is Oktovriou",LocalDate.of(2010, 9, 22),Type.APARTMENT, "111111115"));

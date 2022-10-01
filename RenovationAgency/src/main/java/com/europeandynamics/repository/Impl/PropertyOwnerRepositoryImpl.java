@@ -32,7 +32,8 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 						.email(e.getEmail())
 						.properties(e.getProperties())
 						.propertyRepairs(e.getPropertyRepairs())
-						.role(e.getRole()).build());
+						.role(e.getRole())
+						.build());
 
 		em.close();
 

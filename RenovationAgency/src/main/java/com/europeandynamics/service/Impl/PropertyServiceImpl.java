@@ -7,7 +7,7 @@ import java.util.Optional;
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
-import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.payload.PropertyRequest;
 import com.europeandynamics.payload.PropertyResponse;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyService;
@@ -71,15 +71,21 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 	
 	@Override
-	public void update(String id
-//			PropertyRequest propertyRequest
-			) {
+	public void update(String id , PropertyRequest propertyRequest) {
 		
-		Property property = findById(id, Property.class);
-
-		if (property == null) {
-			throw new ResourceNotFoundException("Property   with this id" + id + "was not found");
+		Optional<Property> property = Optional.ofNullable(propertyRepository.findById(id, Property.class).orElseThrow(() -> new ResourceNotFoundException
+				("Property   with this id" + id + "was not found")));
+		
+		
+		if (property.isPresent()) {
+			Property baseProperty = property.get();
+			baseProperty.setAddress(propertyRequest.getAddress());
+			baseProperty.setYearOfConstruction(propertyRequest.getYearOfConstruction());
+			baseProperty.setType(propertyRequest.getType());
+			
+			propertyRepository.update(baseProperty);
 		}
+		
 	}
 
 

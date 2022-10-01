@@ -14,4 +14,6 @@ public interface PropertyService extends BaseService<Property> {
 	
 	void update(String id, PropertyRequest propertyRequest);
 
+	Property create(PropertyRequest propertyRequest);
+
 }

@@ -1,46 +1,36 @@
 package com.europeandynamics.payload;
 
+
 import java.time.LocalDate;
 
 import com.europeandynamics.model.enums.Type;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class PropertyRequest {
 
-	private String address;
-	private LocalDate yearOfConstruction;
-	private Type type;
-	
-	public PropertyRequest(String address, LocalDate yearOfConstruction, Type type) {
-		super();
-		this.address = address;
-		this.yearOfConstruction = yearOfConstruction;
-		this.type = type;
-	}
+	 private String Id;
 
-	public String getAddress() {
-		return address;
-	}
+	    private String address;
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	    private LocalDate yearOfConstruction;
 
-	public LocalDate getYearOfConstruction() {
-		return yearOfConstruction;
-	}
+	    private Type type;
 
-	public void setYearOfConstruction(LocalDate yearOfConstruction) {
-		this.yearOfConstruction = yearOfConstruction;
-	}
+	    private String propertyOwnerId;
 
-	public Type getType() {
-		return type;
-	}
+	    public PropertyRequest() {
+	    }
 
-	public void setType(Type type) {
-		this.type = type;
-	}
-	
-	
-	
+	    public PropertyRequest(String Id, String address, LocalDate yearOfConstruction, Type type, String propertyOwnerId) {
+	        this.Id = Id;
+	        this.address = address;
+	        this.yearOfConstruction = yearOfConstruction;
+	        this.type = type;
+	        this.propertyOwnerId = propertyOwnerId;
+	    }
+
 }

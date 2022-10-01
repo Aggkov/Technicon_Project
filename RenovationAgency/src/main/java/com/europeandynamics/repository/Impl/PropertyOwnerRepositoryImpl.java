@@ -43,7 +43,7 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 
 	public List<PropertyOwnerResponse> findAllOwners(Class<PropertyOwner> classType) {
 		EntityManager em = emf.createEntityManager();
-
+		em.getTransaction().begin();
 		 
 		List<PropertyOwnerResponse> resultList = em.createNamedQuery("PropertyOwner.findAll", classType).getResultList()
         		.stream()
@@ -59,7 +59,7 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));
-		
+		em.close();
 		return resultList;
 	}
 	

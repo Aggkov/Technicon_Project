@@ -6,13 +6,35 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
+import com.europeandynamics.payload.response.PropertyRepairResponse;
+import com.europeandynamics.payload.response.PropertyResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 
 public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwner> implements PropertyOwnerRepository {
+
+	public List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner() {
+		EntityManager em = emf.createEntityManager();
+
+		em.getTransaction().begin();
+		List<PropertyOwnerRepairsPaidResponse> query = em.createQuery("SELECT new com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse(p.name, p.surname, SUM(pr.costOfRepair)) " +
+				" FROM PropertyOwner p JOIN p.propertyRepairs pr GROUP BY p.Id ORDER BY pr.costOfRepair DESC " ,PropertyOwnerRepairsPaidResponse.class)
+				.getResultList();
+//				.stream()
+//				.map(e -> PropertyOwnerResponse.builder()
+//						.name(e.getName())
+//						.surname(e.getSurname())
+//						.amountPaidForRepairs(e.getAmountPaidForRepairs())
+//						.build())
+//				.collect(Collectors.toCollection(ArrayList::new));
+
+		return query;
+	}
 
 	@Override
 	public Optional<PropertyOwnerResponse> findByEmail(String email) {
@@ -39,7 +61,6 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 
 		return propertyOwner;
 	}
-
 
 	public List<PropertyOwnerResponse> findAllOwners(Class<PropertyOwner> classType) {
 		EntityManager em = emf.createEntityManager();

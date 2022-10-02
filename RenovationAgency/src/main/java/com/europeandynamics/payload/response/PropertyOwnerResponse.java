@@ -33,13 +33,16 @@ public class PropertyOwnerResponse {
 	private Set<Property> properties = new LinkedHashSet<>();
 
 	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
+
+	private double amountPaidForRepairs;
 	
 	public PropertyOwnerResponse() {
 	}
 
+
 	public PropertyOwnerResponse(String name, String surname, String address, String phoneNumber, String email,
-			String username, Role role, Set<Property> properties,
-			Set<PropertyRepair> propertyRepairs) {
+								 String username, Role role, Set<Property> properties,
+								 Set<PropertyRepair> propertyRepairs, double amountPaidForRepairs) {
 		this.name = name;
 		this.surname = surname;
 		this.address = address;
@@ -49,6 +52,7 @@ public class PropertyOwnerResponse {
 		this.role = role;
 		this.properties = properties;
 		this.propertyRepairs = propertyRepairs;
+		this.amountPaidForRepairs = amountPaidForRepairs;
 	}
 
 }

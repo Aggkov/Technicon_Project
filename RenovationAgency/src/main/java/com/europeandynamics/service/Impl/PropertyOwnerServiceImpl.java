@@ -9,6 +9,7 @@ import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.payload.request.PropertyOwnerRequest;
+import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
@@ -52,6 +53,11 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 			throw new ResourceNotFoundException("Property Owner " + " with this email " + email + " was not found");
 		}
 
+	}
+
+	public List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner() {
+
+		return propertyOwnerRepository.amountPaidForRepairsByOwner();
 	}
 
 	public PropertyOwner create(PropertyOwner entity) {

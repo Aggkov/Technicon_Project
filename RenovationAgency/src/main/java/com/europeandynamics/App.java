@@ -3,6 +3,9 @@ package com.europeandynamics;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
+import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
@@ -30,23 +33,23 @@ public class App {
         PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(new PropertyRepairRepositoryImpl());
 
         // TESTING PROPERTY REPAIR
-		List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
-		logger.info("property repairs by a certain user: " + propertyRepairs);
+//		List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111111");
+//		logger.info("property repairs by a certain user: " + propertyRepairs);
 
-        List<PropertyRepairResponse> allRepairsByDate = propertyRepairService
-        .findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
-                2022, 9, 22, 11,30, 20), PropertyRepair.class);
-        logger.info("repairs by date: ");
-        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
-             logger.info(propertyRepairResponse + " \n");
-        }
+//        List<PropertyRepairResponse> allRepairsByDate = propertyRepairService
+//        .findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
+//                2022, 9, 22, 11,30, 20), PropertyRepair.class);
+//        logger.info("repairs by date: ");
+//        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
+//             logger.info(propertyRepairResponse + " \n");
+//        }
 
-       try {
-            boolean result = propertyRepairService.deleteById("338", PropertyRepair.class);
-            logger.info("property repair deleted " + result);
-        } catch (ResourceNotFoundException ex) {
-			logger.warn(ex.getMessage());
-		}
+//       try {
+//            boolean result = propertyRepairService.deleteById("338", PropertyRepair.class);
+//            logger.info("property repair deleted " + result);
+//        } catch (ResourceNotFoundException ex) {
+//			logger.warn(ex.getMessage());
+
 
         // TESTING PROPERTY REPO
 
@@ -89,6 +92,10 @@ public class App {
 //		 TESTING PropertyOwner Service
 //		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
 //		logger.info("All owners " + findAll);
+
+
+        List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = propertyOwnerService.amountPaidForRepairsByOwner();
+        logger.info(eachOwnerSumPaid);
 //		 
 //
 //		try {

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
@@ -15,13 +16,11 @@ import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.payload.response.PropertyResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyOwnerRepository;
-
 public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwner> implements PropertyOwnerRepository {
 
 	public List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner() {
 		EntityManager em = emf.createEntityManager();
 
-		em.getTransaction().begin();
 		List<PropertyOwnerRepairsPaidResponse> query = em.createQuery("SELECT new com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse(p.name, p.surname, SUM(pr.costOfRepair)) " +
 				" FROM PropertyOwner p JOIN p.propertyRepairs pr GROUP BY p.Id ORDER BY pr.costOfRepair DESC " ,PropertyOwnerRepairsPaidResponse.class)
 				.getResultList();
@@ -31,9 +30,7 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 
 	@Override
 	public Optional<PropertyOwnerResponse> findByEmail(String email) {
-		EntityManager em = emf.createEntityManager();
 
-		em.getTransaction().begin();
 		Optional<PropertyOwnerResponse> propertyOwner = Optional.ofNullable(em
 				.createQuery(
 						"SELECT propertyOwner from PropertyOwner propertyOwner where " + "propertyOwner.email = ?1", PropertyOwner.class)
@@ -50,15 +47,12 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 						.role(e.getRole())
 						.build());
  
-		em.close();
 
 		return propertyOwner;
 	}
 
 	public List<PropertyOwnerResponse> findAllOwners(Class<PropertyOwner> classType) {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		 
+
 		List<PropertyOwnerResponse> resultList = em.createNamedQuery("PropertyOwner.findAll", classType).getResultList()
         		.stream()
         		.map(e -> PropertyOwnerResponse.builder()
@@ -73,7 +67,7 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));
-		em.close();
+
 		return resultList;
 	}
 	

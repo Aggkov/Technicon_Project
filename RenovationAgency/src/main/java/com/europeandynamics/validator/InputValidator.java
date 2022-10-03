@@ -3,6 +3,7 @@ package com.europeandynamics.validator;
 import java.util.regex.Pattern;
 
 import com.europeandynamics.exceptions.InvalidEmailException;
+import com.europeandynamics.model.enums.HttpStatus;
 
 public class InputValidator {
 
@@ -11,7 +12,7 @@ public class InputValidator {
 				+ "[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)" + "+[a-zA-Z]{2,}))$", email.trim())) {
 			return true;
 		} else {
-			throw new InvalidEmailException("Email is not valid");
+			throw new InvalidEmailException("Email is not valid", HttpStatus.BAD_REQUEST);
 		}
 	}
 

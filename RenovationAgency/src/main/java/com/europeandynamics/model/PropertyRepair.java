@@ -31,10 +31,7 @@ public class PropertyRepair extends BaseEntity {
 	@Lob
 	private String longDescription;
 
-	@ManyToOne(
-//			cascade = CascadeType.ALL, 
-//			fetch = FetchType.LAZY
-	)
+	@ManyToOne()
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 

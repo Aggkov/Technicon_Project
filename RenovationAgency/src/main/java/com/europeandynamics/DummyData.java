@@ -83,10 +83,8 @@ public class DummyData {
 		propertyOwner1.addPropertyRepair(propertyRepair2);
 
 		// Owner 2
-//		propertyOwner2.addProperty(property2);
 		propertyOwner2.addProperty(property3);
 
-//		property2.addPropertyRepair(propertyRepair3);
 		property3.addPropertyRepair(propertyRepair3);
 		propertyOwner2.addPropertyRepair(propertyRepair3);
 

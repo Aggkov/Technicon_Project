@@ -66,10 +66,9 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		InputValidator.checkEmail(entity.getEmail());
 
 		try {
-			if(
-			propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent() ||
-			propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()
-			) {
+			if(propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent() ||
+			propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()) {
+
 				throw new BadRequestException(entity.getClass().getSimpleName() + "with this identification already exists ", HttpStatus.BAD_REQUEST);
 			}
 
@@ -111,8 +110,4 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		return propertyOwnerRepository.delete(propertyOwner.get());
 	}
 
-	@Override
-	public void delete(PropertyOwner entity) {
-
-	}
 }

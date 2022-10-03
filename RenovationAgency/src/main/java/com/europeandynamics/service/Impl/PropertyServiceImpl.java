@@ -81,11 +81,11 @@ public class PropertyServiceImpl implements PropertyService {
 		
 		Optional<Property> property = Optional.ofNullable(propertyRepository.findById(id, Property.class)
                 .orElseThrow(() -> new ResourceNotFoundException
-				(Property.class.getName() + " with this id" + id + "was not found ", HttpStatus.NOT_FOUND)));
+				(Property.class.getName() + " with this id: " + id + "was not found ", HttpStatus.NOT_FOUND)));
 
         Optional<PropertyOwner> propertyOwner = Optional.ofNullable(propertyOwnerRepository.findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
                 .orElseThrow(() -> new ResourceNotFoundException
-                (PropertyOwner.class.getName() +  "with this id" + id + "was not found ", HttpStatus.NOT_FOUND)));
+                (PropertyOwner.class.getName() +  "with this id: " + id + "was not found ", HttpStatus.NOT_FOUND)));
 		
 		if (property.isPresent()) {
 			Property baseProperty = property.get();
@@ -111,12 +111,5 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepository.delete(property.get());
 
     }
-
-
-    @Override
-    public void delete(Property entity) {
-
-    }
-
 
 }

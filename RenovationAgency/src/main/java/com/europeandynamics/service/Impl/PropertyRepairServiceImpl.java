@@ -61,10 +61,5 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		
 	}
 
-	@Override
-	public void delete(PropertyRepair entity) {
-		
-		
-	}
 
 }

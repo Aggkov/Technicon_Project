@@ -27,7 +27,7 @@ public class PropertyRequest {
 	
 	@NotBlank
 	private String propertyOwnerId;
-
+ 
 	public PropertyRequest() {
 	}
 

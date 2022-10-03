@@ -6,11 +6,6 @@ public interface BaseService<T> {
 
 	T findById(String id, Class<T> classType);
 
-
-
-
 	boolean deleteById(String id, Class<T> classType);
-
-	void delete(T entity);
 
 }

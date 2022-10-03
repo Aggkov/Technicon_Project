@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import com.europeandynamics.model.Property;
 import com.europeandynamics.payload.response.PropertyResponse;
@@ -15,9 +16,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 
 	@Override
 	public List<PropertyResponse> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
-		EntityManager em = emf.createEntityManager();
 
-//		em.getTransaction().begin();
 
 		List<PropertyResponse> propertiesByOwnerVatNum = em
 				.createQuery("SELECT property FROM PropertyOwner propertyOwner"
@@ -25,11 +24,12 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 				.setParameter(1, id).getResultList()
 				.stream()
 				.map(e -> PropertyResponse.builder().address(e.getAddress())
-						.yearOfConstruction(e.getYearOfConstruction()).type(e.getType()).build())
+						.yearOfConstruction(e.getYearOfConstruction()).type(e.getType())
+						.propertyOwner(e.getPropertyOwner())
+						.build())
 
 				.collect(Collectors.toCollection(ArrayList::new));
 		
-//		em.close();
 
 		return propertiesByOwnerVatNum;
 
@@ -37,7 +37,6 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 	
 	public List<PropertyResponse> findAllProperties(Class<Property> classType) {
 		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
 
 		 
 		List<PropertyResponse> resultList = em.createNamedQuery("Property.findAll", classType).getResultList()
@@ -50,7 +49,6 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));
-		em.close();
 
 		return resultList;
 	}

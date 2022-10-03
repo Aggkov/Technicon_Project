@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.transaction.Transactional;
 
 import com.europeandynamics.model.BaseEntity;
 import com.europeandynamics.utils.EntityManagerFactoryUtils;
@@ -12,31 +13,27 @@ import com.europeandynamics.utils.EntityManagerFactoryUtils;
 public abstract class AbstractRepository<T extends BaseEntity> implements BaseRepository<T> {
 
 	protected EntityManagerFactory emf = EntityManagerFactoryUtils.getEntityManagerFactory();
-	
+	protected EntityManager em = emf.createEntityManager();
+
 
 	@Override
 	public Optional<T> findById(String id, Class<T> classType) {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
+
 		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
 
-		em.close();
 		return entity;
 	}
 
 	@Override
 	public List<?> findAll(Class<T> classType) {
-		EntityManager em = emf.createEntityManager();
 
 		String className = classType.getSimpleName();
-		em.getTransaction().begin();
 
 		List<?> entities = em
 				.createQuery("SELECT " + className.toLowerCase() + " from " + className + " " + className.toLowerCase())
 				.getResultList();
 
 		em.getTransaction().commit();
-		em.close();
 
 		return entities;
 
@@ -81,28 +78,6 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 			return true;
 
 		}
-	}
-
-//	@Override
-//	public boolean deleteById(String id, Class<T> classType) {		
-//		
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
-//		T foundEntity = em.find(classType, id);
-//
-//		em.contains(foundEntity) ? em.remove(foundEntity) : em.merge(foundEntity));
-//			
-//			
-//		em.getTransaction().commit();
-//
-//		em.close();
-//	}
-
-
-	@Override
-	public boolean exists(T entity) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

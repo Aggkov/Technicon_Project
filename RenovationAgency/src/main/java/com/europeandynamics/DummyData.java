@@ -1,5 +1,6 @@
 package com.europeandynamics;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ public class DummyData {
 
 	public static void main(String[] args) {
 
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("NewPersistenceUnit");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 		EntityManager em = emf.createEntityManager();
 
 		// CREATE
@@ -54,22 +55,22 @@ public class DummyData {
 
 		PropertyRepair propertyRepair1 = new PropertyRepair("333", LocalDateTime.of(2022, 9, 20, 14, 30, 20),
 				"Short Description", "Long text Description", RepairType.ELECTRICAL_WORK, RepairStatus.IN_PROGRESS,
-				200.00);
+				BigDecimal.valueOf(200.00));
 		PropertyRepair propertyRepair2 = new PropertyRepair("334", LocalDateTime.of(2022, 9, 21, 14, 30, 20),
 				"Short Description", "Long text Description", RepairType.ELECTRICAL_WORK, RepairStatus.IN_PROGRESS,
-				299.00);
+				BigDecimal.valueOf(299.00));
 		PropertyRepair propertyRepair3 = new PropertyRepair("335", LocalDateTime.of(2022, 9, 21, 16, 30, 20),
-				"Short Description", "Long text Description", RepairType.FRAMES, RepairStatus.DEFAULT_STANDBY, 400.00);
+				"Short Description", "Long text Description", RepairType.FRAMES, RepairStatus.DEFAULT_STANDBY, BigDecimal.valueOf(400.00));
 		PropertyRepair propertyRepair4 = new PropertyRepair("336", LocalDateTime.of(2022, 9, 22, 10, 30, 20),
-				"Short Description", "Long text Description", RepairType.INSULATION, RepairStatus.PENDING, 300.00);
+				"Short Description", "Long text Description", RepairType.INSULATION, RepairStatus.PENDING, BigDecimal.valueOf(300.00));
 		PropertyRepair propertyRepair5 = new PropertyRepair("337", LocalDateTime.of(2022, 9, 22, 11, 30, 20),
-				"Short Description", "Long text Description", RepairType.PAINTING, RepairStatus.COMPLETE, 150.00);
+				"Short Description", "Long text Description", RepairType.PAINTING, RepairStatus.COMPLETE, BigDecimal.valueOf(150.00));
 		PropertyRepair propertyRepair6 = new PropertyRepair("338", LocalDateTime.of(2022, 9, 23, 12, 30, 20),
-				"Short Description", "Long text Description", RepairType.PLUMBING, RepairStatus.COMPLETE, 179.00);
+				"Short Description", "Long text Description", RepairType.PLUMBING, RepairStatus.COMPLETE, BigDecimal.valueOf(179.00));
 		PropertyRepair propertyRepair7 = new PropertyRepair("339", LocalDateTime.of(2022, 9, 23, 19, 30, 20),
-				"Short Description", "Long text Description", RepairType.PLUMBING, RepairStatus.COMPLETE, 120.00);
+				"Short Description", "Long text Description", RepairType.PLUMBING, RepairStatus.COMPLETE, BigDecimal.valueOf(120.00));
 		PropertyRepair propertyRepair8 = new PropertyRepair("340", LocalDateTime.of(2022, 9, 23, 13, 30, 20),
-				"Short Description", "Long text Description", RepairType.PLUMBING, RepairStatus.COMPLETE, 180.00);
+				"Short Description", "Long text Description", RepairType.PLUMBING, RepairStatus.COMPLETE, BigDecimal.valueOf(180.00));
 
 		// Owner 1
 		propertyOwner1.addProperty(property1);
@@ -119,6 +120,8 @@ public class DummyData {
 
 		em.getTransaction().commit();
 		em.close();
+		
+		emf.close();
 
 	}
 

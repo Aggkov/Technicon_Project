@@ -45,7 +45,7 @@ public class Property extends BaseEntity {
 	private Type type;
 
 	@ManyToOne()
-	@JoinColumn(name = "vat_number")
+	@JoinColumn(name = "vat_code")
 	private PropertyOwner propertyOwner;
 
 	@OneToMany(mappedBy = "property", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

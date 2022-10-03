@@ -1,7 +1,9 @@
 package com.europeandynamics.service.Impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.NoResultException;
 
@@ -9,6 +11,7 @@ import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.enums.HttpStatus;
+import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.request.PropertyOwnerRequest;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;

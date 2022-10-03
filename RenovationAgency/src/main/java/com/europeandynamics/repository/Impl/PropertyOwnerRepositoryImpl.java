@@ -1,29 +1,30 @@
 package com.europeandynamics.repository.Impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
-import com.europeandynamics.payload.response.PropertyRepairResponse;
-import com.europeandynamics.payload.response.PropertyResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyOwnerRepository;
+
+import static java.util.stream.Collectors.groupingBy;
+
 public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwner> implements PropertyOwnerRepository {
 
 	public List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner() {
 		EntityManager em = emf.createEntityManager();
 
-		List<PropertyOwnerRepairsPaidResponse> query = em.createQuery("SELECT new com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse(p.name, p.surname, SUM(pr.costOfRepair)) " +
-				" FROM PropertyOwner p JOIN p.propertyRepairs pr GROUP BY p.Id ORDER BY pr.costOfRepair DESC " ,PropertyOwnerRepairsPaidResponse.class)
-				.getResultList();
+		List<PropertyOwnerRepairsPaidResponse> query = em.createQuery("SELECT new com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse(p.name, p.surname, pr.repairType, SUM(pr.costOfRepair)) " +
+						" FROM PropertyOwner p JOIN p.propertyRepairs pr GROUP BY p.Id ORDER BY pr.costOfRepair DESC", PropertyOwnerRepairsPaidResponse.class)
+				.getResultList()
+				.stream()
+				.sorted(Comparator.comparing(PropertyOwnerRepairsPaidResponse::getAmountPaidForRepairs).reversed())
+//				.collect(groupingBy(PropertyOwnerRepairsPaidResponse::getRepairType, Collectors.toCollection(LinkedHashSet::new)));
+				.collect(Collectors.toCollection(ArrayList::new));
 
 		return query;
 	}

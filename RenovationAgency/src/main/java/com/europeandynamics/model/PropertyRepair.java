@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -33,14 +34,14 @@ public class PropertyRepair extends BaseEntity {
 	private RepairStatus repairStatus;
 	
 	@NotBlank
-	private double costOfRepair;
+	private BigDecimal costOfRepair;
 	
 	@NotBlank
 	@Lob
 	private String longDescription;
 
 	@ManyToOne()
-	@JoinColumn(name = "vat_number")
+	@JoinColumn(name = "vat_code")
 	private PropertyOwner propertyOwner;
 
 	@ManyToOne
@@ -51,7 +52,7 @@ public class PropertyRepair extends BaseEntity {
 	}
 
 	public PropertyRepair(String Id, LocalDateTime dateTimeOfRepair, String shortDescription, String longDescription,
-			RepairType repairType, RepairStatus repairStatus, double costOfRepair) {
+			RepairType repairType, RepairStatus repairStatus, BigDecimal costOfRepair) {
 		super(Id);
 		this.dateTimeOfRepair = dateTimeOfRepair;
 		this.shortDescription = shortDescription;
@@ -60,10 +61,6 @@ public class PropertyRepair extends BaseEntity {
 		this.repairStatus = repairStatus;
 		this.costOfRepair = costOfRepair;
 	}
-	
-	
-
-	
 
 	@Override
 	public int hashCode() {
@@ -72,20 +69,14 @@ public class PropertyRepair extends BaseEntity {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PropertyRepair other = (PropertyRepair) obj;
-		return Double.doubleToLongBits(costOfRepair) == Double.doubleToLongBits(other.costOfRepair)
-				&& Objects.equals(dateTimeOfRepair, other.dateTimeOfRepair)
-				&& Objects.equals(longDescription, other.longDescription) && Objects.equals(property, other.property)
-				&& Objects.equals(propertyOwner, other.propertyOwner) && repairStatus == other.repairStatus
-				&& repairType == other.repairType && Objects.equals(shortDescription, other.shortDescription);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		PropertyRepair that = (PropertyRepair) o;
+		return Objects.equals(dateTimeOfRepair, that.dateTimeOfRepair) && Objects.equals(shortDescription, that.shortDescription)
+				&& repairType == that.repairType && repairStatus == that.repairStatus
+				&& Objects.equals(costOfRepair, that.costOfRepair) && Objects.equals(longDescription, that.longDescription)
+				&& Objects.equals(propertyOwner, that.propertyOwner) && Objects.equals(property, that.property);
 	}
-
-
 }

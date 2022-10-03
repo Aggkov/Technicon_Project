@@ -8,6 +8,7 @@ import com.europeandynamics.model.enums.RepairType;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,7 +23,7 @@ public class PropertyRepairResponse {
 
     private RepairStatus repairStatus;
 
-    private double costOfRepair;
+    private BigDecimal costOfRepair;
 
     private String longDescription;
 
@@ -32,7 +33,7 @@ public class PropertyRepairResponse {
 	}
 
     public PropertyRepairResponse(LocalDateTime dateTimeOfRepair, String shortDescription, RepairType repairType,
-                                  RepairStatus repairStatus, double costOfRepair,
+                                  RepairStatus repairStatus, BigDecimal costOfRepair,
                                   String longDescription, PropertyOwner propertyOwner) {
         this.dateTimeOfRepair = dateTimeOfRepair;
         this.shortDescription = shortDescription;

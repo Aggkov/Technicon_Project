@@ -46,7 +46,10 @@ public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRep
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 
-		List<PropertyRepair> repairsByOwner = em.createQuery("SELECT propertyOwner.name, propertyOwner.surname, pr FROM PropertyRepair pr JOIN pr.propertyOwner propertyOwner WHERE propertyOwner.Id = :Id",PropertyRepair.class)
+		List<PropertyRepair> repairsByOwner = em.createQuery("SELECT pr " +
+						"FROM PropertyRepair pr " +
+						"JOIN FETCH pr.propertyOwner propertyOwner " +
+						"WHERE propertyOwner.Id = :Id",PropertyRepair.class)
 				.setParameter("Id", vatNumber)
 				.getResultList();
 

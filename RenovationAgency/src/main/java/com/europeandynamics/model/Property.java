@@ -41,6 +41,7 @@ public class Property extends BaseEntity {
 	private Type type;
 
 	@ManyToOne()
+//			fetch = FetchType.LAZY)
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 

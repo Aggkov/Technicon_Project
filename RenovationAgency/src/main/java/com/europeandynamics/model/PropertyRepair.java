@@ -33,7 +33,8 @@ public class PropertyRepair extends BaseEntity {
 
 	@ManyToOne(
 //			cascade = CascadeType.ALL, 
-			fetch = FetchType.LAZY)
+//			fetch = FetchType.LAZY
+	)
 	@JoinColumn(name = "vat_number")
 	private PropertyOwner propertyOwner;
 

@@ -19,7 +19,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements BaseRe
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Optional<T> entity = Optional.ofNullable(em.find(classType, id));
-		em.getTransaction().commit();
+
 		em.close();
 		return entity;
 	}

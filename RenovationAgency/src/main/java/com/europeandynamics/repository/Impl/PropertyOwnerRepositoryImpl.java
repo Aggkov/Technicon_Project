@@ -25,13 +25,6 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 		List<PropertyOwnerRepairsPaidResponse> query = em.createQuery("SELECT new com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse(p.name, p.surname, SUM(pr.costOfRepair)) " +
 				" FROM PropertyOwner p JOIN p.propertyRepairs pr GROUP BY p.Id ORDER BY pr.costOfRepair DESC " ,PropertyOwnerRepairsPaidResponse.class)
 				.getResultList();
-//				.stream()
-//				.map(e -> PropertyOwnerResponse.builder()
-//						.name(e.getName())
-//						.surname(e.getSurname())
-//						.amountPaidForRepairs(e.getAmountPaidForRepairs())
-//						.build())
-//				.collect(Collectors.toCollection(ArrayList::new));
 
 		return query;
 	}

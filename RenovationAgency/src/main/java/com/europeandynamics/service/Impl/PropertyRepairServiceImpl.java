@@ -7,6 +7,7 @@ import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.service.PropertyRepairService;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,9 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	public List<PropertyRepair> propertyRepairsByOwnerVatNumber(String id) {
 
+		if(propertyRepairRepository.propertyRepairsByOwnerVatNumber(id).isEmpty()) {
+			throw new ResourceNotFoundException("Couldn't find repairs for certain user");
+		}
 		return propertyRepairRepository.propertyRepairsByOwnerVatNumber(id);
 	}
 

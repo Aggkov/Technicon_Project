@@ -1,12 +1,18 @@
 package com.europeandynamics;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.Type;
+import com.europeandynamics.payload.request.PropertyRequest;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
+import com.europeandynamics.payload.response.PropertyResponse;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
@@ -33,9 +39,14 @@ public class App {
         PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(new PropertyRepairRepositoryImpl());
 
         // TESTING PROPERTY REPAIR
-//		List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111111");
-//		logger.info("property repairs by a certain user: " + propertyRepairs);
+        try {
+            List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("11111111");
+            logger.info("property repairs by a certain user: " + propertyRepairs);
+        } catch (ResourceNotFoundException ex) {
+            logger.warn(ex.getMessage());
+        }
 
+//
 //        List<PropertyRepairResponse> allRepairsByDate = propertyRepairService
 //        .findAllRepairsByDate(LocalDateTime.of(2022, 9, 20, 14,30,20), LocalDateTime.of(
 //                2022, 9, 22, 11,30, 20), PropertyRepair.class);
@@ -43,7 +54,7 @@ public class App {
 //        for(PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
 //             logger.info(propertyRepairResponse + " \n");
 //        }
-
+//
 //       try {
 //            boolean result = propertyRepairService.deleteById("338", PropertyRepair.class);
 //            logger.info("property repair deleted " + result);
@@ -61,24 +72,28 @@ public class App {
 //        List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111111",
 //                Property.class);
 //        logger.info("properties by vat: " + propertiesByVat);
-
+//
+//
+//        logger.info("property found: " + propertyService.findById("E91116",Property.class));
+//
 //		try {
-//			Property property = propertyService.create(new PropertyRequest("E91119","28is Oktovriou",LocalDate.of(2010, 9, 22),Type.APARTMENT, "111111115"));
+//			Property property = propertyService.create(new PropertyRequest("E91118","28is Oktovriou", LocalDate.of(2010, 9, 22), Type.APARTMENT, "111111115"));
 //			logger.info("property created: " + property);
 //		} catch (BadRequestException ex) {
 //			logger.warn(ex.getMessage());
 //		}
-//
-//		 try { propertyService.deleteById("E91119", Property.class);
-//			 logger.info("property deleted");
-//		 } catch(ResourceNotFoundException ex) {
-//		 logger.warn(ex.getMessage());
+
+//        try {
+//            propertyService.deleteById("E91118", Property.class);
+//            logger.info("property deleted");
+//        } catch (ResourceNotFoundException ex) {
+//            logger.warn(ex.getMessage());
 //		 }
 //        try {
 //            propertyService.update("E91117",
 //                    PropertyRequest.builder()
-//                            .address("new address")
-//                            .yearOfConstruction(LocalDate.of(1963, 02, 15))
+//                            .address("3is Septemvriou")
+//                            .yearOfConstruction(LocalDate.of(1970, 02, 15))
 //                            .type(Type.APARTMENT)
 //                            .propertyOwnerId("111111111").build());
 //
@@ -94,12 +109,15 @@ public class App {
 //		logger.info("All owners " + findAll);
 
 
-        List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = propertyOwnerService.amountPaidForRepairsByOwner();
-        logger.info(eachOwnerSumPaid);
+//        List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = propertyOwnerService.amountPaidForRepairsByOwner();
+//        logger.info(eachOwnerSumPaid);
+//        PropertyOwnerRepositoryImpl impl  =new PropertyOwnerRepositoryImpl();
+
+//        System.out.println(impl.findById("111111112", PropertyOwner.class));
 //		 
 //
 //		try {
-//			PropertyOwner propertyOwner = propertyOwnerService.findById("11111111123", PropertyOwner.class);
+//			PropertyOwner propertyOwner = propertyOwnerService.findById("111111112", PropertyOwner.class);
 //			logger.info("property owner found: " + propertyOwner);
 //		} catch (ResourceNotFoundException ex) {
 //
@@ -141,7 +159,7 @@ public class App {
 //            logger.warn(ex.getMessage());
 //        }
 
-        // CREATE
+            // CREATE
 //		em.getTransaction().begin();
 //		Property property = new Property("23456790", "address2", LocalDate.of(2022, 9, 22), Type.APARTMENT);
 ////
@@ -154,13 +172,13 @@ public class App {
 //		em.getTransaction().commit();
 //		em.close();
 
-        // READ
+            // READ
 //		em.getTransaction().begin();
 
 //		Property foundProperty = em.find(Property.class, "23456790");
 //		System.out.println(foundProperty);
 
-        // UPDATE
+            // UPDATE
 //		em.getTransaction().begin();
 //		Property foundProperty2 = em.find(Property.class, "23456790");
 //		foundProperty2.setType(Type.DETACHED);
@@ -169,13 +187,14 @@ public class App {
 //		em.getTransaction().commit();
 //		em.close();
 
-        // READ ALL
+            // READ ALL
 //		List<Property> properties = em.createQuery("SELECT property from Property property").getResultList();
 //
 //		System.out.println(properties);
 
 //			      .setParameter(1, "English")
 
+        }
+
     }
 
-}

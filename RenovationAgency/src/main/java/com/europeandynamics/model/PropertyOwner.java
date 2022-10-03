@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,15 +19,28 @@ import java.util.Set;
 query = "SELECT po FROM PropertyOwner po")
 public class PropertyOwner extends BaseEntity {
 
-
+	@NotBlank
 	private String name;
+	
+	@NotBlank
 	private String surname;
+	
+	@NotBlank
 	private String address;
+	
+	@NotBlank
 	private String phoneNumber;
+	
+	@NotBlank
 	private String email;
+	
+	@NotBlank
 	private String username;
+	
+	@NotBlank
 	private String password;
-
+	
+	@NotBlank
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
 

@@ -1,4 +1,4 @@
-package com.europeandynamics.validator;
+package com.europeandynamics.payload.request.validator;
 
 import java.util.regex.Pattern;
 

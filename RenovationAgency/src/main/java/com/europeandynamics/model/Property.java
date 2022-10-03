@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.europeandynamics.model.enums.Type;
 
@@ -32,11 +33,14 @@ import lombok.ToString;
 @NamedQuery(name = "Property.findAll",
 query = "SELECT p FROM Property p")
 public class Property extends BaseEntity {
-
+	
+	@NotBlank
 	private String address;
-
+	
+	@NotBlank
 	private LocalDate yearOfConstruction;
-
+	
+	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private Type type;
 

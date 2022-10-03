@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -15,19 +17,25 @@ import java.util.Objects;
 @Data
 @ToString(exclude = {"propertyOwner", "property"})
 public class PropertyRepair extends BaseEntity {
-
+	
+	@NotBlank
 	private LocalDateTime dateTimeOfRepair;
-
+	
+	@NotBlank
 	private String shortDescription;
-
+	
+	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private RepairType repairType;
-
+	
+	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private RepairStatus repairStatus;
-
+	
+	@NotBlank
 	private double costOfRepair;
-
+	
+	@NotBlank
 	@Lob
 	private String longDescription;
 

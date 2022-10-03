@@ -14,7 +14,7 @@ import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
-import com.europeandynamics.validator.InputValidator;
+import com.europeandynamics.payload.request.validator.InputValidator;
 
 public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 

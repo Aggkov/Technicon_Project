@@ -5,9 +5,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.Role;
 import com.europeandynamics.model.enums.Type;
+import com.europeandynamics.payload.request.PropertyOwnerRequest;
 import com.europeandynamics.payload.request.PropertyRequest;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
@@ -27,6 +30,8 @@ import com.europeandynamics.service.PropertyService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
 import com.europeandynamics.service.Impl.PropertyRepairServiceImpl;
 import com.europeandynamics.service.Impl.PropertyServiceImpl;
+
+import javax.persistence.NoResultException;
 
 public class App {
 
@@ -115,42 +120,40 @@ public class App {
 
 //        System.out.println(impl.findById("111111112", PropertyOwner.class));
 //		 
-//
+
 //		try {
-//			PropertyOwner propertyOwner = propertyOwnerService.findById("111111112", PropertyOwner.class);
+//			PropertyOwner propertyOwner = propertyOwnerService.findById("1111111", PropertyOwner.class);
 //			logger.info("property owner found: " + propertyOwner);
 //		} catch (ResourceNotFoundException ex) {
 //
-//			logger.warn(ex.getMessage());
+//			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
 //		}
 
 
-//        try {
-//            propertyOwnerService.create(new PropertyOwner("111111119", "Jack", "Jackson", "Athens", "6999999999",
-//                    "email9@email.com", "username9", "pass9", Role.USER));
-//            logger.info("owner created successfully");
-//
-//        } catch (BadRequestException | InvalidEmailException | NoResultException ex) {
-//            logger.warn(ex.getMessage());
-//            ex.printStackTrace();
-//        }
+        try {
+            propertyOwnerService.create(new PropertyOwner("111111119", "Jack", "Jackson", "Athens", "6999999999",
+                    "email9@email.com", "username9", "pass9", Role.USER));
+            logger.info("owner created successfully");
+        } catch (BadRequestException | InvalidEmailException | NoResultException ex) {
+            logger.warn(ex.getMessage());
+        }
 
-//        try {
-//            PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("emailemail.com");
-//            logger.info(" found owner with email " + propertyOwnerFoundEmail);
-//        } catch (InvalidEmailException |
+        try {
+            PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("emailemail.com");
+            logger.info(" found owner with email " + propertyOwnerFoundEmail);
+        } catch (InvalidEmailException |
+
+                 NoResultException ex) {
+            logger.warn(ex.getMessage());
+        }
 //
-//                 NoResultException ex) {
-//            logger.warn(ex.getMessage());
-//        }
-//
-//        try {
-//            propertyOwnerService.update("111111114",
-//                    new PropertyOwnerRequest("Kalirois 34", "lefteris@email.com", "9876541231"));
-//            logger.info("owner updated successfully");
-//        } catch (ResourceNotFoundException ex) {
-//            logger.warn(ex.getMessage());
-//        }
+        try {
+            propertyOwnerService.update("111111114",
+                    new PropertyOwnerRequest("Kalirois 34", "nikou@email.com", "9876541231"));
+            logger.info("owner updated successfully");
+        } catch (ResourceNotFoundException ex) {
+            logger.warn(ex.getMessage());
+        }
 
 //        try {
 //            propertyOwnerService.deleteById("111111119", com.europeandynamics.model.PropertyOwner.class);

@@ -2,6 +2,7 @@ package com.europeandynamics.service.Impl;
 
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyRepair;
+import com.europeandynamics.model.enums.HttpStatus;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.service.PropertyRepairService;
@@ -23,7 +24,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	@Override
 	public PropertyRepair findById(String id, Class<PropertyRepair> classType) {
 		Optional<PropertyRepair> propertyRepair = Optional.ofNullable(propertyRepairRepository.findById(id, classType).orElseThrow(
-				() -> new ResourceNotFoundException(classType.getSimpleName() + " with this id: " + id + " was not found")));
+				() -> new ResourceNotFoundException(classType.getSimpleName() + " with this id: " + id + " was not found ", HttpStatus.NOT_FOUND)));
 
 		return propertyRepair.get();
 	}
@@ -31,7 +32,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	public List<PropertyRepair> propertyRepairsByOwnerVatNumber(String id) {
 
 		if(propertyRepairRepository.propertyRepairsByOwnerVatNumber(id).isEmpty()) {
-			throw new ResourceNotFoundException("Couldn't find repairs for certain user");
+			throw new ResourceNotFoundException("Couldn't find repairs for certain user ", HttpStatus.NOT_FOUND);
 		}
 		return propertyRepairRepository.propertyRepairsByOwnerVatNumber(id);
 	}
@@ -52,7 +53,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		Optional<PropertyRepair> propertyRepair = propertyRepairRepository.findById(id, PropertyRepair.class);
 
 		if (propertyRepair.isEmpty()) {
-			throw new ResourceNotFoundException("Property Repair  +  with this id  + id +  was not found");
+			throw new ResourceNotFoundException("Property Repair  +  with this id  + id +  was not found ", HttpStatus.NOT_FOUND);
 		}
 		propertyRepair.get().setPropertyOwner(null);
 		propertyRepair.get().setProperty(null);

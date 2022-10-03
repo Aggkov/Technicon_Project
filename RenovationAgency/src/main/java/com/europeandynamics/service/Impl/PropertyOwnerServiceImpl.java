@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.HttpStatus;
 import com.europeandynamics.payload.request.PropertyOwnerRequest;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
@@ -35,7 +36,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		Optional<PropertyOwner> propertyOwner = Optional.ofNullable(
 				propertyOwnerRepository.findById(id, classType).orElseThrow(() -> new ResourceNotFoundException(
-						classType.getSimpleName() + " with this id " + id + " was not found")));
+						classType.getSimpleName() + " with this id " + id + " was not found", HttpStatus.NOT_FOUND)));
 
 		return propertyOwner.get();
 	}
@@ -50,7 +51,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 			return propertyOwner.get();
 
 		} catch (NoResultException ex) {
-			throw new ResourceNotFoundException("Property Owner " + " with this email " + email + " was not found");
+			throw new ResourceNotFoundException("Property Owner " + " with this email " + email + " was not found ", HttpStatus.NOT_FOUND);
 		}
 
 	}
@@ -65,14 +66,17 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		InputValidator.checkEmail(entity.getEmail());
 
 		try {
-			propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class);
-			propertyOwnerRepository.findByEmail(entity.getEmail());
+			if(
+			propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent() ||
+			propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()
+			) {
+				throw new BadRequestException(entity.getClass().getSimpleName() + "with this identification already exists ", HttpStatus.BAD_REQUEST);
+			}
 
 		} catch (NoResultException | ResourceNotFoundException ex) {
-			return propertyOwnerRepository.create(entity);
-
+			System.out.println(ex.getMessage());
 		}
-		throw new BadRequestException(entity.getClass().getSimpleName() + " already exists ");
+		return propertyOwnerRepository.create(entity);
 
 	}
 
@@ -83,7 +87,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		Optional<PropertyOwner> propertyOwner = Optional.ofNullable(propertyOwnerRepository
 				.findById(id, PropertyOwner.class).orElseThrow(() -> new ResourceNotFoundException(
-						"Owner scheduled for update with this id " + id + " was not found")));
+						"Owner scheduled for update with this id " + id + " was not found ", HttpStatus.NOT_FOUND)));
 
 		if (propertyOwner.isPresent()) {
 			PropertyOwner foundOwner = propertyOwner.get();
@@ -101,7 +105,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
 
 		if (propertyOwner.isEmpty()) {
-			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found");
+			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found ", HttpStatus.NOT_FOUND);
 		}
 
 		return propertyOwnerRepository.delete(propertyOwner.get());

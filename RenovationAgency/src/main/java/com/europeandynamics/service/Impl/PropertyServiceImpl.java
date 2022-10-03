@@ -8,6 +8,7 @@ import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.HttpStatus;
 import com.europeandynamics.payload.request.PropertyRequest;
 import com.europeandynamics.payload.response.PropertyResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
@@ -35,7 +36,7 @@ public class PropertyServiceImpl implements PropertyService {
 
         Optional<Property> property = Optional
                 .ofNullable(propertyRepository.findById(id, classType).orElseThrow(() -> new ResourceNotFoundException(
-                        classType.getSimpleName() + " with this id: " + id + " was not found")));
+                        classType.getSimpleName() + " with this id: " + id + " was not found", HttpStatus.NOT_FOUND)));
 
         return property.get();
     }
@@ -54,12 +55,13 @@ public class PropertyServiceImpl implements PropertyService {
 
     	 Optional<Property> optionalProperty = propertyRepository.findById(propertyRequest.getId(), Property.class);
          if (optionalProperty.isPresent()) {
-             throw new BadRequestException("Property with id: " + propertyRequest.getId() + " already exists");
+             throw new BadRequestException("Property with id: " + propertyRequest.getId() + " already exists ", HttpStatus.BAD_REQUEST);
          }
 
          Optional<PropertyOwner> optionalPropertyOwner = Optional.ofNullable(propertyOwnerRepository.findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
                  .orElseThrow(() -> new ResourceNotFoundException(
-                         PropertyOwner.class.getName() + " with this id: " + propertyRequest.getPropertyOwnerId() + " was not found")));
+                         PropertyOwner.class.getName() + " with this id: " + propertyRequest.getPropertyOwnerId() +
+                                 " was not found", HttpStatus.NOT_FOUND)));
 
          Property property = new Property();
          property.setId(propertyRequest.getId());
@@ -79,11 +81,11 @@ public class PropertyServiceImpl implements PropertyService {
 		
 		Optional<Property> property = Optional.ofNullable(propertyRepository.findById(id, Property.class)
                 .orElseThrow(() -> new ResourceNotFoundException
-				(Property.class.getName() + " with this id" + id + "was not found")));
+				(Property.class.getName() + " with this id" + id + "was not found ", HttpStatus.NOT_FOUND)));
 
         Optional<PropertyOwner> propertyOwner = Optional.ofNullable(propertyOwnerRepository.findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
                 .orElseThrow(() -> new ResourceNotFoundException
-                (PropertyOwner.class.getName() +  "with this id" + id + "was not found")));
+                (PropertyOwner.class.getName() +  "with this id" + id + "was not found ", HttpStatus.NOT_FOUND)));
 		
 		if (property.isPresent()) {
 			Property baseProperty = property.get();
@@ -103,7 +105,7 @@ public class PropertyServiceImpl implements PropertyService {
         Optional<Property> property = propertyRepository.findById(id, Property.class);
 
         if (property.isEmpty()) {
-            throw new ResourceNotFoundException("Property with this id  + id +  was not found");
+            throw new ResourceNotFoundException("Property with this id  + id +  was not found ", HttpStatus.NOT_FOUND);
         }
         property.get().setPropertyOwner(null);
         return propertyRepository.delete(property.get());

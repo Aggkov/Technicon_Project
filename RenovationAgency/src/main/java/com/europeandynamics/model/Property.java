@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 
 import com.europeandynamics.model.enums.Type;
 
@@ -38,6 +39,7 @@ public class Property extends BaseEntity {
 	private String address;
 	
 	@NotBlank
+	@PastOrPresent(message = "year of construction must be in the past or present")
 	private LocalDate yearOfConstruction;
 	
 	@NotBlank

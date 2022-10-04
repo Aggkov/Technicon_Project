@@ -69,14 +69,16 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		InputValidator.checkEmail(entity.getEmail());
 
 		try {
-			if(propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent() ||
-			propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()) {
+			if(propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()) {
+				throw new BadRequestException(entity.getClass().getSimpleName() + " with this identification already exists ", HttpStatus.BAD_REQUEST);
 
-				throw new BadRequestException(entity.getClass().getSimpleName() + "with this identification already exists ", HttpStatus.BAD_REQUEST);
+			}
+			if(propertyOwnerRepository.findByEmail(entity.getEmail()).isPresent()) {
+				throw new BadRequestException(entity.getClass().getSimpleName() + " with this identification already exists ", HttpStatus.BAD_REQUEST);
+
 			}
 
 		} catch (NoResultException | ResourceNotFoundException ex) {
-			System.out.println(ex.getMessage());
 		}
 		return propertyOwnerRepository.create(entity);
 

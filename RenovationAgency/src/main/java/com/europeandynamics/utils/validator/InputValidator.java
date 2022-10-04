@@ -15,5 +15,6 @@ public class InputValidator {
 			throw new InvalidEmailException("Email is not valid", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 
 }

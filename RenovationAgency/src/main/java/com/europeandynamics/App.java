@@ -75,8 +75,8 @@ public class App {
 //        }
 
         try {
-            propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2030, 10, 2, 10, 30, 20),
-                    "Short Description", RepairType.ELECTRICAL_WORK, RepairStatus.IN_PROGRESS, new BigDecimal("300"), "Long Description",
+            propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2024, 10, 2, 10, 30, 20),
+                    "Short Description", RepairType.ELECTRICAL_WORK, RepairStatus.IN_PROGRESS, new BigDecimal("5000"), "Long Description",
                     "111111115", "E91119"));
             logger.info("property repair created");
         } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {

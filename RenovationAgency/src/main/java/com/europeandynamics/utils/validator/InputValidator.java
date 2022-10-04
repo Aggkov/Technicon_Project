@@ -20,13 +20,11 @@ public class InputValidator {
         }
     }
 
-    public static boolean checkCostOfRepair(String costOfRepair) {
-        try {
-            BigDecimal cost = new BigDecimal(costOfRepair);
+    public static boolean checkCostOfRepair(BigDecimal costOfRepair) {
 
-        }catch (NumberFormatException ex) {
-            throw new BadRequestException("Character a is neither a decimal digit number, decimal point" +
-                    ", nor \"e\" notation exponential mark.", HttpStatus.BAD_REQUEST);
+        if(costOfRepair.doubleValue() > new BigDecimal("3000").doubleValue()) {
+
+        throw new BadRequestException("cost of repair must not exceed 3000 Euros ", HttpStatus.BAD_REQUEST);
         }
         return true;
     }

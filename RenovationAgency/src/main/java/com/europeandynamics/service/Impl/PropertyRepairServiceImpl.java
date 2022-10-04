@@ -64,7 +64,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	public PropertyRepair create(PropertyRepairRequest propertyRepairRequest) {
 
 		InputValidator.dateTimeMustBeOnPresentOrFuture(propertyRepairRequest.getDateTimeOfRepair());
-//		InputValidator.checkCostOfRepair(String.valueOf(propertyRepairRequest.getCostOfRepair()));
+		InputValidator.checkCostOfRepair(propertyRepairRequest.getCostOfRepair());
 
 		Optional<PropertyRepair> optionalPropertyRepair = propertyRepairRepository.findById(propertyRepairRequest.getPropertyRepairId(), PropertyRepair.class);
 		if(optionalPropertyRepair.isPresent()) {

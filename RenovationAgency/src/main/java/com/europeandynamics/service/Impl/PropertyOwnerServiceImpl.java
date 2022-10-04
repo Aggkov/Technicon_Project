@@ -19,6 +19,14 @@ import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.utils.validator.InputValidator;
 
+/**
+ * @author Aggelos
+ *
+ */
+/**
+ * @author Aggelos
+ *
+ */
 public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	private final PropertyOwnerRepository propertyOwnerRepository;
@@ -63,6 +71,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		return propertyOwnerRepository.amountPaidForRepairsByOwner();
 	}
+	
 
 	public PropertyOwner create(PropertyOwner entity) {
 
@@ -103,6 +112,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		}
 
 	}
+	
 
 	@Override
 	public boolean deleteById(String id, Class<PropertyOwner> classType) {

@@ -25,7 +25,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
 				.stream()
 				.map(e -> PropertyResponse.builder().address(e.getAddress())
 						.yearOfConstruction(e.getYearOfConstruction()).type(e.getType())
-						.propertyOwner(e.getPropertyOwner())
+						
 						.build())
 
 				.collect(Collectors.toCollection(ArrayList::new));
@@ -45,7 +45,7 @@ public class PropertyRepositoryImpl extends AbstractRepository<Property> impleme
         				.address(e.getAddress())
         				.type(e.getType())
         				.yearOfConstruction(e.getYearOfConstruction())
-        				.propertyOwner(e.getPropertyOwner())
+        				
         				.build())
         		
         		.collect(Collectors.toCollection(ArrayList::new));

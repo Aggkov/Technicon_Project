@@ -18,17 +18,15 @@ public class PropertyResponse {
 
     private Type type;
     
-    private PropertyOwner propertyOwner;
     
 
 	public PropertyResponse() {
 	}
     
-    public PropertyResponse(String address, LocalDate yearOfConstruction, Type type, PropertyOwner propertyOwner) {
+    public PropertyResponse(String address, LocalDate yearOfConstruction, Type type) {
         this.address = address;
         this.yearOfConstruction = yearOfConstruction;
         this.type = type;
-        this.propertyOwner = propertyOwner;
     }
 
 

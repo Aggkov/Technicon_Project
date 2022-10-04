@@ -48,11 +48,12 @@ public class App {
 //		 TESTING PropertyOwner Service
 		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
 		logger.info("All owners " + findAll);
+		
 
 //		List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = new ArrayList<>(propertyOwnerService.amountPaidForRepairsByOwner());
 //				propertyOwnerService.amountPaidForRepairsByOwner();
 //			logger.info(eachOwnerSumPaid);
-//
+
 		
 //		try {
 //			logger.info(propertyOwnerService.findById("111111", PropertyOwner.class));
@@ -86,44 +87,23 @@ public class App {
 //		}
 		
 		
-		try {
-			propertyOwnerService.deleteById("111111120", PropertyOwner.class);
-			logger.info("owner with id 111111119 was deleted");
-		} catch (ResourceNotFoundException ex) {
-			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
-		}
+//		try {
+//			propertyOwnerService.deleteById("111111120", PropertyOwner.class);
+//			logger.info("owner with id 111111119 was deleted");
+//		} catch (ResourceNotFoundException ex) {
+//			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
+//		}
 		
-		// TESTING PROPERTY REPAIR
-//		try {
-//			List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
-//			logger.info("property repairs by a certain user: " + propertyRepairs);
-//		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
-//		}
-//
-//		List<PropertyRepairResponse> allRepairsByDate = propertyRepairService.findAllRepairsByDate(
-//				LocalDateTime.of(2022, 9, 20, 14, 30, 20), LocalDateTime.of(2022, 9, 21, 14, 30, 20),
-//				PropertyRepair.class);
-//		logger.info("repairs by date: ");
-//		for (PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
-//			logger.info(propertyRepairResponse + " \n");
-//		}
-//
-//		try {
-//			boolean result = propertyRepairService.deleteById("338", PropertyRepair.class);
-//			logger.info("property repair deleted " + result);
-//		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
-//		}
-
-		// TESTING PROPERTY REPO
+		// TESTING PROPERTY SERVICE
 //
 //		List<PropertyResponse> properties = propertyService.findAll(Property.class);
 //		logger.info("All properties: " + properties);
-//
-//		List<?> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111115", Property.class);
-//		logger.info("properties by vat: " + propertiesByVat);
-//		logger.info("property found: " + propertyService.findById("E91116", Property.class));
+////
+		List<PropertyResponse> propertiesByVat = propertyService.findPropertiesByOwnerVatNumber("111111115", Property.class);
+		logger.info("properties by vat: " + propertiesByVat);
+		
+		
+		logger.info("property found: " + propertyService.findById("E91116", Property.class));
 //
 //		try {
 //			Property property = propertyService.create(new PropertyRequest("E91122", "Marasliou 20",
@@ -148,6 +128,31 @@ public class App {
 //		} catch (ResourceNotFoundException ex) {
 //			logger.warn(ex.getMessage());
 //		}
+
+		
+		// TESTING PROPERTY REPAIR
+//		try {
+//			List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
+//			logger.info("property repairs by a certain user: " + propertyRepairs);
+//		} catch (ResourceNotFoundException ex) {
+//			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
+//		}
+//
+//		List<PropertyRepairResponse> allRepairsByDate = propertyRepairService.findAllRepairsByDate(
+//				LocalDateTime.of(2022, 9, 20, 14, 30, 20), LocalDateTime.of(2022, 9, 21, 14, 30, 20),
+//				PropertyRepair.class);
+//		logger.info("repairs by date: ");
+//		for (PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
+//			logger.info(propertyRepairResponse + " \n");
+//		}
+//
+//		try {
+//			boolean result = propertyRepairService.deleteById("338", PropertyRepair.class);
+//			logger.info("property repair deleted " + result);
+//		} catch (ResourceNotFoundException ex) {
+//			logger.warn(ex.getMessage() + "| " + ex.getHttpStatus());
+//		}
+
 
 
 

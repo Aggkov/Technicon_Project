@@ -53,7 +53,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		Optional<PropertyRepair> propertyRepair = propertyRepairRepository.findById(id, PropertyRepair.class);
 
 		if (propertyRepair.isEmpty()) {
-			throw new ResourceNotFoundException("Property Repair  +  with this id  + id +  was not found ", HttpStatus.NOT_FOUND);
+			throw new ResourceNotFoundException("Property Repair  with this id "   + id +   " was not found ", HttpStatus.NOT_FOUND);
 		}
 		propertyRepair.get().setPropertyOwner(null);
 		propertyRepair.get().setProperty(null);

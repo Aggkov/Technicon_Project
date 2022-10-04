@@ -20,6 +20,7 @@ import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.payload.response.PropertyResponse;
+import com.europeandynamics.utils.validator.InputValidator;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
@@ -76,12 +77,13 @@ public class App {
 
         try {
             propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2024, 10, 2, 10, 30, 20),
-                    "Short Description", RepairType.ELECTRICAL_WORK, RepairStatus.IN_PROGRESS, new BigDecimal("5000"), "Long Description",
+                    "Short Description", null, RepairStatus.IN_PROGRESS, new BigDecimal("200"), "Long Description",
                     "111111115", "E91119"));
             logger.info("property repair created");
         } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {
             logger.warn(ex);
         }
+
 
 //        try {
 //            PropertyRepair propertyRepair = propertyRepairService.findById("341", PropertyRepair.class);

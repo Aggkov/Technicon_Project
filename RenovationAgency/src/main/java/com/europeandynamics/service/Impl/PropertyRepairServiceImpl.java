@@ -15,6 +15,7 @@ import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyRepairService;
 import com.europeandynamics.utils.validator.InputValidator;
+import com.europeandynamics.utils.validator.PropertyRepairValidator;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -63,8 +64,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	@Override
 	public PropertyRepair create(PropertyRepairRequest propertyRepairRequest) {
 
-		InputValidator.dateTimeMustBeOnPresentOrFuture(propertyRepairRequest.getDateTimeOfRepair());
-		InputValidator.checkCostOfRepair(propertyRepairRequest.getCostOfRepair());
+		PropertyRepairValidator.validatePropertyRepair(propertyRepairRequest);
 
 		Optional<PropertyRepair> optionalPropertyRepair = propertyRepairRepository.findById(propertyRepairRequest.getPropertyRepairId(), PropertyRepair.class);
 		if(optionalPropertyRepair.isPresent()) {

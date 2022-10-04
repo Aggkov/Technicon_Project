@@ -39,7 +39,6 @@ public class Property extends BaseEntity {
 	private String address;
 	
 	@NotBlank
-	@PastOrPresent(message = "year of construction must be in the past or present")
 	private LocalDate yearOfConstruction;
 	
 	@NotBlank
@@ -85,6 +84,5 @@ public class Property extends BaseEntity {
 		return Objects.equals(address, other.address) && Objects.equals(this.Id, other.Id) && type == other.type
 				&& Objects.equals(yearOfConstruction, other.yearOfConstruction);
 	}
-
 
 }

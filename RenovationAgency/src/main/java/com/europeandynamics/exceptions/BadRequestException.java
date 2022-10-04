@@ -12,6 +12,14 @@ public class BadRequestException extends RuntimeException {
     }
 
     public HttpStatus getHttpStatus() {
-        return httpStatus;
+        return this.httpStatus;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("");
+        sb.append(getMessage() + "| ");
+        sb.append(this.getHttpStatus());
+        return sb.toString();
     }
 }

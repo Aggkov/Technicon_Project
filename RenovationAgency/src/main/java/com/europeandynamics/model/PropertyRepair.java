@@ -2,6 +2,7 @@ package com.europeandynamics.model;
 
 import com.europeandynamics.model.enums.RepairStatus;
 import com.europeandynamics.model.enums.RepairType;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -36,7 +37,7 @@ public class PropertyRepair extends BaseEntity {
 	@NotBlank
 	private BigDecimal costOfRepair;
 	
-	@NotBlank
+//	@NotBlank
 	@Lob
 	private String longDescription;
 

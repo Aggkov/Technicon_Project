@@ -14,4 +14,12 @@ public class ResourceNotFoundException extends RuntimeException {
 	public HttpStatus getHttpStatus() {
 		return this.httpStatus;
 	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("");
+		sb.append(getMessage() + "| ");
+		sb.append(httpStatus);
+		return sb.toString();
+	}
 }

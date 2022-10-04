@@ -11,6 +11,14 @@ public class InvalidEmailException extends RuntimeException {
 	}
 
 	public HttpStatus getHttpStatus() {
-		return httpStatus;
+		return this.httpStatus;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("");
+		sb.append(getMessage() + "| ");
+		sb.append(httpStatus);
+		return sb.toString();
 	}
 }

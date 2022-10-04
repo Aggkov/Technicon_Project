@@ -64,7 +64,6 @@ public class PropertyOwner extends BaseEntity {
 		this.username = username;
 		this.password = password;
 		this.role = role;
-		this.properties = new LinkedHashSet<>();
 	}
 
 	public void addProperty(Property property) {

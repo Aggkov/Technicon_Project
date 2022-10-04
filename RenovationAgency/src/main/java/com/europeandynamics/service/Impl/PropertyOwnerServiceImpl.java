@@ -109,7 +109,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);
 
 		if (propertyOwner.isEmpty()) {
-			throw new ResourceNotFoundException("Property Owner  +  with this id  + id +  was not found ", HttpStatus.NOT_FOUND);
+			throw new ResourceNotFoundException("Property Owner with this id: "  + id + " was not found", HttpStatus.NOT_FOUND);
 		}
 
 		return propertyOwnerRepository.delete(propertyOwner.get());

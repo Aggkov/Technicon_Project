@@ -1,23 +1,19 @@
 package com.europeandynamics.service.Impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-
 import javax.persistence.NoResultException;
-
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.enums.HttpStatus;
-import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.request.PropertyOwnerRequest;
 import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
 import com.europeandynamics.utils.validator.InputValidator;
+import com.europeandynamics.utils.validator.PropertyOwnerValidator;
 
 /**
  * @author Aggelos
@@ -75,7 +71,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	public PropertyOwner create(PropertyOwner entity) {
 
-		InputValidator.checkEmail(entity.getEmail());
+		PropertyOwnerValidator.validatePropertyOwner(entity);
 
 		try {
 			if(propertyOwnerRepository.findById(entity.getId(), PropertyOwner.class).isPresent()) {

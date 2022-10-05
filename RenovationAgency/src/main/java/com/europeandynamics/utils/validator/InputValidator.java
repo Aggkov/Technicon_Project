@@ -1,11 +1,9 @@
 package com.europeandynamics.utils.validator;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.InvalidEmailException;
 import com.europeandynamics.model.enums.HttpStatus;

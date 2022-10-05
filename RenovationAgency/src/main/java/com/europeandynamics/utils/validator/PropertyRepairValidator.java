@@ -28,7 +28,7 @@ public class PropertyRepairValidator {
         propertyRepairRequest.getRepairStatus() == null || propertyRepairRequest.getDateTimeOfRepair() == null || propertyRepairRequest.getCostOfRepair() == null ||
         propertyRepairRequest.getShortDescription() == null || propertyRepairRequest.getLongDescription() == null || propertyRepairRequest.getPropertyOwnerId() == null ||
         propertyRepairRequest.getPropertyId() == null) {
-            throw new BadRequestException("Fields cannot be null",HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("PropertyRepair Fields cannot be null",HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,12 +1,18 @@
 package com.europeandynamics.service.Impl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.model.enums.HttpStatus;
-import com.europeandynamics.model.enums.RepairStatus;
 import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.request.PropertyRepairRequest;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
@@ -14,18 +20,7 @@ import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyRepairService;
-import com.europeandynamics.utils.validator.InputValidator;
 import com.europeandynamics.utils.validator.PropertyRepairValidator;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
-import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 public class PropertyRepairServiceImpl implements PropertyRepairService {
 
@@ -141,6 +136,18 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		propertyRepair.get().setProperty(null);
 		return propertyRepairRepository.delete(propertyRepair.get());
 		
+	}
+
+
+	@Override
+	public Map<RepairType, BigDecimal> highestProfitRepairsByRepairType() {
+		
+		return propertyRepairRepository.highestProfitRepairsByRepairType();
+				
+//		Set<Map.Entry<RepairType, BigDecimal>> entries = mapFromRepoSorted.entrySet();
+//		entries.stream()
+		
+				
 	}
 
 

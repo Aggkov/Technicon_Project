@@ -23,7 +23,6 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 				.getResultList()
 				.stream()
 				.sorted(Comparator.comparing(PropertyOwnerRepairsPaidResponse::getAmountPaidForRepairs).reversed())
-//				.collect(groupingBy(PropertyOwnerRepairsPaidResponse::getRepairType, Collectors.toCollection(LinkedHashSet::new)));
 				.collect(Collectors.toCollection(ArrayList::new));
 
 		return query;

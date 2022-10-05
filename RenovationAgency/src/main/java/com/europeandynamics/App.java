@@ -2,30 +2,16 @@ package com.europeandynamics;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Map;
 
-import com.europeandynamics.exceptions.BadRequestException;
-import com.europeandynamics.exceptions.InvalidEmailException;
-import com.europeandynamics.model.Property;
-import com.europeandynamics.model.PropertyOwner;
-import com.europeandynamics.model.enums.RepairStatus;
-import com.europeandynamics.model.enums.RepairType;
-import com.europeandynamics.model.enums.Role;
-import com.europeandynamics.model.enums.Type;
-import com.europeandynamics.payload.request.PropertyOwnerRequest;
-import com.europeandynamics.payload.request.PropertyRepairRequest;
-import com.europeandynamics.payload.request.PropertyRequest;
-import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
-import com.europeandynamics.payload.response.PropertyOwnerResponse;
-import com.europeandynamics.payload.response.PropertyRepairResponse;
-import com.europeandynamics.payload.response.PropertyResponse;
-import com.europeandynamics.utils.validator.InputValidator;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
-import com.europeandynamics.exceptions.ResourceNotFoundException;
-import com.europeandynamics.model.PropertyRepair;
+import com.europeandynamics.exceptions.BadRequestException;
+import com.europeandynamics.model.Property;
+import com.europeandynamics.model.enums.RepairType;
+import com.europeandynamics.model.enums.Type;
+import com.europeandynamics.payload.request.PropertyRequest;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
@@ -35,8 +21,7 @@ import com.europeandynamics.service.PropertyService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
 import com.europeandynamics.service.Impl.PropertyRepairServiceImpl;
 import com.europeandynamics.service.Impl.PropertyServiceImpl;
-
-import javax.persistence.NoResultException;
+import com.europeandynamics.utils.PassBasedEncryption;
 
 public class App {
 
@@ -75,14 +60,14 @@ public class App {
 //            logger.error(ex);
 //        }
 
-        try {
-            propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2024, 10, 2, 10, 30, 20),
-                    "Short Description", RepairType.FRAMES, RepairStatus.COMPLETE, new BigDecimal("200"), "Long Description",
-                    "111111115", "E91119"));
-            logger.info("property repair created");
-        } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {
-            logger.error(ex);
-        }
+//        try {
+//            propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2024, 10, 2, 10, 30, 20),
+//                    "Short Description", RepairType.FRAMES, RepairStatus.COMPLETE, new BigDecimal("200"), "Long Description",
+//                    "111111115", "E91119"));
+//            logger.info("property repair created");
+//        } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {
+//            logger.error(ex);
+//        }
 
 
 //        try {
@@ -108,6 +93,9 @@ public class App {
 //        } catch (ResourceNotFoundException ex) {
 //            logger.error(ex);
 //        }
+        
+//        Map<RepairType, BigDecimal> costPerRepairType = propertyRepairService.highestProfitRepairsByRepairType();
+//        logger.info(costPerRepairType);
 
 
 //		 TESTING PropertyOwner Service
@@ -172,7 +160,7 @@ public class App {
 //
 //		try {
 //			Property property = propertyService.create(new PropertyRequest("E91119", "Marasliou 20",
-//					LocalDate.of(2030, 9, 22), Type.APARTMENT, "111111115"));
+//					LocalDate.of(2030, 9, 22), null, "111111115"));
 //			logger.info("property created: " + property);
 //		} catch (BadRequestException ex) {
 //			logger.error(ex);
@@ -194,10 +182,39 @@ public class App {
 //
 //			logger.info("property successfully updated");
 //		} catch (ResourceNotFoundException ex) {
-//			logger.error(ex.getMessage());
+//			logger.error(ex);
 //		}
+        
+        
+        
 
+        
+//        Map<RepairType, BigDecimal> highestprof = propertyRepairService.highestProfitRepairsByRepairType();
+//        for(Map.Entry<RepairType, BigDecimal> entry : highestprof.entrySet()) {
+//            logger.info(entry.getKey() + " " + entry.getValue());
+//        }
 
+        /* Plain text Password. */  
+        String password = "myNewPass123";  
+          
+        /* generates the Salt value. It can be stored in a database. */  
+        String saltvalue = PassBasedEncryption.getSaltvalue(30);  
+          
+        /* generates an encrypted password. It can be stored in a database.*/  
+        String encryptedpassword = PassBasedEncryption.generateSecurePassword(password, saltvalue);  
+          
+        /* Print out plain text password, encrypted password and salt value. */  
+        System.out.println("Plain text password = " + password);  
+        System.out.println("Secure password = " + encryptedpassword);  
+        System.out.println("Salt value = " + saltvalue);  
+          
+        /* verify the original password and encrypted password */  
+        Boolean status = PassBasedEncryption.verifyUserPassword(password,encryptedpassword,saltvalue);  
+        if(status==true)  
+            System.out.println("Password Matched!!");  
+        else  
+            System.out.println("Password Mismatched"); 
+        
     }
 
 }

@@ -1,3 +1,7 @@
+/**
+ * A class that implements all the methods that are necessary 
+ * for the Property Repair methods that the customer requests 
+ */
 package com.europeandynamics.service.Impl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,13 +33,25 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	private final PropertyRepository propertyRepository;
 	private final PropertyOwnerRepository propertyOwnerRepository;
 	
+	/**
+	 * 
+	 * @param propertyRepairRepository The place where we save all the propertyRepairs
+	 * @param propertyRepository The place where we save all the properties
+	 * @param propertyOwnerRepository The place where we save all the propertyOwners
+	 */
 	public PropertyRepairServiceImpl(PropertyRepairRepository propertyRepairRepository, PropertyRepository propertyRepository,PropertyOwnerRepository propertyOwnerRepository) {
 		this.propertyRepairRepository = propertyRepairRepository;
 		this.propertyRepository = propertyRepository;
 		this.propertyOwnerRepository = propertyOwnerRepository;
 	}
 
-
+	/**
+	 * @param id The property Repair id
+	 * @param classtype
+	 * @return A specific Property Repair found by a specific Id
+	 * 
+	 */
+	
 	@Override
 	public PropertyRepair findById(String id, Class<PropertyRepair> classType) {
 		Optional<PropertyRepair> propertyRepair = Optional.ofNullable(propertyRepairRepository.findById(id, classType).orElseThrow(
@@ -44,6 +60,11 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		return propertyRepair.get();
 	}
 
+	/**
+	 * @param id 
+	 * @return A property Repair based by an owner's Vat number
+	 */
+	
 	public List<PropertyRepair> propertyRepairsByOwnerVatNumber(String id) {
 
 		if(propertyRepairRepository.propertyRepairsByOwnerVatNumber(id).isEmpty()) {
@@ -52,11 +73,22 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		return propertyRepairRepository.propertyRepairsByOwnerVatNumber(id);
 	}
 
+	/**
+	 * @param classType
+	 * @param dateTo the date it ended
+	 * @param dateFrom The date it started
+	 * @return Returns all the Repairs Based on the date it started till the date it ended
+	 */
+	
 	@Override
 	public List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime dateFrom, LocalDateTime dateTo, Class<PropertyRepair> classType) {
 		return propertyRepairRepository.findAllRepairsByDate(dateFrom,dateTo,classType);
 	}
 
+	/**
+	 * @param propertyRepairRequest
+	 * @return Creates a new PropertyRepair
+	 */
 	@Override
 	public PropertyRepair create(PropertyRepairRequest propertyRepairRequest) {
 
@@ -92,6 +124,11 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		return propertyRepairRepository.create(newPropertyRepair);
 	}
 
+	/**
+	 * @param propertyRepairRequest The class with All the Initializations of all the Requests
+	 * @param repairId The id of the existing Repair
+	 * @return Updates an already existing PropertyRepair
+	 */
 	@Override
 	public void update(String repairId, PropertyRepairRequest propertyRepairRequest) {
 
@@ -126,6 +163,12 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	}
 
+	/**
+	 * @param classType The list of all the Property Repairs
+	 * @param id Id of the Property Repair
+	 * @return Deletes a Property Repair by a specific Id
+	 */
+	
 	@Override
 	public boolean deleteById(String id, Class<PropertyRepair> classType) {
 		Optional<PropertyRepair> propertyRepair = propertyRepairRepository.findById(id, PropertyRepair.class);
@@ -140,6 +183,9 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 
+ 
+ 
+	
 	@Override
 	public Map<RepairType, BigDecimal> highestProfitRepairsByRepairType() {
 		

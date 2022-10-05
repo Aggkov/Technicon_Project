@@ -1,3 +1,9 @@
+/**
+ * Implements all the methods that a customer can request
+ *  about their Properties
+ *  
+ */
+
 package com.europeandynamics.service.Impl;
 
 import java.util.Collections;
@@ -21,17 +27,31 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertyRepository propertyRepository;
     private final PropertyOwnerRepository propertyOwnerRepository;
 
+    /**
+     * @param propertyRepository The place where we save all the Properties
+     * @param propertyOwnerRepository The place where we save all the Property Owners of the properties
+     */
     public PropertyServiceImpl(PropertyRepository propertyRepository, PropertyOwnerRepository propertyOwnerRepository) {
         this.propertyRepository = propertyRepository;
         this.propertyOwnerRepository = propertyOwnerRepository;
     }
 
+    /**
+     * @param classType The list with all properties
+     * @return Returns all the properties
+     */
     public List<PropertyResponse> findAll(Class<Property> classType) {
 
         return propertyRepository.findAllProperties(classType);
 
     }
 
+    /**
+     * @param classType the list of all properties
+     * @param id id of the property
+     * @return Returns the properties found by a specific id
+     */
+    
     @Override
     public Property findById(String id, Class<Property> classType) {
 
@@ -42,6 +62,13 @@ public class PropertyServiceImpl implements PropertyService {
         return property.get();
     }
 
+    
+    /**
+     * @param classType
+     * @param id
+     * @return Returns the list of the properties found by a vat number
+     */
+    
     @Override
     public List<PropertyResponse> findPropertiesByOwnerVatNumber(String id, Class<Property> classType) {
 
@@ -52,6 +79,11 @@ public class PropertyServiceImpl implements PropertyService {
         return propertiesByOwner;
     }
 
+    /**
+     * @param propertyRequest
+     * @return Creates a new Property
+     */
+    
     public Property create(PropertyRequest propertyRequest) {
     	
     	PropertyValidator.checkForNulls(propertyRequest);
@@ -59,10 +91,12 @@ public class PropertyServiceImpl implements PropertyService {
 
     	 Optional<Property> optionalProperty = propertyRepository.findById(propertyRequest.getId(), Property.class);
          if (optionalProperty.isPresent()) {
-             throw new BadRequestException("Property with id: " + propertyRequest.getId() + " already exists ", HttpStatus.BAD_REQUEST);
+             throw new BadRequestException("Property with id: " + propertyRequest.getId() + 
+            		 " already exists ", HttpStatus.BAD_REQUEST);
          }
 
-         Optional<PropertyOwner> optionalPropertyOwner = Optional.ofNullable(propertyOwnerRepository.findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
+         Optional<PropertyOwner> optionalPropertyOwner = Optional.ofNullable(propertyOwnerRepository
+        		 .findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
                  .orElseThrow(() -> new ResourceNotFoundException(
                          PropertyOwner.class.getName() + " with this id: " + propertyRequest.getPropertyOwnerId() +
                                  " was not found", HttpStatus.NOT_FOUND)));
@@ -80,6 +114,12 @@ public class PropertyServiceImpl implements PropertyService {
 
 	}
 	
+    /**
+     * @param id
+     * @param propertyRequest
+     * Updates an already existing property
+     */
+    
 	@Override
 	public void update(String id , PropertyRequest propertyRequest) {
 		
@@ -102,7 +142,12 @@ public class PropertyServiceImpl implements PropertyService {
 		}
 		
 	}
-
+	
+/**
+ * @param classType
+ * @param id
+ * @return Deletes an already existing property	
+ */
     @Override
     public boolean deleteById(String id, Class<Property> classType) {
 

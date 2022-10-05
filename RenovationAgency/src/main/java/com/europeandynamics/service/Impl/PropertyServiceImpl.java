@@ -14,6 +14,7 @@ import com.europeandynamics.payload.response.PropertyResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyService;
+import com.europeandynamics.utils.validator.PropertyValidator;
 
 public class PropertyServiceImpl implements PropertyService {
 
@@ -52,6 +53,9 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     public Property create(PropertyRequest propertyRequest) {
+    	
+    	PropertyValidator.checkForNulls(propertyRequest);
+    	
 
     	 Optional<Property> optionalProperty = propertyRepository.findById(propertyRequest.getId(), Property.class);
          if (optionalProperty.isPresent()) {

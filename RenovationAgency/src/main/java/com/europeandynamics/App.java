@@ -183,7 +183,7 @@ public class App {
 //			propertyService.deleteById("E91119", Property.class);
 //			logger.info("property deleted");
 //		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 
 

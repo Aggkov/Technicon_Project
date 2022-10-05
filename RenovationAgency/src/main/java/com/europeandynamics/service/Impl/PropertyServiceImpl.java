@@ -74,8 +74,10 @@ public class PropertyServiceImpl implements PropertyService {
 
         List<PropertyResponse> propertiesByOwner = propertyRepository.findPropertiesByOwnerVatNumber(id, Property.class);
         if (propertiesByOwner.isEmpty()) {
-            return Collections.emptyList();
-        }
+        	throw new ResourceNotFoundException("Property Owner with this VatNumber: " + id + " was not found",
+				HttpStatus.NOT_FOUND);
+	}
+        
         return propertiesByOwner;
     }
 
@@ -129,7 +131,7 @@ public class PropertyServiceImpl implements PropertyService {
 
         Optional<PropertyOwner> propertyOwner = Optional.ofNullable(propertyOwnerRepository.findById(propertyRequest.getPropertyOwnerId(), PropertyOwner.class)
                 .orElseThrow(() -> new ResourceNotFoundException
-                (PropertyOwner.class.getName() +  "with this id: " + id + "was not found ", HttpStatus.NOT_FOUND)));
+                (PropertyOwner.class.getName() +  "with this id: " + id + " was not found ", HttpStatus.NOT_FOUND)));
 		
 		if (property.isPresent()) {
 			Property baseProperty = property.get();
@@ -154,7 +156,7 @@ public class PropertyServiceImpl implements PropertyService {
         Optional<Property> property = propertyRepository.findById(id, Property.class);
 
         if (property.isEmpty()) {
-            throw new ResourceNotFoundException("Property with this id  + id +  was not found ", HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("Property with this id "  + id +   " was not found ", HttpStatus.NOT_FOUND);
         }
         Property foundProperty = property.get();
         foundProperty.setPropertyOwner(null);

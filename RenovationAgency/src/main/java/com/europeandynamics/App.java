@@ -55,7 +55,7 @@ public class App {
 //			List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
 //			logger.info("property repairs by a certain user: " + propertyRepairs);
 //		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 
 //
@@ -72,16 +72,16 @@ public class App {
 //            boolean result = propertyRepairService.deleteById("dadawd", PropertyRepair.class);
 //            logger.info("property repair deleted " + result);
 //        } catch (ResourceNotFoundException ex) {
-//            logger.warn(ex);
+//            logger.error(ex);
 //        }
 
         try {
             propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2024, 10, 2, 10, 30, 20),
-                    "Short Description", null, RepairStatus.IN_PROGRESS, new BigDecimal("200"), "Long Description",
+                    "Short Description", RepairType.FRAMES, RepairStatus.COMPLETE, new BigDecimal("200"), "Long Description",
                     "111111115", "E91119"));
             logger.info("property repair created");
         } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {
-            logger.warn(ex);
+            logger.error(ex);
         }
 
 
@@ -89,7 +89,7 @@ public class App {
 //            PropertyRepair propertyRepair = propertyRepairService.findById("341", PropertyRepair.class);
 //            logger.info("found " + propertyRepair);
 //        } catch (ResourceNotFoundException ex) {
-//            logger.warn(ex);
+//            logger.error(ex);
 //        }
 
 //        try {
@@ -106,7 +106,7 @@ public class App {
 //
 //            logger.info("property repair successfully updated");
 //        } catch (ResourceNotFoundException ex) {
-//            logger.warn(ex);
+//            logger.error(ex);
 //        }
 
 
@@ -119,7 +119,7 @@ public class App {
 //			logger.info(propertyOwnerService.findById("111111", PropertyOwner.class));
 //
 //		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 
 
@@ -128,14 +128,14 @@ public class App {
 //                    "dada@email.com", "username9", "pass9", Role.USER));
 //            logger.info("owner created successfully");
 //        } catch (BadRequestException | InvalidEmailException ex) {
-//            logger.warn(ex);
+//            logger.error(ex);
 //        }
 //
 //		try {
 //			PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("nikou@email.com");
 //			logger.info(" found owner with email " + propertyOwnerFoundEmail);
 //		} catch (InvalidEmailException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 //
 //		try {
@@ -143,7 +143,7 @@ public class App {
 //					new PropertyOwnerRequest("Agiou Dimitriou 40", "some@email.com", "9876541231"));
 //			logger.info("owner updated successfully");
 //		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 
 
@@ -151,7 +151,7 @@ public class App {
 //			propertyOwnerService.deleteById("111111120", PropertyOwner.class);
 //			logger.info("owner with id 111111119 was deleted");
 //		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 
 //		List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = new ArrayList<>(propertyOwnerService.amountPaidForRepairsByOwner());
@@ -175,7 +175,7 @@ public class App {
 //					LocalDate.of(2030, 9, 22), Type.APARTMENT, "111111115"));
 //			logger.info("property created: " + property);
 //		} catch (BadRequestException ex) {
-//			logger.warn(ex);
+//			logger.error(ex);
 //		}
 
 
@@ -194,7 +194,7 @@ public class App {
 //
 //			logger.info("property successfully updated");
 //		} catch (ResourceNotFoundException ex) {
-//			logger.warn(ex.getMessage());
+//			logger.error(ex.getMessage());
 //		}
 
 

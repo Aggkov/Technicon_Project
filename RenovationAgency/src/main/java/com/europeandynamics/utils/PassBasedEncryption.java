@@ -67,4 +67,26 @@ public class PassBasedEncryption {
 		return finalval;
 
 	}
+	
+public static String passEncryptionGenerator(String password) {
+		
+        String saltvalue = PassBasedEncryption.getSaltvalue(30);
+        
+        String encryptedpassword = generateSecurePassword(password, saltvalue);
+        
+        System.out.println("Plain text password = " + password);  
+        System.out.println("Secure password = " + encryptedpassword);  
+        System.out.println("Salt value = " + saltvalue);  
+          
+        /* verify the original password and encrypted password */  
+        Boolean status = PassBasedEncryption.verifyUserPassword(password,encryptedpassword,saltvalue);  
+        if(status==true)  
+            System.out.println("Password Matched!!");  
+        else  
+            System.out.println("Password Mismatched");
+        
+        return encryptedpassword;
+        
+
+	}
 }

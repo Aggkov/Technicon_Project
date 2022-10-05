@@ -12,17 +12,12 @@ import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
 import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.service.PropertyOwnerService;
+import com.europeandynamics.utils.PassBasedEncryption;
 import com.europeandynamics.utils.validator.InputValidator;
 import com.europeandynamics.utils.validator.PropertyOwnerValidator;
 
-/**
- * @author Aggelos
- *
- */
-/**
- * @author Aggelos
- *
- */
+
+
 public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	private final PropertyOwnerRepository propertyOwnerRepository;
@@ -73,7 +68,6 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	public PropertyOwner create(PropertyOwner entity) {
 
-
 		PropertyOwnerValidator.validatePropertyOwner(entity);
 
 		try {
@@ -92,6 +86,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 		} catch (NoResultException | ResourceNotFoundException ex) {
 		}
+		entity.setPassword(PassBasedEncryption.passEncryptionGenerator(entity.getPassword()));
 		return propertyOwnerRepository.create(entity);
 
 	}

@@ -111,8 +111,8 @@ public class App {
 
 
         try {
-            propertyOwnerService.create(new PropertyOwner("111111120", "Jack", "Jackson", "Athens", "6999999999",
-                    "dada@email.com", "username9", "pass9", Role.USER));
+            propertyOwnerService.create(new PropertyOwner("111111121", "Jack", "Jackson", "Athens", "6999999999",
+                    "jack@email.com", "username9", "pass9", Role.USER));
             logger.info("owner created successfully");
         } catch (BadRequestException | InvalidEmailException ex) {
             logger.error(ex);
@@ -196,25 +196,25 @@ public class App {
 //        }
 
         /* Plain text Password. */  
-        String password = "myNewPass123";  
-          
-        /* generates the Salt value. It can be stored in a database. */  
-        String saltvalue = PassBasedEncryption.getSaltvalue(30);  
-          
-        /* generates an encrypted password. It can be stored in a database.*/  
-        String encryptedpassword = PassBasedEncryption.generateSecurePassword(password, saltvalue);  
-          
-        /* Print out plain text password, encrypted password and salt value. */  
-        System.out.println("Plain text password = " + password);  
-        System.out.println("Secure password = " + encryptedpassword);  
-        System.out.println("Salt value = " + saltvalue);  
-          
-        /* verify the original password and encrypted password */  
-        Boolean status = PassBasedEncryption.verifyUserPassword(password,encryptedpassword,saltvalue);  
-        if(status==true)  
-            System.out.println("Password Matched!!");  
-        else  
-            System.out.println("Password Mismatched"); 
+//        String password = "myNewPass123";  
+//          
+//        /* generates the Salt value. It can be stored in a database. */  
+//        String saltvalue = PassBasedEncryption.getSaltvalue(30);  
+//          
+//        /* generates an encrypted password. It can be stored in a database.*/  
+//        String encryptedpassword = PassBasedEncryption.generateSecurePassword(password, saltvalue);  
+//          
+//        /* Print out plain text password, encrypted password and salt value. */  
+//        System.out.println("Plain text password = " + password);  
+//        System.out.println("Secure password = " + encryptedpassword);  
+//        System.out.println("Salt value = " + saltvalue);  
+//          
+//        /* verify the original password and encrypted password */  
+//        Boolean status = PassBasedEncryption.verifyUserPassword(password,encryptedpassword,saltvalue);  
+//        if(status==true)  
+//            System.out.println("Password Matched!!");  
+//        else  
+//            System.out.println("Password Mismatched"); 
         
     }
 

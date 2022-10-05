@@ -21,6 +21,9 @@ import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyRepairService;
 import com.europeandynamics.utils.validator.PropertyRepairValidator;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 public class PropertyRepairServiceImpl implements PropertyRepairService {
 

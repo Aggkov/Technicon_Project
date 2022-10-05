@@ -1,17 +1,12 @@
 package com.europeandynamics;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Map;
-
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
 import com.europeandynamics.exceptions.BadRequestException;
-import com.europeandynamics.model.Property;
-import com.europeandynamics.model.enums.RepairType;
-import com.europeandynamics.model.enums.Type;
-import com.europeandynamics.payload.request.PropertyRequest;
+import com.europeandynamics.exceptions.InvalidEmailException;
+import com.europeandynamics.model.PropertyOwner;
+import com.europeandynamics.model.enums.Role;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
@@ -28,7 +23,9 @@ public class App {
     public static void main(String[] args) {
 
         Logger logger = LoggerFactory.logger(App.class);
+        
         PropertyOwnerService propertyOwnerService = new PropertyOwnerServiceImpl(new PropertyOwnerRepositoryImpl());
+        
         PropertyService propertyService = new PropertyServiceImpl(new PropertyRepositoryImpl(), new PropertyOwnerRepositoryImpl());
 
         PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(new PropertyRepairRepositoryImpl(), new PropertyRepositoryImpl(),
@@ -36,6 +33,7 @@ public class App {
 
 //        System.out.println(cost);
         // TESTING PROPERTY REPAIR
+        
 //		try {
 //			List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
 //			logger.info("property repairs by a certain user: " + propertyRepairs);
@@ -99,6 +97,7 @@ public class App {
 
 
 //		 TESTING PropertyOwner Service
+        
 //		List<PropertyOwnerResponse> findAll = propertyOwnerService.findAll(PropertyOwner.class);
 //		logger.info("All owners " + findAll);
 
@@ -111,13 +110,13 @@ public class App {
 //		}
 
 
-//        try {
-//            propertyOwnerService.create(new PropertyOwner("111111120", "Jack", "Jackson", "Athens", "6999999999",
-//                    "dada@email.com", "username9", "pass9", Role.USER));
-//            logger.info("owner created successfully");
-//        } catch (BadRequestException | InvalidEmailException ex) {
-//            logger.error(ex);
-//        }
+        try {
+            propertyOwnerService.create(new PropertyOwner("111111120", "Jack", "Jackson", "Athens", "6999999999",
+                    "dada@email.com", "username9", "pass9", Role.USER));
+            logger.info("owner created successfully");
+        } catch (BadRequestException | InvalidEmailException ex) {
+            logger.error(ex);
+        }
 //
 //		try {
 //			PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("nikou@email.com");
@@ -145,6 +144,8 @@ public class App {
 //		List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = new ArrayList<>(propertyOwnerService.amountPaidForRepairsByOwner());
 //		propertyOwnerService.amountPaidForRepairsByOwner();
 //		logger.info(eachOwnerSumPaid);
+        
+      
 
         // TESTING PROPERTY SERVICE
 //

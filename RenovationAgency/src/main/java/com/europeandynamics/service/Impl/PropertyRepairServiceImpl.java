@@ -1,27 +1,22 @@
 package com.europeandynamics.service.Impl;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
+
 import com.europeandynamics.exceptions.BadRequestException;
 import com.europeandynamics.exceptions.ResourceNotFoundException;
 import com.europeandynamics.model.Property;
 import com.europeandynamics.model.PropertyOwner;
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.model.enums.HttpStatus;
-import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.request.PropertyRepairRequest;
+import com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.repository.PropertyOwnerRepository;
 import com.europeandynamics.repository.PropertyRepairRepository;
 import com.europeandynamics.repository.PropertyRepository;
 import com.europeandynamics.service.PropertyRepairService;
 import com.europeandynamics.utils.validator.PropertyRepairValidator;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 public class PropertyRepairServiceImpl implements PropertyRepairService {
 
@@ -33,6 +28,12 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		this.propertyRepairRepository = propertyRepairRepository;
 		this.propertyRepository = propertyRepository;
 		this.propertyOwnerRepository = propertyOwnerRepository;
+	}
+	
+	@Override
+	public List<PropertyRepair> findAllPropertyRepairs(Class<PropertyRepair> classType) {
+		
+		return propertyRepairRepository.findAll(classType);
 	}
 
 
@@ -54,6 +55,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	@Override
 	public List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime dateFrom, LocalDateTime dateTo, Class<PropertyRepair> classType) {
+		
 		return propertyRepairRepository.findAllRepairsByDate(dateFrom,dateTo,classType);
 	}
 
@@ -141,7 +143,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 
 	@Override
-	public Map<RepairType, BigDecimal> highestProfitRepairsByRepairType() {
+	public List<HighestProfitByRepairTypeResponse> highestProfitRepairsByRepairType() {
 		
 		return propertyRepairRepository.highestProfitRepairsByRepairType();
 				

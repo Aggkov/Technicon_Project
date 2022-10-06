@@ -1,12 +1,22 @@
 package com.europeandynamics;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
 import com.europeandynamics.exceptions.BadRequestException;
-import com.europeandynamics.exceptions.InvalidEmailException;
-import com.europeandynamics.model.PropertyOwner;
-import com.europeandynamics.model.enums.Role;
+import com.europeandynamics.exceptions.ResourceNotFoundException;
+import com.europeandynamics.model.PropertyRepair;
+import com.europeandynamics.model.enums.RepairStatus;
+import com.europeandynamics.model.enums.RepairType;
+import com.europeandynamics.payload.request.PropertyRepairRequest;
+import com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse;
+import com.europeandynamics.payload.response.PropertyOwnerRepairsPaidResponse;
+import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.repository.Impl.PropertyOwnerRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepairRepositoryImpl;
 import com.europeandynamics.repository.Impl.PropertyRepositoryImpl;
@@ -16,7 +26,6 @@ import com.europeandynamics.service.PropertyService;
 import com.europeandynamics.service.Impl.PropertyOwnerServiceImpl;
 import com.europeandynamics.service.Impl.PropertyRepairServiceImpl;
 import com.europeandynamics.service.Impl.PropertyServiceImpl;
-import com.europeandynamics.utils.PassBasedEncryption;
 
 public class App {
 
@@ -34,51 +43,52 @@ public class App {
 //        System.out.println(cost);
         // TESTING PROPERTY REPAIR
         
+//        logger.info(propertyRepairService.findAllPropertyRepairs(PropertyRepair.class));
+//        String vatNumber = "111111113";
 //		try {
-//			List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber("111111113");
+//			List<PropertyRepair> propertyRepairs = propertyRepairService.propertyRepairsByOwnerVatNumber(vatNumber);
 //			logger.info("property repairs by a certain user: " + propertyRepairs);
 //		} catch (ResourceNotFoundException ex) {
 //			logger.error(ex);
 //		}
-
 //
 //		List<PropertyRepairResponse> allRepairsByDate = propertyRepairService.findAllRepairsByDate(
-//				LocalDateTime.of(2022, 9, 20, 14, 30, 20), LocalDateTime.of(2022, 9, 21, 14, 30, 20),
+//				LocalDateTime.of(2022, 9, 20, 14, 30, 20), LocalDateTime.of(2022, 9, 21, 16, 30, 20),
 //				PropertyRepair.class);
 //		logger.info("repairs by date: ");
 //		for (PropertyRepairResponse propertyRepairResponse : allRepairsByDate) {
 //			logger.info(propertyRepairResponse + " \n");
 //		}
 
-//
 //        try {
-//            boolean result = propertyRepairService.deleteById("dadawd", PropertyRepair.class);
+//            boolean result = propertyRepairService.deleteById("342", PropertyRepair.class);
 //            logger.info("property repair deleted " + result);
 //        } catch (ResourceNotFoundException ex) {
 //            logger.error(ex);
 //        }
 
-//        try {
-//            propertyRepairService.create(new PropertyRepairRequest("342", LocalDateTime.of(2024, 10, 2, 10, 30, 20),
-//                    "Short Description", RepairType.FRAMES, RepairStatus.COMPLETE, new BigDecimal("200"), "Long Description",
-//                    "111111115", "E91119"));
-//            logger.info("property repair created");
-//        } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {
-//            logger.error(ex);
-//        }
+        try {
+            propertyRepairService.create(new PropertyRepairRequest("343", LocalDateTime.of(2022, 10, 2, 10, 30, 20),
+                    "Short Description", RepairType.FRAMES, RepairStatus.COMPLETE, new BigDecimal("200"), "Long Description",
+                    "111111115", "E91119"));
+            logger.info("property repair created");
+        } catch (ResourceNotFoundException | BadRequestException | NumberFormatException ex) {
+            logger.error(ex);
+        }
 
 
 //        try {
-//            PropertyRepair propertyRepair = propertyRepairService.findById("341", PropertyRepair.class);
+//            PropertyRepair propertyRepair = propertyRepairService.findById("340", PropertyRepair.class);
 //            logger.info("found " + propertyRepair);
+//            logger.info(propertyRepair.getPropertyOwner());
 //        } catch (ResourceNotFoundException ex) {
 //            logger.error(ex);
 //        }
-
+//
 //        try {
 //            propertyRepairService.update("340", PropertyRepairRequest.builder()
-//                    .repairStatus(RepairStatus.COMPLETE)
-//                            .costOfRepair(new BigDecimal("140"))
+//                    .repairStatus(RepairStatus.DEFAULT_STANDBY)
+//                            .costOfRepair(new BigDecimal("300"))
 //                            .dateTimeOfRepair(LocalDateTime.of(2022, 10, 2, 10, 30, 20))
 //                            .longDescription("Long Description")
 //                            .shortDescription("Short Description")
@@ -91,9 +101,13 @@ public class App {
 //        } catch (ResourceNotFoundException ex) {
 //            logger.error(ex);
 //        }
-        
-//        Map<RepairType, BigDecimal> costPerRepairType = propertyRepairService.highestProfitRepairsByRepairType();
+//        
+//        List<HighestProfitByRepairTypeResponse> costPerRepairType = propertyRepairService.highestProfitRepairsByRepairType();
 //        logger.info(costPerRepairType);
+//        
+//		List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = new ArrayList<>(propertyOwnerService.amountPaidForRepairsByOwner());
+//		propertyOwnerService.amountPaidForRepairsByOwner();
+//		logger.info(eachOwnerSumPaid);
 
 
 //		 TESTING PropertyOwner Service
@@ -110,13 +124,13 @@ public class App {
 //		}
 
 
-        try {
-            propertyOwnerService.create(new PropertyOwner("111111121", "Jack", "Jackson", "Athens", "6999999999",
-                    "jack@email.com", "username9", "pass9", Role.USER));
-            logger.info("owner created successfully");
-        } catch (BadRequestException | InvalidEmailException ex) {
-            logger.error(ex);
-        }
+//        try {
+//            propertyOwnerService.create(new PropertyOwner("111111121", "Jack", "Jackson", "Athens", "6999999999",
+//                    "jack@email.com", "username9", "pass9", Role.USER));
+//            logger.info("owner created successfully");
+//        } catch (BadRequestException | InvalidEmailException ex) {
+//            logger.error(ex);
+//        }
 //
 //		try {
 //			PropertyOwnerResponse propertyOwnerFoundEmail = propertyOwnerService.findByEmail("nikou@email.com");
@@ -141,9 +155,7 @@ public class App {
 //			logger.error(ex);
 //		}
 
-//		List<PropertyOwnerRepairsPaidResponse> eachOwnerSumPaid = new ArrayList<>(propertyOwnerService.amountPaidForRepairsByOwner());
-//		propertyOwnerService.amountPaidForRepairsByOwner();
-//		logger.info(eachOwnerSumPaid);
+
         
       
 
@@ -195,26 +207,7 @@ public class App {
 //            logger.info(entry.getKey() + " " + entry.getValue());
 //        }
 
-        /* Plain text Password. */  
-//        String password = "myNewPass123";  
-//          
-//        /* generates the Salt value. It can be stored in a database. */  
-//        String saltvalue = PassBasedEncryption.getSaltvalue(30);  
-//          
-//        /* generates an encrypted password. It can be stored in a database.*/  
-//        String encryptedpassword = PassBasedEncryption.generateSecurePassword(password, saltvalue);  
-//          
-//        /* Print out plain text password, encrypted password and salt value. */  
-//        System.out.println("Plain text password = " + password);  
-//        System.out.println("Secure password = " + encryptedpassword);  
-//        System.out.println("Salt value = " + saltvalue);  
-//          
-//        /* verify the original password and encrypted password */  
-//        Boolean status = PassBasedEncryption.verifyUserPassword(password,encryptedpassword,saltvalue);  
-//        if(status==true)  
-//            System.out.println("Password Matched!!");  
-//        else  
-//            System.out.println("Password Mismatched"); 
+       
         
     }
 

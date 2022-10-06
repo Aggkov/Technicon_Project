@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.model.enums.RepairType;
+import com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 
 public interface PropertyRepairRepository extends BaseRepository<PropertyRepair> {
@@ -15,6 +16,8 @@ public interface PropertyRepairRepository extends BaseRepository<PropertyRepair>
 
     List<PropertyRepair> propertyRepairsByOwnerVatNumber(String vatNumber);
     
-    Map<RepairType, BigDecimal> highestProfitRepairsByRepairType();
+    List<HighestProfitByRepairTypeResponse> highestProfitRepairsByRepairType();
+    
+    public List<PropertyRepair> findAll(Class<PropertyRepair> classType);
 
 }

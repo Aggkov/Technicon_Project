@@ -1,3 +1,8 @@
+/**
+ * This is the implementation of The Property Owner Service. 
+ * All the requirements of the Customer.
+ */
+
 package com.europeandynamics.service.Impl;
 
 import java.util.List;
@@ -26,6 +31,11 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		this.propertyOwnerRepository = propertyOwnerRepository;
 	}
 
+	
+	/**
+	 * @param classType
+	 * @return A list of all property owners 
+	 */
 	@Override
 	public List<PropertyOwnerResponse> findAll(Class<PropertyOwner> classType) {
 
@@ -33,6 +43,11 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	}
 
+	/**
+	 * @param classType 
+	 * @param id
+	 * @return Returns a specific owner finding them by Id
+	 */
 	@Override
 	public PropertyOwner findById(String id, Class<PropertyOwner> classType) {
 
@@ -45,6 +60,8 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 		return propertyOwner.get();
 	}
 
+	
+	
 	@Override
 	public PropertyOwnerResponse findByEmail(String email) {
 
@@ -61,11 +78,19 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	}
 
+	/**
+	 * @return The total amount paid for Repair by the Owners
+	 */
 	public List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner() {
 
 		return propertyOwnerRepository.amountPaidForRepairsByOwner();
 	}
 
+	/**
+	 * @param entity
+	 * @return creates a new Property Owner
+	 */
+	
 	public PropertyOwner create(PropertyOwner entity) {
 
 		PropertyOwnerValidator.validatePropertyOwner(entity);
@@ -91,6 +116,12 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	}
 
+	/**
+	 * @param id
+	 * @param propertyOwnerRequest
+	 * updates an already existing Property Owner
+	 */
+	
 	@Override
 	public void update(String id, PropertyOwnerRequest propertyOwnerRequest) {
 
@@ -111,6 +142,12 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
 	}
 
+	/**
+	 * @param id
+	 * @param classType
+	 * @return Deletes a property Owner by a specific ID
+	 */
+	
 	@Override
 	public boolean deleteById(String id, Class<PropertyOwner> classType) {
 		Optional<PropertyOwner> propertyOwner = propertyOwnerRepository.findById(id, PropertyOwner.class);

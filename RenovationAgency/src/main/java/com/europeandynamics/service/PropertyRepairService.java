@@ -3,6 +3,7 @@ package com.europeandynamics.service;
 import com.europeandynamics.model.PropertyRepair;
 import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.request.PropertyRepairRequest;
+import com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 
 import java.math.BigDecimal;
@@ -20,6 +21,8 @@ public interface PropertyRepairService extends BaseService<PropertyRepair> {
 
      void update(String id, PropertyRepairRequest propertyRepairRequest);
      
-     Map<RepairType, BigDecimal> highestProfitRepairsByRepairType();
+     List<HighestProfitByRepairTypeResponse> highestProfitRepairsByRepairType();
+     
+     public List<PropertyRepair> findAllPropertyRepairs(Class<PropertyRepair> classType);
 
 }

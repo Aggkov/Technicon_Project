@@ -18,6 +18,8 @@ import java.util.Objects;
 @AttributeOverride(name = "Id", column = @Column(name = "property_repair_id"))
 @Data
 @ToString(exclude = {"propertyOwner", "property"})
+@NamedQuery(name = "PropertyRepair.findAll",
+query = "SELECT pr FROM PropertyRepair pr")
 public class PropertyRepair extends BaseEntity {
 	
 	@NotBlank

@@ -1,37 +1,37 @@
 package com.europeandynamics.repository.Impl;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import com.europeandynamics.model.PropertyRepair;
-import com.europeandynamics.model.enums.RepairType;
 import com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse;
+import com.europeandynamics.payload.response.PropertyOwnerResponse;
 import com.europeandynamics.payload.response.PropertyRepairResponse;
 import com.europeandynamics.repository.AbstractRepository;
 import com.europeandynamics.repository.PropertyRepairRepository;
 
 public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRepair>
 		implements PropertyRepairRepository {
+	
+	public List<PropertyRepair> findAll(Class<PropertyRepair> classType) {
+		
+		return em.createNamedQuery("PropertyRepair.findAll", PropertyRepair.class)
+				.getResultList();
+	}
 
 	@Override
 	public List<PropertyRepairResponse> findAllRepairsByDate(LocalDateTime dateFrom, LocalDateTime dateTo,
 			Class<PropertyRepair> classType) {
 
 		List<PropertyRepairResponse> repairsOnDateRange = em
-				.createQuery("SELECT pr FROM PropertyRepair pr " + "WHERE pr.dateTimeOfRepair BETWEEN ?1 AND ?2",
+				.createQuery("SELECT pr FROM PropertyRepair pr " + "WHERE pr.dateTimeOfRepair BETWEEN :dateFrom AND :dateTo",
 						classType)
-				.setParameter(1, dateFrom).setParameter(2, dateTo).getResultList().stream()
+				.setParameter("dateFrom", dateFrom).setParameter("dateTo", dateTo)
+				.getResultList()
+				.stream()
 				.map(e -> PropertyRepairResponse.builder().dateTimeOfRepair(e.getDateTimeOfRepair())
 						.shortDescription(e.getShortDescription()).repairType(e.getRepairType())
 						.repairStatus(e.getRepairStatus()).costOfRepair(e.getCostOfRepair())
@@ -53,22 +53,22 @@ public class PropertyRepairRepositoryImpl extends AbstractRepository<PropertyRep
 		return repairsByOwner;
 	}
 
-	public Map<RepairType, BigDecimal> highestProfitRepairsByRepairType() {
+	public List<HighestProfitByRepairTypeResponse> highestProfitRepairsByRepairType() {
 
-		Map<RepairType, BigDecimal> repairsByOwner = new LinkedHashMap<>();
+		List<HighestProfitByRepairTypeResponse> repairsByOwner = new ArrayList<>();
 		
 		repairsByOwner = em.createQuery("SELECT "
-				+ "new com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse(pr.repairType,SUM(pr.costOfRepair)) "
+				+ "new com.europeandynamics.payload.response.HighestProfitByRepairTypeResponse(pr.repairType,SUM(pr.costOfRepair) as totalCost) "
 				+ "FROM PropertyRepair pr " +
 
 				"GROUP BY pr.repairType " + 
-				"ORDER BY pr.costOfRepair ", HighestProfitByRepairTypeResponse.class)
-//				.setMaxResults(3)
-				.getResultList().stream()
-				.sorted(Comparator.comparing(HighestProfitByRepairTypeResponse::getCostOfRepair))
-				
-				.collect(Collectors.toMap(HighestProfitByRepairTypeResponse::getRepairType,
-						HighestProfitByRepairTypeResponse::getCostOfRepair,(o1, o2) -> o1));
+				"ORDER BY totalCost DESC", HighestProfitByRepairTypeResponse.class)
+				.setMaxResults(3)
+				.getResultList()
+				.stream()
+				.sorted(Comparator.comparing(HighestProfitByRepairTypeResponse::getCostOfRepair).reversed())
+				.collect(Collectors.toCollection(ArrayList::new));
+
 
 		return repairsByOwner;
 	}

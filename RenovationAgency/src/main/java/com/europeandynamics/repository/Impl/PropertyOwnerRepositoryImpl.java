@@ -53,7 +53,8 @@ public class PropertyOwnerRepositoryImpl extends AbstractRepository<PropertyOwne
 
 	public List<PropertyOwnerResponse> findAllOwners(Class<PropertyOwner> classType) {
 
-		List<PropertyOwnerResponse> resultList = em.createNamedQuery("PropertyOwner.findAll", classType).getResultList()
+		List<PropertyOwnerResponse> resultList = em.createNamedQuery("PropertyOwner.findAll", classType)
+				.getResultList()
         		.stream()
         		.map(e -> PropertyOwnerResponse.builder()
         				.address(e.getAddress())

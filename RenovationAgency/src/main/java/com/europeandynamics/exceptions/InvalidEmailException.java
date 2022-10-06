@@ -2,11 +2,10 @@ package com.europeandynamics.exceptions;
 
 import com.europeandynamics.model.enums.HttpStatus;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class InvalidEmailException extends RuntimeException {
 
 	private HttpStatus httpStatus;
-
-	public ResourceNotFoundException(String message, HttpStatus httpStatus) {
+	public InvalidEmailException(String message, HttpStatus httpStatus) {
 		super(message);
 		this.httpStatus = httpStatus;
 	}

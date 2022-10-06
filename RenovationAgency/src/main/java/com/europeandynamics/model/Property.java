@@ -1,7 +1,9 @@
 package com.europeandynamics.model;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
@@ -12,32 +14,45 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 
 import com.europeandynamics.model.enums.Type;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "property")
 @AttributeOverride(name = "Id", column = @Column(name = "property_id"))
+@Data
+@ToString(exclude = {"propertyOwner", })
+@NamedQuery(name = "Property.findAll",
+query = "SELECT p FROM Property p")
 public class Property extends BaseEntity {
-
-//	@Id
-////	@GeneratedValue(strategy = GenerationType.AUTO)
-//	private String propertyId;
-
+	
+	@NotBlank
 	private String address;
-
+	
+	@NotBlank
 	private LocalDate yearOfConstruction;
-
+	
+	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "vat_number")
+	@ManyToOne()
+	@JoinColumn(name = "vat_code")
 	private PropertyOwner propertyOwner;
 
-	public Property() {
-	}
+	@OneToMany(mappedBy = "property", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	private Set<PropertyRepair> propertyRepairs = new LinkedHashSet<>();
+
+	public Property() {}
 
 	public Property(String Id, String address, LocalDate yearOfConstruction, Type type) {
 		super(Id);
@@ -46,37 +61,11 @@ public class Property extends BaseEntity {
 		this.type = type;
 	}
 
-	public String getAddress() {
-		return address;
+	public void addPropertyRepair(PropertyRepair propertyRepair) {
+		this.propertyRepairs.add(propertyRepair);
+		propertyRepair.setProperty(this);
 	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public LocalDate getYearOfConstruction() {
-		return yearOfConstruction;
-	}
-
-	public void setYearOfConstruction(LocalDate yearOfConstruction) {
-		this.yearOfConstruction = yearOfConstruction;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	public PropertyOwner getPropertyOwner() {
-		return propertyOwner;
-	}
-
-	public void setPropertyOwner(PropertyOwner propertyOwner) {
-		this.propertyOwner = propertyOwner;
-	}
+	
 
 	@Override
 	public int hashCode() {
@@ -94,23 +83,6 @@ public class Property extends BaseEntity {
 		Property other = (Property) obj;
 		return Objects.equals(address, other.address) && Objects.equals(this.Id, other.Id) && type == other.type
 				&& Objects.equals(yearOfConstruction, other.yearOfConstruction);
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Property [propertyId=");
-		builder.append(this.Id);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", yearOfConstruction=");
-		builder.append(yearOfConstruction);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append(", propertyOwner=");
-		builder.append(propertyOwner);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

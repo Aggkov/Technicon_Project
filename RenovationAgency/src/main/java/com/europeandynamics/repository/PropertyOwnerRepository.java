@@ -18,5 +18,4 @@ public interface PropertyOwnerRepository extends BaseRepository<PropertyOwner> {
 
 	List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner();
 
-//	Map<RepairType, Set<PropertyOwnerRepairsPaidResponse>> amountPaidForRepairsByOwner();
 }

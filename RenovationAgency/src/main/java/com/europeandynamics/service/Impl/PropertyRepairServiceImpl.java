@@ -28,12 +28,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	private final PropertyRepository propertyRepository;
 	private final PropertyOwnerRepository propertyOwnerRepository;
 	
-	/**
-	 * 
-	 * @param propertyRepairRepository The place where we save all the propertyRepairs
-	 * @param propertyRepository The place where we save all the properties
-	 * @param propertyOwnerRepository The place where we save all the propertyOwners
-	 */
+	
 	public PropertyRepairServiceImpl(PropertyRepairRepository propertyRepairRepository, PropertyRepository propertyRepository,PropertyOwnerRepository propertyOwnerRepository) {
 		this.propertyRepairRepository = propertyRepairRepository;
 		this.propertyRepository = propertyRepository;
@@ -63,7 +58,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	/**
 	 * @param id 
-	 * @return A property Repair based by an owner's Vat number
+	 * @return A List of property Repairs based by an owner's Vat number
 	 */
 	
 	public List<PropertyRepair> propertyRepairsByOwnerVatNumber(String id) {
@@ -75,10 +70,10 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	/**
-	 * @param classType
-	 * @param dateTo the date it ended
+	 * @param Class PropertyRepair
 	 * @param dateFrom The date it started
-	 * @return Returns all the Repairs Based on the date it started till the date it ended
+	 * @param dateTo the date it ended
+	 * @return Returns all the Repairs based on a given timeframe
 	 */
 	
 	@Override
@@ -88,7 +83,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	/**
-	 * @param propertyRepairRequest
+	 * @param propertyRepairRequest Payload
 	 * @return Creates a new PropertyRepair
 	 */
 	@Override
@@ -127,7 +122,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	/**
-	 * @param propertyRepairRequest The class with All the Initializations of all the Requests
+	 * @param propertyRepairRequest Payload
 	 * @param repairId The id of the existing Repair
 	 * @return Updates an already existing PropertyRepair
 	 */
@@ -166,8 +161,8 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	/**
-	 * @param classType The list of all the Property Repairs
-	 * @param id Id of the Property Repair
+	 * @param Class Property Repair
+	 * @param Id of the Property Repair
 	 * @return Deletes a Property Repair by a specific Id
 	 */
 	
@@ -185,17 +180,13 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 
- 
- 
 	
 	@Override
 	public List<HighestProfitByRepairTypeResponse> highestProfitRepairsByRepairType() {
 		
 		return propertyRepairRepository.highestProfitRepairsByRepairType();
 				
-//		Set<Map.Entry<RepairType, BigDecimal>> entries = mapFromRepoSorted.entrySet();
-//		entries.stream()
-		
+
 				
 	}
 

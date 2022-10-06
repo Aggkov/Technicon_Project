@@ -47,9 +47,9 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     /**
-     * @param classType the list of all properties
+     * @param Property class
      * @param id id of the property
-     * @return Returns the properties found by a specific id
+     * @return Returns the property found by a specific id
      */
     
     @Override

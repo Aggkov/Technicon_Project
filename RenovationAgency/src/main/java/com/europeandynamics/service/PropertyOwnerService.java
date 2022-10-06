@@ -23,7 +23,6 @@ public interface PropertyOwnerService extends BaseService<PropertyOwner> {
 
 	List<PropertyOwnerRepairsPaidResponse> amountPaidForRepairsByOwner();
 
-//	Map<RepairType, Set<PropertyOwnerRepairsPaidResponse>> amountPaidForRepairsByOwner();
 	
 	
 }
